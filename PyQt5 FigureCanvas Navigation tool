@@ -1,0 +1,33 @@
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+import matplotlib.pyplot as plt
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("Matplotlib PyQt5")
+        self.setGeometry(100, 100, 800, 600)
+
+        self.main_widget = QWidget(self)
+        self.setCentralWidget(self.main_widget)
+
+        layout = QVBoxLayout(self.main_widget)
+
+        self.figure, self.ax = plt.subplots()
+        self.canvas = FigureCanvas(self.figure)
+        self.toolbar = NavigationToolbar(self.canvas, self)
+
+        layout.addWidget(self.toolbar)
+        layout.addWidget(self.canvas)
+
+        # Örnek grafik
+        self.ax.plot([0, 1, 2], [10, 20, 10])
+        self.canvas.draw()
+
+app = QApplication(sys.argv)
+window = MainWindow()
+window.show()
+sys.exit(app.exec_())
