@@ -1,0 +1,38 @@
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+import numpy as np
+import matplotlib.pyplot as plt
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("Matplotlib PyQt5")
+        
+        layout = QVBoxLayout()
+
+        widget = QWidget()
+
+        widget.setLayout(layout)
+
+        self.fig = Figure(figsize=(5,4),dpi=(150))
+        self.canvas = FigureCanvas(self.fig)
+        self.ax_1 = self.fig.add_subplot(111)
+        self.toolbar = NavigationToolbar(self.canvas)
+
+        layout.addWidget(self.toolbar)
+        layout.addWidget(self.canvas)
+
+        self.ax_1.plot(np.random.normal(0,10,100))
+        self.canvas.draw()
+
+        self.setCentralWidget(widget)
+
+if __name__=="__main__":
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec_())
