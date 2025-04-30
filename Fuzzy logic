@@ -1,0 +1,64 @@
+import skfuzzy as fuzz
+
+f = bool(0)
+vvc_arr = []
+vc_arr = []
+c_arr = []
+w_arr = []
+h_arr = []
+vh_arr = []
+vvh_arr = []
+else_logs = []
+
+trampf_vvc = []
+trimf_vc = []
+trimf_c = []
+trimf_w = []
+trimf_h = []
+trimf_vh = []
+trapmf_vvh = []
+class classfictioner():
+    def __init__(self,main_val,arange_2024):
+
+        #if very_very_higher > max(very_higher, med, low, very_low, very_very_low):
+        
+        girdi_arange = np.arange(-4,max(arange_2024),1)
+
+        trap_membership_very_very_low = fuzz.trapmf(girdi_arange, [-10, 0, 2, 5])
+        trimf_membership_very_low = fuzz.trimf(girdi_arange, [0, 5, 10])
+        trimf_membership_low = fuzz.trimf(girdi_arange, [5, 10, 15])
+        trimf_membership_medium = fuzz.trimf(girdi_arange, [10, 15, 20])
+        trimf_membership_higher = fuzz.trimf(girdi_arange, [15, 20, 25])
+        trimf_membership_very_higher = fuzz.trimf(girdi_arange, [20, 25, 30])
+        trap_membership_very_very_higher = fuzz.trapmf(girdi_arange, [30, 35, 40, 45])
+        very_very_higher = [fuzz.interp_membership(girdi_arange,trap_membership_very_very_higher,main_val)]
+        very_higher = [fuzz.interp_membership(girdi_arange,trimf_membership_very_higher,main_val)]
+        higher = [fuzz.interp_membership(girdi_arange,trimf_membership_higher,main_val)]
+        med = [fuzz.interp_membership(girdi_arange,trimf_membership_medium,main_val)]
+        low = [fuzz.interp_membership(girdi_arange,trimf_membership_low,main_val)]
+        very_low = [fuzz.interp_membership(girdi_arange,trimf_membership_very_low,main_val)]
+        very_very_low = [fuzz.interp_membership(girdi_arange,trap_membership_very_very_low,main_val)]
+        trapmf_vvh.append(very_very_higher)
+        trimf_vh.append(very_higher)
+        trimf_h.append(higher)
+        trimf_w.append(med)
+        trimf_c.append(low)
+        trimf_vc.append(very_low)
+        trampf_vvc.append(very_very_low)
+
+        if very_very_higher > max(very_higher,higher,med,low,very_low,very_very_low):
+            vvh_arr.append(main_val)
+        elif very_higher > max(med,low,very_low,very_very_low,higher):
+            vh_arr.append(main_val)
+        elif higher > max(very_very_low,med,low,very_low):
+            h_arr.append(main_val)
+        elif med > max(low,very_low,very_very_low):
+            w_arr.append(main_val)
+        elif low > max(very_low,med,higher):
+            c_arr.append(main_val)
+        elif very_low > max(very_very_low,higher):
+            vc_arr.append(main_val)
+        elif very_very_low < max(very_very_higher,very_higher,higher,med,low,very_low):
+            vvc_arr.append(main_val)
+        else:
+            else_logs.append(main_val)
