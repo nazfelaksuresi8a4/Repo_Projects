@@ -1,0 +1,39 @@
+import numpy as np
+import skfuzzy as fuzz
+import matplotlib.pyplot as plt
+
+
+x_temp = np.arange(0, 41, 1)
+
+cold = fuzz.trapmf(x_temp, [0, 0, 5, 15])         # Çok Soğuk
+cool = fuzz.trimf(x_temp, [10, 15, 20])           # Soğuk
+warm = fuzz.trimf(x_temp, [15, 20, 25])           # Ilık
+hot = fuzz.trimf(x_temp, [20, 25, 30])            # Sıcak
+very_hot = fuzz.trapmf(x_temp, [25, 35, 40, 40])  # Çok Sıcak
+
+
+
+def fuzzy_temp_classification(temp_value):
+    cold_degree = fuzz.interp_membership(x_temp, cold, temp_value)
+    cool_degree = fuzz.interp_membership(x_temp, cool, temp_value)
+    warm_degree = fuzz.interp_membership(x_temp, warm, temp_value)
+    hot_degree = fuzz.interp_membership(x_temp, hot, temp_value)
+    very_hot_degree = fuzz.interp_membership(x_temp, very_hot, temp_value)
+    
+
+    if very_hot_degree > max(cold_degree, cool_degree, warm_degree, hot_degree):
+        print(temp_value,"Kategorisi: Çok Sıcak")
+    elif hot_degree > max(cold_degree, cool_degree, warm_degree):
+        print(temp_value,"Kategorisi: Sıcak")
+    elif warm_degree > max(cold_degree, cool_degree):
+        print(temp_value,"Kategorisi: Ilık")
+    elif cool_degree > cold_degree:
+        print(temp_value,"Kategorisi: Soğuk")
+    else:
+        print("Kategorisi: Çok Soğuk")
+
+arr = [10,20,20,15,26,15,10]
+
+
+temp_input = 30
+fuzzy_temp_classification(temp_input)
