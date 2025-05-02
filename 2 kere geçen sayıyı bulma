@@ -1,0 +1,15 @@
+import random
+
+arr_1 = []
+arr_2 = []
+
+for h in range(10):
+    x  = random.randint(0,10)
+    arr_1.append(x)
+    
+for indiention in range(10):
+    x2 = arr_1[indiention]
+    if arr_1.count(x2)>1:
+        arr_2.append(x2)
+
+print(arr_2)
