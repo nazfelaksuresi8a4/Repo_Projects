@@ -1,5 +1,8 @@
+import skfuzzy as fuzz
 import sys as _s
 from colorama import Back,Fore,Style
+import scipy
+import tkinter as tk
 import os as _o
 import requests as rqs
 import threading
@@ -7,21 +10,19 @@ import os
 import time
 import numpy as np
 import pandas as pd
-import scipy
-import skfuzzy as fuzz
 import tqdm
 from skfuzzy import control as ctrl
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar 
-from PyQt5.QtWebEngineWidgets import QWebEngineView
-import tkinter as tk
 from selenium.webdriver import *
 from selenium.webdriver.common.by import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+
+
+
 #Object Classes#
 f = bool(0)
 vvc_arr = []
@@ -32,23 +33,7 @@ h_arr = []
 vh_arr = []
 vvh_arr = []
 else_logs = []
-temp_2024_1 = []
-temp_2024_2 = []
-temp_2024_3 = []
-temp_2024_4 = []
-temp_2024_5 = []
-temp_2024_6 = []
-temp_2024_7 = []
-temp_2024_8 = []
-temp_2024_9 = []
-temp_2024_10 = []
-temp_2024_11 = []
-temp_2024_12 = []
-temp_2025_1 = []
-temp_2025_2 = []
-temp_2025_3 = []
-temp_2025_4 = []
-temp_2025_5 = []
+
 trampf_vvc = []
 trimf_vc = []
 trimf_c = []
@@ -58,7 +43,9 @@ trimf_vh = []
 trapmf_vvh = []
 class classfictioner():
     def __init__(self,main_val,arange_2024):
+
         #if very_very_higher > max(very_higher, med, low, very_low, very_very_low):
+        
         girdi_arange = np.arange(-4,max(arange_2024),1)
         trap_membership_very_very_low = fuzz.trapmf(girdi_arange, [-10, 0, 2, 5])
         trimf_membership_very_low = fuzz.trimf(girdi_arange, [0, 5, 10])
@@ -81,6 +68,7 @@ class classfictioner():
         trimf_c.append(low)
         trimf_vc.append(very_low)
         trampf_vvc.append(very_very_low)
+
         if very_very_higher > max(very_higher,higher,med,low,very_low,very_very_low):
             vvh_arr.append(main_val)
         elif very_higher > max(med,low,very_low,very_very_low,higher):
@@ -97,6 +85,8 @@ class classfictioner():
             vvc_arr.append(main_val)
         else:
             else_logs.append(main_val)
+
+
 class selenium_scrapping_block():
         ##selenium web scrapping blocks##
         def __init__(self):
@@ -223,51 +213,39 @@ class selenium_scrapping_block():
                                 datas_2024_r2 = int(str(datas_2024_r1).replace('°',''))
                                 if arr_index == 1:
                                     self.arr_2024_temp_1.append(datas_2024_r2)
-                                    temp_2024_1.append(datas_2024_r2)
                                     print(self.arr_2024_temp_1)
                                 if arr_index == 2:
                                     self.arr_2024_temp_2.append(datas_2024_r2)
-                                    temp_2024_2.append(datas_2024_r2)
                                     print(self.arr_2024_temp_2)
                                 if arr_index == 3:
                                     self.arr_2024_temp_3.append(datas_2024_r2)
-                                    temp_2024_3.append(datas_2024_r2)
                                     print(self.arr_2024_temp_3)
                                 if arr_index == 4:
                                     self.arr_2024_temp_4.append(datas_2024_r2)
-                                    temp_2024_4.append(datas_2024_r2)
                                     print(self.arr_2024_temp_4)
                                 if arr_index == 5:
                                     self.arr_2024_temp_5.append(datas_2024_r2)
-                                    temp_2024_5.append(datas_2024_r2)
                                     print(self.arr_2024_temp_5)
                                 if arr_index == 6:
                                     self.arr_2024_temp_6.append(datas_2024_r2)
-                                    temp_2024_6.append(datas_2024_r2)
                                     print(self.arr_2024_temp_6)
                                 if arr_index == 7:
                                     self.arr_2024_temp_7.append(datas_2024_r2)
-                                    temp_2024_7.append(datas_2024_r2)
                                     print(self.arr_2024_temp_7)
                                 if arr_index == 8:
                                     self.arr_2024_temp_8.append(datas_2024_r2)
-                                    temp_2024_8.append(datas_2024_r2)
                                     print(self.arr_2024_temp_8)
                                 if arr_index == 9:
                                     self.arr_2024_temp_9.append(datas_2024_r2)
-                                    temp_2024_9.append(datas_2024_r2)
                                     print(self.arr_2024_temp_9)
                                 if arr_index == 10:
                                     self.arr_2024_temp_10.append(datas_2024_r2)
-                                    temp_2024_10.append(datas_2024_r2)
                                     print(self.arr_2024_temp_10)
                                 if arr_index == 11:
                                     self.arr_2024_temp_11.append(datas_2024_r2)
-                                    temp_2024_11.append(datas_2024_r2)
                                     print(self.arr_2024_temp_11)
                                 if arr_index == 12:
                                     self.arr_2024_temp_12.append(datas_2024_r2) 
-                                    temp_2024_12.append(datas_2024_r2)
                                     print(self.arr_2024_temp_12) 
                             if h == 'y'.casefold() or 'y'.upper():
                                 print(f'{self.arr_2024_temp_1}\n{self.arr_2024_temp_2}\n{self.arr_2024_temp_3}\n{self.arr_2024_temp_4}\n{self.arr_2024_temp_5}\n{self.arr_2024_temp_6}\n{self.arr_2024_temp_7}\n{self.arr_2024_temp_8}\n{self.arr_2024_temp_9}\n{self.arr_2024_temp_10}\n{self.arr_2024_temp_11}\n{self.arr_2024_temp_12}')
@@ -300,28 +278,24 @@ class selenium_scrapping_block():
                                 datas_2025_r1 = str(datas_2025).replace('C','')
                                 datas_2025_r2 = int(str(datas_2025_r1).replace('°',''))
                                 if self.arr_index == 1:
-                                    temp_2024_1.append(datas_2024_r2)
                                     self.arr_2025_temp_1.append(datas_2025_r2)
                                     if h == 'y'.casefold():
                                         print(self.arr_2025_temp_1)
                                     else:
                                         _s.stdout.write('')
                                 if self.arr_index == 2:
-                                    temp_2024_2.append(datas_2024_r2)
                                     self.arr_2025_temp_2.append(datas_2025_r2)
                                     if h == 'y'.casefold():
                                         print(self.arr_2025_temp_2)
                                     else:
                                         _s.stdout.write('')
                                 if self.arr_index == 3:
-                                    temp_2024_3.append(datas_2024_r2)
                                     self.arr_2025_temp_3.append(datas_2025_r2)
                                     if h == 'y'.casefold():
                                         print(self.arr_2025_temp_3)
                                     else:
                                         _s.stdout.write('')
                                 if self.arr_index == 4:
-                                    temp_2024_4.append(datas_2024_r2)
                                     self.arr_2025_temp_4.append(datas_2025_r2)
                                     if h == 'y'.casefold():
                                         print(self.arr_2025_temp_4)
@@ -342,6 +316,7 @@ class selenium_scrapping_block():
                 self.arr_2025_slots = [self.arr_2025_temp_1,self.arr_2025_temp_2,self.arr_2025_temp_3,self.arr_2025_temp_4]
                 self.arr_2025_slots_max_val = max(self.arr_2025_slots)
                 self.arange_2025 = max(self.arr_2025_slots_max_val)
+
                 self.algorithm_signal = bool(1)
                 if self.algorithm_signal == True:
                     if self.algorithm_signal == True:
@@ -417,6 +392,10 @@ class selenium_scrapping_block():
                         self.vvh.append(vvh_arr)
                         print()
                         print(Fore.LIGHTRED_EX,Style.BRIGHT,Back.BLUE)
+
+
+
+
 class SignalSYS(QThread):
     signal = pyqtSignal(str)
     
@@ -534,89 +513,29 @@ class SignalSYS(QThread):
                                 datas_2024_r1 = str(datas_2024).replace('C','')
                                 datas_2024_r2 = int(str(datas_2024_r1).replace('°',''))
                                 if arr_index == 1:
-                                    temp_2024_1.append(datas_2024_r2)
                                     self.arr_2024_temp_1.append(datas_2024_r2)
-                                    if g == 'y'.casefold() or 'Y':
-                                        print(self.arr_2024_temp_1)
-                                    else:
-                                        _s.stdout.write('')
                                 if arr_index == 2:
                                     self.arr_2024_temp_2.append(datas_2024_r2)
-                                    temp_2024_2.append(datas_2024_r2)
-                                    if g == 'y'.casefold() or 'Y':
-                                        print(self.arr_2024_temp_2)
-                                    else:
-                                        _s.stdout.write('')
                                 if arr_index == 3:
                                     self.arr_2024_temp_3.append(datas_2024_r2)
-                                    temp_2024_3.append(datas_2024_r2)
-                                    if g == 'y'.casefold() or 'Y':
-                                        print(self.arr_2024_temp_3)
-                                    else:
-                                        _s.stdout.write('')
                                 if arr_index == 4:
                                     self.arr_2024_temp_4.append(datas_2024_r2)
-                                    temp_2024_4.append(datas_2024_r2)
-                                    if g == 'y'.casefold() or 'Y':
-                                        print(self.arr_2024_temp_4)
-                                    else:
-                                        _s.stdout.write('')
                                 if arr_index == 5:
                                     self.arr_2024_temp_5.append(datas_2024_r2)
-                                    temp_2024_6.append(datas_2024_r2)
-                                    if g == 'y'.casefold() or 'Y':
-                                        print(self.arr_2024_temp_5)
-                                    else:
-                                        _s.stdout.write('')
                                 if arr_index == 6:
                                     self.arr_2024_temp_6.append(datas_2024_r2)
-                                    temp_2024_7.append(datas_2024_r2)
-                                    if g == 'y'.casefold() or 'Y':
-                                        print(self.arr_2024_temp_6)
-                                    else:
-                                        _s.stdout.write('')
                                 if arr_index == 7:
                                     self.arr_2024_temp_7.append(datas_2024_r2)
-                                    temp_2024_8.append(datas_2024_r2)
-                                    if g == 'y'.casefold() or 'Y':
-                                        print(self.arr_2024_temp_7)
-                                    else:
-                                        _s.stdout.write('')
                                 if arr_index == 8:
                                     self.arr_2024_temp_8.append(datas_2024_r2)
-                                    temp_2024_8.append(datas_2024_r2)
-                                    if g == 'y'.casefold() or 'Y':
-                                        print(self.arr_2024_temp_8)
-                                    else:
-                                        _s.stdout.write('')
                                 if arr_index == 9:
                                     self.arr_2024_temp_9.append(datas_2024_r2)
-                                    temp_2024_9.append(datas_2024_r2)
-                                    if g == 'y'.casefold() or 'Y':
-                                        print(self.arr_2024_temp_9)
-                                    else:
-                                        _s.stdout.write('')
                                 if arr_index == 10:
                                     self.arr_2024_temp_10.append(datas_2024_r2)
-                                    temp_2024_10.append(datas_2024_r2)
-                                    if g == 'y'.casefold() or 'Y':
-                                        print(self.arr_2024_temp_10)
-                                    else:
-                                        _s.stdout.write('')
                                 if arr_index == 11:
                                     self.arr_2024_temp_11.append(datas_2024_r2)
-                                    temp_2024_11.append(datas_2024_r2)
-                                    if g == 'y'.casefold() or 'Y':
-                                        print(self.arr_2024_temp_11)
-                                    else:
-                                        _s.stdout.write('')
                                 if arr_index == 12:
-                                    self.arr_2024_temp_12.append(datas_2024_r2) 
-                                    temp_2024_12.append(datas_2024_r2) 
-                                    if g == 'y'.casefold() or 'Y':
-                                        print(self.arr_2024_temp_12)
-                                    else:
-                                        _s.stdout.write('')
+                                    self.arr_2024_temp_12.append(datas_2024_r2)  
                             if h == 'y'.casefold() or 'y'.upper():
                                 print(f'{self.arr_2024_temp_1}\n{self.arr_2024_temp_2}\n{self.arr_2024_temp_3}\n{self.arr_2024_temp_4}\n{self.arr_2024_temp_5}\n{self.arr_2024_temp_6}\n{self.arr_2024_temp_7}\n{self.arr_2024_temp_8}\n{self.arr_2024_temp_9}\n{self.arr_2024_temp_10}\n{self.arr_2024_temp_11}\n{self.arr_2024_temp_12}')
                             else:
@@ -630,7 +549,6 @@ class SignalSYS(QThread):
                                 break
                 _o.system('cls')
                 print('||2024|| yılına ait Veriler başarılı bir şekilde')
-                
                 print('\n||2025|| Verileri çekiliyor.....')
                 self.arr_index=1
                 for url2 in self.urls2:
@@ -650,28 +568,24 @@ class SignalSYS(QThread):
                                 datas_2025_r2 = int(str(datas_2025_r1).replace('°',''))
                                 if self.arr_index == 1:
                                     self.arr_2025_temp_1.append(datas_2025_r2)
-                                    temp_2025_1.append(datas_2025_r2)
                                     if h == 'y'.casefold():
                                         print(self.arr_2025_temp_1)
                                     else:
                                         _s.stdout.write('')
                                 if self.arr_index == 2:
                                     self.arr_2025_temp_2.append(datas_2025_r2)
-                                    temp_2025_2.append(datas_2025_r2)
                                     if h == 'y'.casefold():
                                         print(self.arr_2025_temp_2)
                                     else:
                                         _s.stdout.write('')
                                 if self.arr_index == 3:
                                     self.arr_2025_temp_3.append(datas_2025_r2)
-                                    temp_2025_3.append(datas_2025_r2)
                                     if h == 'y'.casefold():
                                         print(self.arr_2025_temp_3)
                                     else:
                                         _s.stdout.write('')
                                 if self.arr_index == 4:
                                     self.arr_2025_temp_4.append(datas_2025_r2)
-                                    temp_2025_4.append(datas_2025_r2)
                                     if h == 'y'.casefold():
                                         print(self.arr_2025_temp_4)
                                     else:
@@ -786,26 +700,36 @@ class sessionmain0(QMainWindow):
         super().__init__()
         self.setWindowTitle('ANALİZ')
         print('GUI Session-1 still running')
+
         self.thread = None  # 
+
         layout = QVBoxLayout()
         widget = QWidget()
         widget.setLayout(layout)
+
         self.splt_1 = QSplitter(Qt.Vertical)
         self.splt_2 = QSplitter(Qt.Vertical)
-        self.splt_3 = QSplitter(Qt.Vertical)  
+        self.splt_3 = QSplitter(Qt.Vertical)
+            
+
+        
         layout.addWidget(self.splt_2)
         layout.addWidget(self.splt_1)
-        layout.addWidget(self.splt_3)
-        self.main_figure = Figure(figsize=(5, 4), dpi=100,facecolor='gray',edgecolor='red')
+
+        self.main_figure = Figure(figsize=(5, 4), dpi=100)
         self.canvas = FigureCanvas(figure=self.main_figure)
         self.ax_1 = self.main_figure.add_subplot(111)
-        self.toolbar_1 = NavigationToolbar(self.canvas)
-        self.main_figure2 = Figure(figsize=(5, 4), dpi=100,facecolor='gray',edgecolor='red')
+
+        self.main_figure2 = Figure(figsize=(5, 4), dpi=100)
         self.canvas2 = FigureCanvas(figure=self.main_figure2)
         self.ax_2 = self.main_figure2.add_subplot(111)
-        self.toolbar_2 = NavigationToolbar(self.canvas2)
+
         self.ax_1.set_title('Sıcaklık grafikleri')
-        self.lbl_1 = QLabel('Analiz Monitörü') 
+
+        self.splt_1.addWidget(self.canvas)
+        self.splt_1.addWidget(self.canvas2)
+
+        self.lbl_1 = QLabel('Analiz Monitörü')
         self.analizler = QTextEdit()
         self.analizler.append('ANALİZ SONUÇLARI BURAYA YAZDIRILIR')
         self.start_btn = QPushButton('Analizi başlat')
@@ -813,18 +737,32 @@ class sessionmain0(QMainWindow):
         self.graph_main_viewer_motor_on_btn = QPushButton('Sıcaklık grafiklerini grafik sisteminde aç')
         self.graph_main_viewer_motor_on_btn_trimf = QPushButton('TRİMF grafiklerini grafik sisteminde aç')
         self.graph_main_viewer_motor_on_btn_trapmf = QPushButton('TRAPMF grafiklerini grafik sisteminde aç')
+
         self.lbl_1.setStyleSheet('font-weight:bold')
         self.lbl_1.setAlignment(Qt.AlignCenter)
-        self.analizler.setStyleSheet('color:black;font-size:16px;font-weight:italic')
-        self.analizler.setFont(QFont('consolas'))
+        self.analizler.setStyleSheet('color:red;font-size:13px;font-weight:italic;font:consolas')
         self.analizler.setReadOnly(True)
         self.analizler.setAlignment(Qt.AlignCenter)
+
+
+
+
         self.ax_1.set_title('2024-2025 SICAKLIK ANALİZİ GRAFİK DÖKÜMÜ')
-        self.ax_2.set_title('TRİMF ÜYELİK FONKSİYONLARI GRAFİK DÖKÜMÜ')
-        self.ax_2.bar(np.arange(0,20,1),np.arange(0,20,1))
+        
+        trimf_preview_arange = np.arange(0, 60, 1)
+        trimf_preview = fuzz.trimf(trimf_preview_arange, [5, 10, 15])
+        self.ax_2.plot(trimf_preview)
+
         trapmf_preview_arange = np.arange(0, 60, 1)
         trapmf_preview = fuzz.trapmf(trapmf_preview_arange, [5, 10, 15, 20])
-        self.ax_1.hist(np.random.normal(0, 5, 50),cumulative=True,bins=25)
+
+
+        self.ax_1.ecdf(np.random.normal(0, 5, 50))
+        self.ax_1.ecdf(np.random.normal(0, 10, 100))
+        self.ax_1.ecdf(np.random.normal(0, 15, 150))
+        self.ax_1.ecdf(np.random.normal(0, 20, 200))
+
+
         self.splt_2.addWidget(self.graph_preview_off)
         self.splt_2.addWidget(self.lbl_1)
         self.splt_2.addWidget(self.analizler)
@@ -832,107 +770,15 @@ class sessionmain0(QMainWindow):
         self.splt_2.addWidget(self.graph_main_viewer_motor_on_btn_trimf)
         self.splt_2.addWidget(self.graph_main_viewer_motor_on_btn_trapmf)
         self.splt_2.addWidget(self.start_btn)
-        self.splt_2.addWidget(self.toolbar_1)
-        self.splt_2.addWidget(self.canvas)
-        self.splt_2.addWidget(self.toolbar_2)
-        self.splt_2.addWidget(self.canvas2)
+
         self.start_btn.clicked.connect(self.start_spider_consider)
         self.graph_preview_off.clicked.connect(self.clear_all)
         self.graph_main_viewer_motor_on_btn.clicked.connect(self.draw_matplotlib_graph)
         self.graph_main_viewer_motor_on_btn_trapmf.clicked.connect(self.trapmf_viewer)
         self.graph_main_viewer_motor_on_btn_trimf.clicked.connect(self.trimf_viewer)
-        self.start_btn.setStyleSheet('''QPushButton{
-                                     background-color:gray;
-                                     color:white;
-                                     font-family:italic;
-                                     font-size:15px;
-                                     font:consolas;
-                                     border-radius:1.5px;
-                                     border:0.5px solid green;
-                                     }
-                                     QPushButton:hover{
-                                     font-size:16px;
-                                     border-radius:1.6px;
-                                     }
-                                     QPushButton:pressed{
-                                     background-color:red;
-                                     border:1.2px solid black;
-                                     }
-                                     ''')
-        self.graph_main_viewer_motor_on_btn.setStyleSheet('''QPushButton{
-                                     background-color:gray;
-                                     color:white;
-                                     font-family:italic;
-                                     font-size:15px;
-                                     font:consolas;
-                                     border-radius:1.5px;
-                                     border:0.5px solid green;
-                                     }
-                                     QPushButton:hover{
-                                     font-size:16px;
-                                     border-radius:1.6px;
-                                     }
-                                     QPushButton:pressed{
-                                     background-color:red;
-                                     border:1.2px solid black;
-                                     }
-                                     ''')
-        self.graph_main_viewer_motor_on_btn_trapmf.setStyleSheet('''QPushButton{
-                                     background-color:gray;
-                                     color:white;
-                                     font-family:italic;
-                                     font-size:15px;
-                                     font:consolas;
-                                     border-radius:1.5px;
-                                     border:0.5px solid green;
-                                     }
-                                     QPushButton:hover{
-                                     font-size:16px;
-                                     border-radius:1.6px;
-                                     }
-                                     QPushButton:pressed{
-                                     background-color:red;
-                                     border:1.2px solid black;
-                                     }
-                                     ''')
-        self.graph_main_viewer_motor_on_btn_trimf.setStyleSheet('''QPushButton{
-                                     background-color:gray;
-                                     color:white;
-                                     font-family:italic;
-                                     font-size:15px;
-                                     font:consolas;
-                                     border-radius:1.5px;
-                                     border:0.5px solid green;
-                                     }
-                                     QPushButton:hover{
-                                     font-size:16px;
-                                     border-radius:1.6px;
-                                     }
-                                     QPushButton:pressed{
-                                     background-color:red;
-                                     border:1.2px solid black;
-                                     }
-                                     ''')
-        self.graph_preview_off.setStyleSheet('''QPushButton{
-                                     background-color:gray;
-                                     color:white;
-                                     font-family:italic;
-                                     font-size:15px;
-                                     font:consolas;
-                                     border-radius:1.5px;
-                                     border:0.5px solid green;
-                                     }
-                                     QPushButton:hover{
-                                     font-size:16px;
-                                     border-radius:1.6px;
-                                     }
-                                     QPushButton:pressed{
-                                     background-color:red;
-                                     border:1.2px solid black;
-                                     }
-                                     ''')
-        self.setStyleSheet('background-color:gray')
+
         self.setCentralWidget(widget)
+
     def trapmf_viewer(self):
         plt.plot(trampf_vvc,label='Dondurucu soğuk Üyelik fonksiyonu')
         plt.plot(trapmf_vvh,label='Yakıcı Sıcak Üyelik fonksiyonu')
@@ -945,8 +791,6 @@ class sessionmain0(QMainWindow):
         plt.plot(trimf_vh,label='Çok sıcak Üyelik fonksiyonu')
         plt.show()
     def draw_matplotlib_graph(self):
-        self.ax_1.set_title('ÇOK SICAK/SOĞUK DERECELR GRAFİK DÖKÜMLERİ')
-        self.ax_2.set_title('SICAKLIK DERECELERİ GRAFİK DÖKÜMLERİ')
         plt.plot(vvc_arr,label='Dondurucu soğuk')
         plt.plot(vc_arr,label='Çok soğuk')
         plt.plot(c_arr,label='Soğuk')
@@ -955,25 +799,28 @@ class sessionmain0(QMainWindow):
         plt.plot(vh_arr,label='Çok sıcak')
         plt.plot(vvh_arr,label='Yakıcı sıcak')
         plt.show()
+
     def start_spider_consider(self):
         self.threadf = SignalSYS()
         self.analizler.clear()
         self.analizler.append('Analiz sistemi terminale yönlendirildi lütfen terminale bakın.....')
         self.threadf.start()
         self.threadf.started.connect(self.started_appender)
-        self.prog = QProgressBar(self)
         self.threadf.finished.connect(self.handle_thread_signal)
         self.index_89 = 1
     def started_appender(self):
-        non_append=None
+        self.analizler.append('----')
     def proggres(self):
-        prog_Val=None
+        prog = QProgressBar()
+        session = self.index_89
+        session+=1
+        prog.setRange(0,17)
+        prog.setValue(session)
     def handle_thread_signal(self):
         self.analizler.append(f'Dondurucu soğuk dereceler\n {vvc_arr}\n\nÇok soğuk dereceler\n{vc_arr}\n\nSoğuk dereceler\n{c_arr}\n\nIlık dereceler\n{w_arr}\n\nSıcak dereceler{h_arr}\nÇok sıcak dereceler\n{vh_arr}\n\Yakıcı sıcak dereceler\n{vvh_arr}')
         self.ax_1.clear()
         self.ax_2.clear()
-        self.ax_1.set_title('ÇOK SICAK/SOĞUK DERECELR GRAFİK DÖKÜMLERİ')
-        self.ax_2.set_title('SICAKLIK DERECELERİ GRAFİK DÖKÜMLERİ')
+
         self.ax_1.plot(vvc_arr,label='Dondurucu Soğuk')
         self.ax_1.plot(vc_arr,label='Çok soğuk')
         self.ax_1.plot(c_arr,label='Soğuk')
@@ -986,20 +833,22 @@ class sessionmain0(QMainWindow):
         self.canvas.draw()
         self.canvas2.draw()
     def clear_all(self):
-        self.graph_preview_off.setText('Grafikleri temizle')
         self.ax_2.clear()
         self.ax_1.clear()
-        self.ax_1.set_title('ÇOK SICAK/SOĞUK DERECELR GRAFİK DÖKÜMLERİ')
-        self.ax_2.set_title('SICAKLIK DERECELERİ GRAFİK DÖKÜMLERİ')
         self.canvas.draw()
         self.canvas2.draw()
+    
+
 class sessionmain1():
     def __init__(self):
         threading.Thread.__init__(self)
+
         print('Sıcaklık verilerini çekmek için ENTER tuşuna basın')
         print()
         input('$>>[ENTER]')
         selenium_scrapping_block()
+
+
 class TestSESSİON():
     def __init__(self,data,*args):
         super().__init__()
@@ -1012,6 +861,7 @@ class TestSESSİON():
                 sessionmain1()
             except Exception as e1:
                 print(f'hata: {e1}')
+
         elif self.data == '(GUİ) Baslatma':
             try:
                 if __name__=="__main__":
@@ -1027,20 +877,25 @@ class SelectUİ():
     def __init__(self,data):
         super().__init__()
         self.root = tk.Tk()
+
         self.root.resizable(False,False)
+
         lb_net = tk.Label(text='İnternet durumu: ',font='bold')
         lb4 = tk.Label()
         lb_net.pack(padx=10)
         lb4.pack(padx=10)
         lb = tk.Label(text='Baslatma Seçenekleri',font='italic')
         lb.pack(padx=10)
+
         slt = tk.Listbox()
         slt.insert(0,'(CLİ) Baslatma')
         slt.insert(1,'(GUİ) Baslatma')
         slt.config(font='bold',fg='white',bg='gray')
         slt.pack(padx=10)
+
         btn = tk.Button(text='Baslat',font='bold',command=lambda: TestSESSİON(slt.get(tk.ACTIVE),self.root.destroy()))
         btn.pack(padx=10)
+
         try:
             net_chamber=rqs.get('https://pypi.org')
             if net_chamber.status_code == 200 or 201:
