@@ -1,0 +1,326 @@
+Window.clearcolor=(0.5,0,0,1)
+        Window.borderless = False
+        Window.fullscreen= False
+        layout = FloatLayout()
+
+        self.label = Label(text="BilgiHub v1.5 [Versyion 1.0 BETA]",font_name=main_font_name)
+        layout.add_widget(self.label)
+        self.label.font_size = "40sp"
+
+        self.index = 0
+
+        self.question_label1 = Label(text="Alinin 70 tane elması varsa 64 tanesini yedikten sonra kaç elaması kalır?")
+        self.question_reply1 = Label(text="A)    Cevap1")
+        self.question_reply2 = Label(text="B)    Cevap2")
+        self.question_reply3 = Label(text="C)    Cevap3")
+        self.question_reply4 = Label(text="D)    Cevap4")
+        self.btn_questin1 = Button(text="SORU-1",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin2 = Button(text="SORU-2",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin3 = Button(text="SORU-3",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin4 = Button(text="SORU-4",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin5 = Button(text="SORU-5",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin6 = Button(text="SORU-6",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin7 = Button(text="SORU-7",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin8 = Button(text="SORU-8",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin9 = Button(text="SORU-9",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin10 = Button(text="SORU-10",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin11 = Button(text="SORU-11",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin12 = Button(text="SORU-12",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin13 = Button(text="SORU-13",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin14 = Button(text="SORU-14",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin15 = Button(text="SORU-15",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin16 = Button(text="SORU-16",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)  
+        self.btn_questin17 = Button(text="SORU-11",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin18 = Button(text="SORU-12",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin19 = Button(text="SORU-13",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin20 = Button(text="SORU-14",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)
+        self.btn_questin21 = Button(text="SORU-15",size_hint=(None,None),size=(100,40.5),font_name=main_font_name)       
+        self.fullscreenFalse=Button (text="Tam Ekran",size_hint=(None,None),size=(100,30.5),font_name=main_font_name)     
+        self.fullscreenTrue=Button (text="Köşeli Ekran",size_hint=(None,None),size=(100,30.5),font_name=main_font_name)     
+        self.info = Button(text="[Nasil Kullanirim?]",size_hint=(None,None),size=(250,45.5),font_name=second_main1_buttons_font_name,font_size="24.4sp")
+        self.info2 = Button(text="[Yapimci]",size_hint=(None,None),size=(250,45.5),font_name=second_main1_buttons_font_name,font_size="24.4sp")
+        self.show_acceptted_question_button1 = Button(text="[CEVABI GÖSTER]",size_hint=(None,None),size=(250,45.5),font_name=second_main1_buttons_font_name,font_size="24.4sp")
+        self.question_label1.font_name=main_font_name
+        self.question_label1.font_size="30sp"
+
+
+        self.question_reply1.pos_hint={"x":-00.400,"y":-00.100}
+        self.question_reply2.pos_hint={"x":-00.400,"y":-00.190}
+        self.question_reply3.pos_hint={"x":-00.400,"y":-00.280}
+        self.question_reply4.pos_hint={"x":-00.400,"y":-00.370}
+        self.btn_questin1.pos_hint={"x":0.0,"y":00.750}
+        self.btn_questin2.pos_hint={"x":00.130,"y":00.750}
+        self.btn_questin3.pos_hint={"x":0.260,"y":00.750}
+        self.btn_questin4.pos_hint={"x":00.390,"y":00.750}
+        self.btn_questin5.pos_hint={"x":00.520,"y":00.750}
+        self.btn_questin6.pos_hint={"x":00.650,"y":00.750}
+        self.btn_questin7.pos_hint={"x":00.781,"y":00.750}
+        self.btn_questin8.pos_hint={"x":00.00,"y":00.670}
+        self.btn_questin9.pos_hint={"x":00.130,"y":00.670}
+        self.btn_questin10.pos_hint={"x":0.260,"y":00.670}
+        self.btn_questin11.pos_hint={"x":0.390,"y":00.670}
+        self.btn_questin12.pos_hint={"x":0.520,"y":00.670}
+        self.btn_questin13.pos_hint={"x":0.650,"y":00.670}
+        self.btn_questin14.pos_hint={"x":0.781,"y":00.670}
+        self.btn_questin15.pos_hint={"x":0.0,"y":00.590}
+        self.btn_questin16.pos_hint={"x":0.130,"y":00.590}      
+        self.btn_questin17.pos_hint={"x":0.260,"y":00.590}
+        self.btn_questin18.pos_hint={"x":0.390,"y":00.590}
+        self.btn_questin19.pos_hint={"x":0.520,"y":00.590}
+        self.btn_questin20.pos_hint={"x":0.650,"y":00.590}
+        self.btn_questin21.pos_hint={"x":0.781,"y":00.590}          
+        self.info2.pos_hint={"x":00.342,"y":0.0}
+        self.info.pos_hint={"x":0.0,"y":0.0}
+        self.question_label1.pos_hint={"x":-0.04,"y":-0.00}
+        self.fullscreenTrue.pos_hint={"x":0.0,"y":0.9}
+        self.fullscreenFalse.pos_hint={"x":0.1,"y":0.9}
+        self.show_acceptted_question_button1.pos_hint={"x":00.684,"y":0.0}
+
+        self.question_reply1.font_size="30sp"
+        self.question_reply2.font_size="30sp"
+        self.question_reply3.font_size="30sp"
+        self.question_reply4.font_size="30sp"
+        self.question_label1.font_size="35sp"
+        self.info.font_size="15sp"
+        self.info2.font_size="15sp"
+        self.show_acceptted_question_button1.font_size="15sp"
+        
+
+
+
+
+
+        layout.add_widget(self.question_label1)
+        layout.add_widget(self.question_reply1)
+        layout.add_widget(self.question_reply2)
+        layout.add_widget(self.question_reply3)
+        layout.add_widget(self.question_reply4)
+        layout.add_widget(self.btn_questin1)
+        layout.add_widget(self.btn_questin2)
+        layout.add_widget(self.btn_questin3)
+        layout.add_widget(self.btn_questin4)
+        layout.add_widget(self.btn_questin5)
+        layout.add_widget(self.btn_questin6)
+        layout.add_widget(self.btn_questin7)
+        layout.add_widget(self.btn_questin8)
+        layout.add_widget(self.btn_questin9)
+        layout.add_widget(self.btn_questin10)
+        layout.add_widget(self.btn_questin11)
+        layout.add_widget(self.btn_questin12)
+        layout.add_widget(self.btn_questin13) 
+        layout.add_widget(self.btn_questin14)
+        layout.add_widget(self.btn_questin15)
+        layout.add_widget(self.btn_questin16)  
+        layout.add_widget(self.btn_questin17)
+        layout.add_widget(self.btn_questin18) 
+        layout.add_widget(self.btn_questin19)
+        layout.add_widget(self.btn_questin20)
+        layout.add_widget(self.btn_questin21)                          
+        layout.add_widget(self.show_acceptted_question_button1)
+        layout.add_widget(self.fullscreenFalse)
+        layout.add_widget(self.fullscreenTrue)
+
+
+        layout.add_widget(self.info)
+        layout.add_widget(self.info2)
+
+        self.label.pos_hint={"y":00.450}
+
+        self.info.background_color=(0,0,1)
+        self.info.color=(1,0,0,1)
+        self.info2.background_color=(0,0,1)
+        self.info2.color=(0,1,0)
+        self.question_label1.color=(0.3,1,0.5,1)
+        self.fullscreenFalse.background_color=(0,1,0,1)
+        self.fullscreenTrue.background_color=(0,0.5,1,1)
+        self.btn_questin1.background_color=(0,1,0)
+        self.btn_questin2.background_color=(0,0,1,1)
+        self.btn_questin3.background_color=(0,1,1,1)
+        self.btn_questin4.background_color=(0,1,0)
+        self.btn_questin5.background_color=(0,0,1,1)
+        self.btn_questin6.background_color=(0,1,1,1)
+        self.btn_questin7.background_color=(0,1,0)
+        self.btn_questin8.background_color=(0,0,1,1)
+        self.btn_questin9.background_color=(0,1,1,1)
+        self.btn_questin10.background_color=(0,1,0)
+        self.btn_questin11.background_color=(0,0,1,1)
+        self.btn_questin12.background_color=(0,1,1,1)
+        self.btn_questin13.background_color=(0,1,0)
+        self.btn_questin14.background_color=(0,0,1,1)
+        self.btn_questin15.background_color=(0,1,1,1)
+        self.btn_questin16.background_color=(0,1,0)
+        self.btn_questin17.background_color=(0,0,1,1)
+        self.btn_questin18.background_color=(0,1,1,1)
+        self.btn_questin19.background_color=(0,1,0)
+        self.btn_questin20.background_color=(0,0,1,1)
+        self.btn_questin21.background_color=(0,1,1,1)     
+        self.show_acceptted_question_button1.background_color=(0,0,1)
+        self.show_acceptted_question_button1.color=(0,1,0)
+        self.show_acceptted_question_button1.bold = True
+
+        self.show_acceptted_question_button1.bind(on_press=self.control_question)
+        self.btn_questin1.bind(on_press=self.question_update1)   
+        self.btn_questin2.bind(on_press=self.question_update2)
+        self.btn_questin3.bind(on_press=self.question_update3)   
+        self.btn_questin4.bind(on_press=self.question_update4)        
+        self.btn_questin5.bind(on_press=self.question_update5)   
+        self.btn_questin6.bind(on_press=self.question_update6)
+        self.btn_questin7.bind(on_press=self.question_update7)   
+        self.btn_questin8.bind(on_press=self.question_update8)
+        self.btn_questin9.bind(on_press=self.question_update9)   
+        self.btn_questin10.bind(on_press=self.question_update10)        
+        self.btn_questin11.bind(on_press=self.question_update11)   
+        self.btn_questin12.bind(on_press=self.question_update12)   
+        self.btn_questin13.bind(on_press=self.question_update13)   
+        self.btn_questin14.bind(on_press=self.question_update14)        
+        self.btn_questin15.bind(on_press=self.question_update15)   
+        self.btn_questin16.bind(on_press=self.question_update16) 
+        self.info.bind(on_press=self.info1_function)
+        self.info2.bind(on_press=self.info2_function)                                 
+        return layout 
+    def question_update1(self,*args):
+         self.question_label1.text ="Alinin 70 tane elması varsa 64 tanesini yedikten sonra kaç elaması kalır?"
+    def question_update2(self,*args):
+         self.question_label1.text ="osmalı askerleri osmalı tokadı atmayı nasıl öğrenirlerdi"
+    def question_update3(self,*args):
+         self.question_label1.text ="Fransız ihtilalini kim gerçekleştirmiştir?"
+    def question_update4(self,*args):
+         self.question_label1.text ="Lojistik destek diyince aklınıza gelen ilk şey nedir"
+    def question_update5(self,*args):
+         self.question_label1.text ="(VERİ) kelimesi sizde neyi çağrıştırıyor?"
+    def question_update6(self,*args):
+         self.question_label1.text ="Bluetooth cihazları nasıl çalışır" 
+    def question_update7(self,*args):
+         self.question_label1.text ="veri analizi ne demektir"
+    def question_update8(self,*args):
+         self.question_label1.text ="python numpy kütüphanesi ne işe yarar"
+    def question_update9(self,*args):
+         self.question_label1.text ="hocam bu uygulamanın arka planı ne renk olsun"
+    def question_update10(self,*args):
+         self.question_label1.text ="bu uygulamadaki sorular ne sorusu olsun"
+    def question_update11(self,*args):
+         self.question_label1.text ="""bu uygulamada farklı dersler 
+         için ayrı kategoriler oluşturayımmı"""
+    def question_update12(self,*args):
+         self.question_label1.text ="""  bu uygulama kabul görürmü imkanınız varsa öğretmenler odasında 
+         konuşabilirmisiniz hocam? :))"""
+    def question_update13(self,*args):
+         self.question_label1.text ="cam neyden üretilir"
+    def question_update14(self,*args):
+         self.question_label1.text ="ses hızını aşabilen uçaklar hangileridir"
+    def question_update15(self,*args):
+         self.question_label1.text ="""siyah şapkalı hacker ile 
+    gri şapkalı hacker asrasındaki farkı yazınız"""
+    def question_update16(self,*args):
+         self.question_label1.text ="ben kimim? :))"                      
+
+    def control_question(self,*args):
+        text = self.question_label1.text
+        if text == "Alinin 70 tane elması varsa 64 tanesini yedikten sonra kaç elaması kalır?":
+            self.question_reply1.color = (0,1,0)
+            self.question_reply1.italic = True
+            self.question_reply2.color = (1,0,0,1)
+            self.question_reply3.color = (1,0,0,1)
+            self.question_reply4.color = (1,0,0,1)
+            Clock.schedule_once(self.reset_question,10)
+        elif text == "osmalı askerleri osmalı tokadı atmayı nasıl öğrenirlerdi":
+            self.question_reply1.color = (1,0,0,1)
+            self.question_reply1.italic = True
+            self.question_reply2.color = (1,0,0,1)
+            self.question_reply3.color = (0,1,0)
+            self.question_reply4.color = (1,0,0,1)
+            Clock.schedule_once(self.reset_question,10)   
+        else:
+             content = FloatLayout()
+             label = Label(text="""Bu uygulama geliştirme aşamasında olduğu için bu şıkka fonksiyon
+                                                                
+                                   atanmamıştır :(
+                           
+                                            <<Ahmet Efe Yıldız>>
+            """)    
+             button = Button(text="Anladım :((",size_hint=(None,None),size=(250,60))
+             label.font_name=main_font_name
+             label.color = (1,0,1,1)
+             label.font_size="23.2sp"
+             content.add_widget(button)
+             button.pos_hint={"x":00.360,"y":00.00}
+             button.font_size="30sp"
+             button.font_name=main_font_name
+             button.color = (0,1,0)
+             button.background_color=(1,0,0,1)
+             button.bind(on_press=self.destroying_function1_info)
+             content.add_widget(label)
+             label.pos_hint={"x":-00.100,"y":00.00}
+             self.popup = Popup(title="                                             UYARI",content=content,size_hint=(None,None),size=(900,600),title_font=main_font_name)
+             self.popup.open() 
+             self.popup.background_color=(0,0,1,1)
+    def destroying_function1_info(self,*args):
+         self.popup.dismiss()
+    def reset_question(self,*args):
+            self.question_reply1.color = (1,1,1,1)
+            self.question_reply2.color = (1,1,1,1)
+            self.question_reply3.color = (1,1,1,1)
+            self.question_reply4.color = (1,1,1,1) 
+    def info1_function(self,*args):
+             content = FloatLayout()
+             label23 = Label(text="""Bu uygulama geliştirme aşamasında olduğu için bu şıkka fonksiyon
+                                                                
+                                   atanmamıştır :(
+                           
+                                            <<Ahmet Efe Yıldız>>
+            """)    
+             button = Button(text="Anladım :((",size_hint=(None,None),size=(250,60))
+             label23.font_name=main_font_name
+             label23.color = (1,0,1,1)
+             label23.font_size="23.2sp"
+             content.add_widget(button)
+             button.pos_hint={"x":00.250,"y":00.00}
+             button.font_size="30sp"
+             button.font_name=main_font_name
+             button.color = (0,1,0)
+             button.background_color=(1,0,0,1)
+             button.bind(on_press=self.destroying_function1_info)
+             content.add_widget(label23)
+             label23.pos_hint={"x":-00.100,"y":00.00}
+             self.popup = Popup(title="                                     UYARI",content=content,size_hint=(None,None),size=(900,600),title_font=main_font_name)
+             self.popup.open() 
+             self.popup.background_color=(1,0.1,0,1)
+    def destroying_function1_info(self,*args):
+         self.popup.dismiss()
+                      
+    def info2_function(self,*args):
+             content = FloatLayout()
+             label = Label(text="""Bu uygulama geliştirme aşamasında olduğu için bu şıkka fonksiyon
+                                                                
+                                   atanmamıştır :(
+                           
+                                            <<Ahmet Efe Yıldız>>
+            """)    
+             button = Button(text="Anladım :((",size_hint=(None,None),size=(250,60))
+             label.font_name=main_font_name
+             label.color = (1,0,1,1)
+             label.font_size="23.2sp"
+             content.add_widget(button)
+             button.pos_hint={"x":00.360,"y":00.00}
+             button.font_size="30sp"
+             button.font_name=main_font_name
+             button.color = (0,1,0)
+             button.background_color=(1,0,0,1)
+             button.bind(on_press=self.destroying_function1_info)
+             content.add_widget(label)
+             
+             self.popup = Popup(title="                                                     UYARI",content=content,size_hint=(None,None),size=(900,600),title_font=main_font_name)
+             self.popup.background_color=(1,0.4,0,1)
+             self.popup.open() 
+             label.pos_hint={"x":-00.100,"y":00.00}
+    def destroying_function1_info(self,*args):
+         self.popup.dismiss()
+
+         
+          
+
+
+
+
+if __name__=="__main__":
+    BilgiHubApp().run()    

@@ -1,0 +1,18 @@
+Bu metni yazarken kötü bir amacım olmadığını belirtmek isterim:
+
+bu uygulama kodlanırken bir kaç yanlışlık olduğu için uygulama virüs olarak algılanıyor
+
+ancak virüs duvarını kapattığınzda sorunsuzca çalışıyor 
+
+çalıştırmak için
+
+windows defender>virüs tehtid koruması<gerçek zamanlı koruma = kapalı
+
+konumuna getirin
+
+daha açık konuşmak gerekirse:
+
+windows defendara girin sonra virüs tehtid korumasını üzerine tıklayın oradaki sekmede "gerçek zamanlı koruma" isimli seçeneği in-aktif yani kapalı konumuna getirin
+
+
+uygulama çalışacaktır
