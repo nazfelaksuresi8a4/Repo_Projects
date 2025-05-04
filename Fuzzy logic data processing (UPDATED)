@@ -392,6 +392,12 @@ class selenium_scrapping_block():
                         self.vvh.append(vvh_arr)
                         print()
                         print(Fore.LIGHTRED_EX,Style.BRIGHT,Back.BLUE)
+                        f0a4 = input('Başa dönmek için 1 Çıkmak için 0: ')
+                        if f0a4 == '1':
+                            _o.system('cls')
+                            SelectUİ(data=0)
+                        elif f0a4 == '0':
+                            _s.exit()
 
 
 
@@ -960,7 +966,3 @@ _o.system('cls')
 input('Devam etmek için [ENTER]')
 _o.system('cls')
 SelectUİ(data=0)
-
-
-
-#commit#
