@@ -1,0 +1,4502 @@
+qtfocus ve qkeyevent ile pyqwt5 ile etuş algılama ve eylem gerçekleştirme ayrıca keyPressEvent fonksiyonu kullanıldı
+
+from PyQt5.QtCore import*
+from PyQt5.QtWidgets import*
+from PyQt5.QtGui import*
+import sys as _s
+import winsound as _ws
+
+class mainF(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setStyleSheet('background-color:darkblue')
+
+        l=QVBoxLayout()
+        w=QWidget()
+        spl=QSplitter(Qt.Vertical)
+        spl.setStyleSheet('background-color:skyblue')
+        w.setLayout(l)
+
+        x_lb=QLabel('**Python Dash**')
+        non_lb=QTextEdit()
+        non_lb.setEnabled(False)
+        x_lb.setAlignment(Qt.AlignCenter)
+        x_lb.setStyleSheet('font-size:15px; font-weight:bold;font-family:Arial')
+        l.addWidget(spl)
+        spl.addWidget(x_lb)
+        spl.addWidget(non_lb)
+        self.plr=QPushButton('<-->',w)
+        self.plr.setStyleSheet('background-color:yellow;border:0.5px solid black;font-size:20px')
+        self.plr.resize(50 ,50)
+        self.plr.move(620,650)
+        self.setCentralWidget(w)
+
+        self.setFocusPolicy(Qt.StrongFocus)
+    def keyPressEvent(self,event: QKeyEvent):
+        if event.key() == Qt.Key_Space:
+            print('space')
+if __name__=="__main__":
+    sp=QApplication(_s.argv)
+    sw=mainF()
+    sw.show()
+    _s.exit(sp.exec_())
+
+
+
+
+
+
+selenium webdriver chrome 
+
+ile web scrapping yapmak
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By  # By modülünü ekliyoruz
+from selenium.webdriver.chrome.options import Options  # ChromeOptions yerine Options kullanıyoruz
+from time import sleep
+
+class main():
+    def __init__(self):
+        super().__init__()
+        ChromeOptions=webdriver.ChromeOptions()
+        ChromeOptions.add_argument("--incognito")
+        ChromeOptions.add_argument("--headless")
+        ChromeOptions.add_argument("--log_level=0")
+        ChromeOptions.add_argument("--disable_extensions")
+        ChromeOptions.add_argument("--log_level")
+        driver=webdriver.Chrome(options=ChromeOptions)
+        driver.delete_all_cookies()
+        driver.get('https://www.meb.gov.tr/meb/bakanyardimcilari/')
+        driver.implicitly_wait(10)
+        while True:
+            price_info= driver.find_element(By.XPATH,'/html/body/section[2]/div[3]/div/div/div/div/div/div[2]/div/div/div')
+            print(price_info.text)
+            sleep(5)
+
+main()
+
+
+
+
+istemci sunucu mh
+
+
+
+import socket
+import threading
+
+def handle_client(client_socket, client_address):
+    print(f"[+] Yeni bağlantı: {client_address}")
+    while True:
+        try:
+            message = client_socket.recv(1024).decode("utf-8")
+            if not message:
+                break
+            print(f"{client_address}: {message}")
+            client_socket.send("Mesaj alındı".encode("utf-8"))
+        except:
+            break
+    client_socket.close()
+    print(f"[-] Bağlantı kesildi: {client_address}")
+
+def start_server(host="192.168.56.1", port=445):
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.bind((host, port))
+    server.listen(5)
+    print(f"[*] Sunucu başlatıldı {host}:{port}")
+    
+    while True:
+        client_socket, client_address = server.accept()
+        client_handler = threading.Thread(target=handle_client, args=(client_socket, client_address))
+        client_handler.start()
+
+def start_client(server_ip, server_port):
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client.connect((server_ip, server_port))
+    
+    def receive_messages():
+        while True:
+            try:
+                response = client.recv(1024).decode("utf-8")
+                print(f"Sunucu: {response}")
+            except:
+                break
+    
+    threading.Thread(target=receive_messages, daemon=True).start()
+    
+    while True:
+        message = input("Mesaj: ")
+        if message.lower() == "exit":
+            break
+        client.send(message.encode("utf-8"))
+    
+    client.close()
+    print("Bağlantı kapatıldı")
+start_server()
+# Kullanım
+# Sunucu başlatmak için: start_server()
+# İstemci başlatmak için: start_client("127.0.0.1", 5555)
+
+
+
+
+
+
+https://github.com/opencv/opencv/tree/master/data/haarcascades
+
+Tux
+
+Wikipedia
+https://tr.wikipedia.org › wiki › Tux
+tr.wikipedia.org sitesinden tux
+Tux, Linux'un resmî maskotu olan, karnı balıklarla dolmuş, yeni geğirmiş, mutlu, tombul bir penguendir. Larry Ewing tarafından 1996 yılında yaratılmıştır.
+
+
+
+aslan hacker kanalı    https://www.youtube.com/@siber_xpert
+
+
+
+
+sıcak görüğş
+
+
+
+from numpy import random
+import matplotlib.pyplot as plt
+
+data = random.random((5,5))
+img = plt.imshow(data, interpolation='nearest')
+img.set_cmap('hot')
+plt.axis('off')
+plt.savefig("test.png", bbox_inches='tight')
+
+
+
+dosya dizini izleme
+
+
+
+import sys
+import os
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel
+from PyQt5.QtCore import QFileSystemWatcher
+
+class FileSystemWatcherExample(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("QFileSystemWatcher Örneği")
+        self.setGeometry(200, 200, 400, 200)
+
+        layout = QVBoxLayout()
+
+        self.label = QLabel("İzlenen Dizindeki Değişiklikler Gösterilecek")
+        layout.addWidget(self.label)
+
+        self.setLayout(layout)
+
+        # İzlemek istediğin dosya veya dizin
+        watch_path = os.path.expanduser("C:/Desktop/apk_internal")  # Masaüstünde bir dizin örneği
+
+        if not os.path.exists(watch_path):
+            os.makedirs(watch_path)  # Dizin oluştur
+
+        # QFileSystemWatcher oluştur ve dizin ekle
+        self.watcher = QFileSystemWatcher()
+        self.watcher.addPath(watch_path)
+
+        # Sinyal bağlantıları
+        self.watcher.directoryChanged.connect(self.on_directory_changed)
+        self.watcher.fileChanged.connect(self.on_file_changed)
+
+    def on_directory_changed(self, path):
+        self.label.setText(f"Dizin değişti: {path}")
+
+    def on_file_changed(self, path):
+        self.label.setText(f"Dosya değişti: {path}")
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = FileSystemWatcherExample()
+    window.show()
+    sys.exit(app.exec_())
+
+
+
+
+
+
+TÜM GÖRÜNYÜ İŞLEME TÜRLERİNİ ÇALIŞTIRABİLEN O KUTSAL KOD
+
+
+COLOR_BGR2LAB
+
+
+import cv2 as cv
+import matplotlib.pyplot as plt
+
+# Dosya yolunu doğru girmelisiniz
+root = r"C:\Desktop\apk_internal\cursor.png"
+
+# Görüntüyü gri tonlamalı oku
+x = cv.imread(root, cv.IMREAD_GRAYSCALE)
+
+# Eşikleme işlemi
+_, thres = cv.threshold(x, 127, 255, cv.COLOR_BGR2LAB)
+
+# Görüntüyü göster
+plt.imshow(thres, cmap="gray")
+plt.title("Thresholded Image")
+plt.axis("off")
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Görüntü işleme tekniklerinden 10 tanesini aşağıda açıklıyorum:
+
+Grileştirme (Grayscale Conversion)
+Renkli görüntülerin tek bir gri ton seviyesine indirgenmesi işlemi. Bu işlem genellikle görüntü işlemeyi kolaylaştırmak için yapılır.
+
+Eşikleme (Thresholding)
+Piksel değerlerinin belirli bir eşik değerinin altında veya üstünde olup olmadığını kontrol ederek görüntüyü ikili (binary) hale getirme tekniği.
+
+Filtreleme (Filtering)
+Gürültü azaltma ve kenar algılama gibi işlemler için kullanılan düşük geçiş (low-pass) ve yüksek geçiş (high-pass) filtreler.
+
+Kenar Algılama (Edge Detection)
+Görüntüdeki objelerin kenarlarını belirlemek için Sobel, Canny ve Laplacian gibi algoritmalar kullanılır.
+
+Morfolojik İşlemler (Morphological Operations)
+Erosion, dilation, opening ve closing gibi işlemlerle görüntüdeki nesnelerin şekillerini düzeltmek veya küçültmek.
+
+Histogram Eşitleme (Histogram Equalization)
+Görüntünün kontrastını artırmak için histogramın yeniden dağıtılması.
+
+Özellik Çıkarımı (Feature Extraction)
+Görüntüdeki belirgin özelliklerin (köşe, kenar, desen) çıkarılması. SIFT, SURF ve ORB gibi algoritmalar kullanılır.
+
+Segmentasyon (Segmentation)
+Görüntüyü farklı bölgelerine veya nesnelere ayırma işlemi. K-means ve watershed gibi algoritmalar tercih edilir.
+
+Dönüşümler (Transformations)
+Görüntünün döndürülmesi, yeniden boyutlandırılması veya yansıması gibi işlemler.
+
+Kontur Algılama (Contour Detection)
+Belirli bir şekil veya nesnenin dış hatlarının algılanması ve izlenmesi işlemi. OpenCV'de findContours() ile gerçekleştirilir.
+
+
+import cv2 as cv
+import matplotlib.pyplot as plt
+
+
+#data=cv.imread(r"C:\Desktop\apk_internal\ga.png")
+
+#gray=cv.cvtColor(data,cv.COLOR_BGR2GRAY)
+
+#color=cv.Canny(gray,threshold1=50,threshold2=100)
+
+#plt.imshow(cv.cvtColor(color,cv.COLOR_BGR2RGB))
+
+#plt.show()
+
+
+
+
+
+
+#################################################
+
+#import cv2
+#import numpy as np
+
+#image= cv2.imread(r"C:\Desktop\apk_internal\ga.png",cv2.IMREAD_GRAYSCALE)
+
+#_, color=cv2.threshold(image,127,255,cv2.THRESH_BINARY)
+
+#cv2.imshow("Binary Threshold",color)
+
+#cv2.waitKey(0)
+#cv2.destroyAllWindows()
+
+
+#################################################
+
+
+
+##################image filtering --blur--################################
+
+
+#import cv2 
+#import numpy as np
+#root=r"C:\Desktop\apk_internal\cursor.png"
+
+#x=cv2.imread(root)
+
+#clr=cv2.GaussianBlur(x,(5,5),0)
+
+#cv2.imshow("root_test_blr",clr)
+#cv2.waitKey(0)
+#cv2.destroyAllWindows()
+
+
+
+#edge detection (kenar algılama)
+
+
+#import cv2 as cv
+#import numpy as np
+#import matplotlib.pyplot as plt
+
+#x=r"C:\Desktop\apk_internal\cursor.png"
+
+#x_data=cv.imread(x)
+
+#cany=cv.Canny(x_data,threshold1=40,threshold2=40)
+
+#plt.imshow(cany)
+#plt.show()
+
+
+
+#grayscale#
+
+import cv2 as cv
+import matplotlib.pyplot as plt
+
+root=r"C:\Desktop\apk_internal\cursor.png"
+
+x=cv.imread(root)
+
+clr=cv.cvtColor(x,cv.COLOR_BGR2GRAY)
+
+plt.imshow(clr,cmap="gray")
+plt.show()
+
+
+
+
+#import cv2
+#import numpy as np
+#from matplotlib import pyplot as plt
+
+# Görüntüyü yükle
+#image = cv2.imread('image.jpg', cv2.IMREAD_GRAYSCALE)
+
+# Histogram eşitleme
+#equalized_image = cv2.equalizeHist(image)
+
+# Görüntüleri göstermek için matplotlib kullanma
+#plt.figure(figsize=(10, 5))
+
+# Orijinal görüntüyü göster
+#plt.subplot(1, 2, 1)
+#plt.imshow(image, cmap='gray')
+#plt.title('Orijinal Görüntü')
+#plt.axis('off')
+
+# Histogram eşitlemesi yapılmış görüntüyü göster
+#plt.subplot(1, 2, 2)
+#plt.imshow(equalized_image, cmap='gray')
+#plt.title('Histogram Eşitleme')
+#plt.axis('off')
+
+#plt.show()
+
+
+
+#histogram eşitleme#
+
+
+import cv2 as cv
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+x=cv.imread(r"C:\Desktop\apk_internal\cursor.png",cv.IMREAD_GRAYSCALE)
+y=cv.equalizeHist(x)
+cv.imshow("gag",y)
+cv.waitKey(0)
+cv.destroyAllWindows()
+
+
+
+
+##özellik çıkarımı içinde //köşe çıkarımı##
+
+import cv2 as cv
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+
+
+def main():
+    x=r"C:\Desktop\apk_internal\cursor.png"
+
+    x_data=cv.imread(x)
+    x_data_cvt=cv.cvtColor(x_data,cv.COLOR_BGR2GRAY)
+    cany=cv.cornerHarris(x_data_cvt,2,3,0)
+    x_data[cany>0.01*cany.max()]=[0,0,255]
+
+    cv.imshow("ga",x_data)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
+main()
+
+###görntüyü kare içine alma####
+
+import cv2 as cv
+import matplotlib.pyplot as plt
+import numpy as np
+
+class main():
+    def __init__(self):
+        super().__init__()
+        image=r"C:\Desktop\apk_internal\cursor.png"
+
+        image_read=cv.imread(image)
+
+        image_sys_g=cv.cvtColor(image_read,cv.COLOR_BGR2GRAY)
+
+        _, thres_binary=cv.threshold(image_sys_g,127,127,cv.THRESH_BINARY)
+
+        contours, _=cv.findContours(thres_binary,cv.RETR_EXTERNAL,cv.CHAIN_APPROX_SIMPLE)
+
+        image_contour=image_read.copy()
+        cv.drawContours(image_contour,contours,-1,(255,0,255),3)
+
+        plt.imshow(cv.cvtColor(image_contour,cv.COLOR_BGR2RGB))
+        plt.show()
+
+main()
+
+###görüntüyü gerçekten ama gerçekten kare içine alma### ##ANA FRAMER##
+
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 1. Görüntüyü yükleyin
+image = cv2.imread(r"C:\Downloads\german-autobahn.jpg")
+
+# Görüntüyü gri tonlamaya çevirin
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Görüntüyü ikili (binary) hale getirin
+_, thresholded = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+
+cvcany=cv2.Canny(thresholded,1,1)
+
+# Konturları tespit edin
+contours, _ = cv2.findContours(cvcany, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+# Konturların doğru şekilde tespit edilip edilmediğini görselleştirelim
+# Bu, her bir konturu gösterecek ve konturların doğru şekilde algılanıp algılanmadığını kontrol etmemize yardımcı olur
+image_contours = image.copy()
+cv2.drawContours(image_contours, contours, -1, (0, 255, 0), 3)
+
+# 5. Her konturun etrafına bir çerçeve çizin
+image_with_rectangles = image.copy()
+for contour in contours:
+    # Kontur için dikdörtgenin koordinatlarını alın
+    x, y, w, h = cv2.boundingRect(contour)
+    
+    # Çerçeve çiz
+    cv2.rectangle(image_with_rectangles, (x, y), (x + w, y + h), (255,0,255), 1)
+
+# 6. Sonuçları görselleştirin
+plt.imshow(cv2.cvtColor(image_with_rectangles, cv2.COLOR_BGR2RGB))
+plt.title("Nesneler Çerçevelendi")
+plt.axis('on')
+plt.grid(False)
+plt.show()
+
+
+
+#### kenarları tanıma renkli ####
+
+import cv2 as cv
+import matplotlib.pyplot as plt
+import numpy as np
+
+class main():
+    def __init__(self):
+        super().__init__()
+        image=r"C:\Downloads\german-autobahn.jpg"
+
+        image_read=cv.imread(image)
+
+        image_sys_g=cv.cvtColor(image_read,cv.COLOR_BGR2GRAY)
+
+        _, thres_binary=cv.threshold(image_sys_g,127,127,cv.THRESH_BINARY)
+
+        cany_binary=cv.Canny(thres_binary,50,50)
+
+        contours, _=cv.findContours(cany_binary,cv.RETR_EXTERNAL,cv.CHAIN_APPROX_NONE)
+
+        image_contour=image_read.copy()
+        cv.drawContours(image_contour,contours,-1,(0,0,255),2)
+
+        plt.imshow(cv.cvtColor(image_contour,cv.COLOR_BGR2RGB))
+        plt.show()
+
+main()
+
+
+
+
+
+#######allah çarpsınki bu gerçek kodu#çerçeveleme######
+
+
+import cv2
+import numpy as np
+
+# Resim yolunu belirt
+image_path = r"C:\Desktop\apk_internal\umbrella_ico.webp" # Buraya kendi fotoğrafının yolunu koy
+
+# Resmi yükle
+image = cv2.imread(image_path)
+
+# Gri tonlamaya çevir
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Kenar tespiti (Canny Edge Detection)
+edges = cv2.Canny(gray, 400, 400)
+
+# Konturları bul
+contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+if contours:
+    x_min,y_min=np.inf,np.inf
+    x_max,y_max=0,0
+
+    for cnt in contours:
+        x,y,w,h=cv2.boundingRect(cnt)
+        x_min=min(x_min,x)
+        y_min=min(y_min,y)
+        x_max=max(x_max,x+w)
+        y_max=max(y_max,y+h)
+    rect=cv2.rectangle(image,(x_min,y_min),(x_max,y_max),(0,255,0),2)
+
+# Sonucu göster
+cv2.imshow('Tek Bir Kareyle Çevreleme', image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+
+
+
+###bunun biraz daha karmaşığı####
+
+
+
+import cv2 as cv
+import matplotlib.pyplot as plt
+import numpy as np
+
+def main():
+    root=r"C:\Desktop\apk_internal\pintereset_fake_girl_photo.png"
+
+    image=cv.imread(root)
+
+    gra1y=cv.cvtColor(image,cv.COLOR_BGR2GRAY)
+
+    gray=cv.Canny(image,50,50)
+
+    _, thresold= cv.threshold(gray,127,255,cv.THRESH_BINARY+cv.THRESH_OTSU)
+
+    contoures, _=cv.findContours(thresold,cv.RETR_EXTERNAL,cv.CHAIN_APPROX_SIMPLE)
+
+    image_contoures=image.copy()
+
+    draw=cv.drawContours(image_contoures,contoures,-1,(255,0,255),3)
+
+    image_sharpnes_data=image.copy()
+
+    for contour in contoures:
+        x,y,w,h=cv.boundingRect(contour)
+
+        rect=cv.rectangle(image_sharpnes_data,(x,y),(x+w,y+h),(0,255,0),1)
+    plt.imshow(cv.cvtColor(image_sharpnes_data,cv.COLOR_BGR2RGB))
+    plt.show()
+main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+matplotlib/pylab/math ile 3d grafik çizimi
+
+
+
+import matplotlib.pyplot as plt
+import math 
+import numpy as np
+from pylab import* 
+class main():
+    arang=np.arange(0,2*math.pi,0.005)
+    ax_3d=plt.figure()
+    ax_3d.add_subplot(111,projection="3d")
+    plt.plot(arang,sin(arang),"--r")
+    plt.plot(arang,cos(arang),"--g")
+    plt.plot(arang,sin(arang),"--b")
+    plt.title("data analyisist with 3d") 
+    plt.xlabel("data-1")
+    plt.ylabel("data-2")
+    plt.grid(True)
+    plt.legend()
+    plt.show()
+main()
+
+
+
+
+
+
+
+
+
+matplotlib/math/pylab ile sinüs grafiği çizimi
+
+
+import matplotlib.pyplot as plt
+import cv2 as _cv
+import numpy as _np
+import pandas as _pd
+import math as _mh
+from pylab import*
+
+arang=_np.arange(0, 2*_mh.pi, 0.005)
+
+plt.plot(arang,sin(arang),"--r")
+plt.plot(arang,cos(arang),"--g")
+plt.plot(arang,-sin(arang),"--b")
+
+plt.show()
+
+
+
+
+
+
+
+---NUMPY---
+
+
+numpy ile mantıksal puan hesaplama rtlama hesaplama 
+
+
+import pandas as pd
+class mainDF():
+    def __init__(self):
+        super().__init__()
+        data = {
+            "Ad": ["Ahmet","Ali","Mehmet","Veli","İskender"],
+            "Yaş": [30,40,60,10,20],
+            "Puan": [100,90,95,40,30]
+        }
+        df = pd.DataFrame(data)
+        print(df)
+
+        arange=df["Puan"].mean()
+        print(f"ortalama puan: {arange}")
+mainDF()
+
+
+
+
+
+
+
+
+
+
+        splitted_Data_f19842u402984=main_data.splitlines()
+        self.main_mapper2.addItems(splitted_Data_f19842u402984)
+        self.main_mapper2.scrollToItem(self.main_mapper2.item(self.main_mapper2.count() - 1))      
+
+
+pyqt5 pyqtsignal multi threading 
+
+from PyQt5.QtCore import*
+from PyQt5.QtWidgets import*
+from PyQt5.QtGui import*
+import nmap 
+import sys
+
+class MainTh(QThread):
+    main_signal=pyqtSignal(str)
+    def __init__(self,ip_adress):
+        super().__init__()
+        self.ip_adress=ip_adress
+    def run(self):
+        v=nmap.PortScanner()
+        result=''
+        v.scan(self.ip_adress,arguments='-sS')
+        for proto in v[self.ip_adress].all_protocols():
+            ports=v[self.ip_adress][proto].keys()
+            for port in ports:
+                state=v[self.ip_adress][proto][port]['state']
+                result+=f'port: {port} protokol: {proto} durum: {state} \n'
+        self.main_signal.emit(result)
+class mainUİ(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        main_widget=QWidget()
+        main_layout=QVBoxLayout()
+        self.line=QLineEdit()
+        self.btn=QPushButton('tarma başlat')
+        self.t_edit=QTextEdit()
+        main_widget.setLayout(main_layout)
+        main_layout.addWidget(self.line)
+        main_layout.addWidget(self.t_edit)
+        main_layout.addWidget(self.btn)
+        self.t_edit.setReadOnly(True)
+        self.btn.clicked.connect(self.start_header)
+        self.setCentralWidget(main_widget)
+    def start_header(self):
+        self.btn.setDisabled(True)
+        ip_adress=self.line.text().strip()
+        self.t_edit.append(f'scan starting from {ip_adress}')
+        self.thread_main=MainTh(ip_adress)
+        self.thread_main.main_signal.connect(self.add_text)
+        self.thread_main.start()
+    def add_text(self,text):
+        self.btn.setEnabled(True)
+        self.t_edit.append(f'{text} \n')
+if __name__=="__main__":
+    sp=QApplication(sys.argv)
+    sw=mainUİ()
+    sw.show()
+    sys.exit(sp.exec_())
+
+--------------------------------------------------------------------------------------------------------------------------------------
+python-nmap arümanları [cyber security NO MATH]
+
+1. SYN Tarama (-sS)
+Açıklama: Hızlı ve gizli bir tarama türüdür. TCP bağlantısı kurmadan, SYN bayrağı göndererek portun durumunu kontrol eder.
+Kullanım: -sS
+2. TCP Connect Tarama (-sT)
+Açıklama: Tam bir TCP bağlantısı kurarak portun açık olup olmadığını kontrol eder. Yönetici yetkisi gerektirmez.
+Kullanım: -sT
+3. UDP Tarama (-sU)
+Açıklama: UDP protokolü üzerinden portları kontrol eder. TCP'nin aksine, UDP bağlantısız bir protokoldür ve daha yavaş bir tarama olabilir.
+Kullanım: -sU
+4. ACK Tarama (-sA)
+Açıklama: Bir portun açık mı yoksa kapalı mı olduğunu anlamaktan ziyade, bir güvenlik duvarının (firewall) varlığını ve yapılandırmasını kontrol etmek için kullanılır.
+Kullanım: -sA
+5. FIN Tarama (-sF)
+Açıklama: TCP bağlantısı kurmadan, hedef porta FIN bayrağı gönderir. Bazı sistemlerde portun açık mı kapalı mı olduğunu algılamak için kullanılır.
+Kullanım: -sF
+6. NULL Tarama (-sN)
+Açıklama: Hiçbir TCP bayrağı ayarlanmadan portları kontrol eder. Daha az iz bırakır ancak her sistem bu yöntemi desteklemez.
+Kullanım: -sN
+7. Xmas Tarama (-sX)
+Açıklama: TCP bayraklarından FIN, PSH ve URG aynı anda gönderilerek port durumu kontrol edilir. Daha gizli bir taramadır.
+Kullanım: -sX
+8. Ping Tarama (-sn)
+Açıklama: Port taraması yapmaz, sadece hedeflerin çevrim içi olup olmadığını kontrol eder.
+Kullanım: -sn
+9. Idle Tarama (-sI)
+Açıklama: Hedefe doğrudan bağlantı kurmadan, üçüncü bir cihazı aracı olarak kullanır. En gizli tarama türlerinden biridir.
+Kullanım: -sI <zombie_host>
+10. ARP Tarama (-PR)
+Açıklama: Yerel ağdaki cihazları bulmak için ARP paketleri kullanır. Sadece aynı ağdaki cihazlar için geçerlidir.
+Kullanım: -PR
+11. IP Protocol Tarama (-sO)
+Açıklama: Desteklenen IP protokollerini tarar (örneğin ICMP, TCP, UDP, vb.).
+Kullanım: -sO
+12. List Scan (-sL)
+Açıklama: Aslında bir tarama yapmaz, sadece hedef IP'leri listeler.
+Kullanım: -sL
+13. Fast Tarama (-F)
+Açıklama: Daha hızlı sonuç almak için varsayılan olarak en yaygın 100 portu tarar.
+Kullanım: -F
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+PYQT5 procces kullanımı [çoklu iş parçacığı]
+
+
+import sys
+from PyQt5.QtCore import QProcess
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QTextEdit, QPushButton
+
+class App(QWidget):
+    def __init__(self):
+        super().__init__()  
+        self.text=QTextEdit(self)
+        self.text.resize(600,600)
+        self.text.setReadOnly(True)
+
+
+        btn=QPushButton('tarama',self)
+        btn.move(600,600)
+        btn.clicked.connect(self.header_def)
+    def header_def(self):
+        self.procces=QProcess()
+        self.procces.readyReadStandardOutput.connect(self.main_def)
+        self.procces.start('netstat ',['-a'])
+    def main_def(self):
+        output = self.procces.readAllStandardOutput().data().decode('utf-8')
+        self.text.setPlainText(output)
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = App()
+    window.show()
+    sys.exit(app.exec_())
+
+
+
+
+
+
+
+
+
+
+
+
+datetime/keyboard ile güncellenen saat yapımı ve tuşa basıınca döngü kırma:
+
+from datetime import datetime as dt
+import time
+import keyboard as kb
+
+running=True
+
+def main(event):
+    global running
+    print()
+    running=False   
+kb.on_press(main)
+
+def se_Date():
+    while running:
+        x=dt.now().strftime("%H:%M:%S")
+        print(f"\rSaat {x}",end="",flush=True)
+        time.sleep(1)
+se_Date()
+
+
+
+
+splitlines ile değilde split ile verileri tek bir line editten kesip 3 değişkene tektek atama:
+
+from PyQt5.QtCore import*
+from PyQt5.QtWidgets import*
+from PyQt5.QtGui import*
+import sys as _s
+
+class mainF(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        lay=QVBoxLayout()
+        wid=QWidget()
+        wid.setLayout(lay)
+
+        self.line=QLineEdit()
+        self.btn=QPushButton("")
+        
+        lay.addWidget(self.line)
+        lay.addWidget(self.btn)
+
+        self.btn.clicked.connect(self.lambdaf)
+
+        self.setCentralWidget(wid)
+    def lambdaf(self):
+        input_value=self.line.text()
+        split=input_value.split(' ')
+
+        var1=split[0]
+        var2=split[1]
+        var3=split[2]
+
+        print(f"data-1: {var1}\ndata-2: {var2}\ndata-3: {var3}")
+
+        return 0
+if __name__=="__main__":
+    sp=QApplication(_s.argv)
+    sw=mainF()
+    sw.show()
+    _s.exit(sp.exec_())
+
+
+
+
+
+tqdm:
+
+from tqdm import tqdm
+import time 
+
+data=range(500)
+for item in tqdm(data,desc="veri işleme",unit="kayıt"):
+    time.sleep(0.01)
+
+
+
+
+
+cyber security{}
+----------------------------
+***                 ***
+-sS    -sA  -pN   -O
+
+
+
+
+import nmap
+
+scanner=nmap.PortScanner()
+
+target_ip='192.168.1.1'
+
+scanner.scan(target_ip,arguments='sS')
+
+for proto in scanner[target_ip].all_protocols():
+    ports=scanner[target_ip][proto].keys()
+    for port in ports:
+        state=scanner[target_ip][proto][port]['state']
+        if state=='open':
+            print(f'port{ port}, protokol:{ proto}')
+
+
+
+
+
+
+
+
+
+
+nm.scan(hosts, ports): Belirtilen IP adreslerini ve portları tarar.
+
+python
+Kodu kopyala
+nm.scan('192.168.1.1', '1-1000')
+nm.all_hosts(): Tarama sonucunda bulunan tüm IP adreslerini döndürür.
+
+python
+Kodu kopyala
+hosts = nm.all_hosts()
+print(hosts)
+nm[ip].state(): Belirtilen IP adresinin durumunu döndürür (ör. up, down).
+
+python
+Kodu kopyala
+print(nm['192.168.1.1'].state())
+nm[ip].all_protocols(): IP adresiyle ilişkili tüm protokolleri listeler (ör. tcp, udp).
+
+python
+Kodu kopyala
+print(nm['192.168.1.1'].all_protocols())
+nm[ip][protocol].keys(): Protokole bağlı olarak taranan portları listeler.
+
+python
+Kodu kopyala
+print(nm['192.168.1.1']['tcp'].keys())
+nm[ip][protocol][port]: Belirli bir port hakkında detaylı bilgi döndürür.
+
+python
+Kodu kopyala
+print(nm['192.168.1.1']['tcp'][80])
+Port Bilgisi Kontrolü
+Bir portun açık olup olmadığını kontrol etmek için:
+
+python
+Kodu kopyala
+if 80 in nm['192.168.1.1']['tcp']:
+    print("Port 80 açık.")
+else:
+    print("Port 80 kapalı.")
+
+
+
+
+if 80 in nm['192.168.1.1']['tcp']:
+    print("Port 80 açık.")
+else:
+    print("Port 80 kapalı.")
+2. Socket Modülü ile Tarama
+Python’un socket modülü, temel port tarama işlemleri için kullanılabilir.
+
+Port Açıklığını Kontrol Etme
+python
+Kodu kopyala
+import socket
+
+def check_port(ip, port):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.settimeout(1)  # Zaman aşımı
+    result = sock.connect_ex((ip, port))  # 0 dönerse port açıktır
+    sock.close()
+    return result == 0
+
+ip = "192.168.1.1"
+port = 80
+if check_port(ip, port):
+    print(f"Port {port} açık.")
+else:
+    print(f"Port {port} kapalı.")
+3. Scapy ile Tarama
+scapy, ağ paketlerini oluşturmak, göndermek ve almak için güçlü bir araçtır.
+
+IP Tarama
+Bir ağ üzerindeki tüm cihazları taramak için:
+
+python
+Kodu kopyala
+from scapy.all import ARP, Ether, srp
+
+def scan_network(network):
+    arp = ARP(pdst=network)
+    ether = Ether(dst="ff:ff:ff:ff:ff:ff")
+    packet = ether / arp
+    result = srp(packet, timeout=2, verbose=0)[0]
+
+    devices = []
+    for sent, received in result:
+        devices.append({'ip': received.psrc, 'mac': received.hwsrc})
+    return devices
+
+devices = scan_network("192.168.1.0/24")
+for device in devices:
+    print(f"IP: {device['ip']}, MAC: {device['mac']}")
+4. Netcat Gibi Davranan Tarayıcı
+Python ile Netcat benzeri bir port tarayıcı yapabilirsiniz:
+
+python
+Kodu kopyala
+import socket
+
+def port_scanner(host, ports):
+    print(f"Taranan IP: {host}")
+    for port in ports:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.settimeout(1)
+            result = s.connect_ex((host, port))
+            if result == 0:
+                print(f"Port {port} açık.")
+            else:
+                print(f"Port {port} kapalı.")
+
+host = "192.168.1.1"
+ports = range(1, 100)
+port_scanner(host, ports)
+
+
+import requests
+
+ip = "8.8.8.8"
+response = requests.get(f"http://ip-api.com/json/{ip}")
+if response.status_code == 200:
+    data = response.json()
+    print("IP:", data["query"])
+    print("Ülke:", data["country"])
+    print("Şehir:", data["city"])
+    print("ISP:", data["isp"])
+else:
+    print("Bilgi alınamadı.")
+6. Python için Ekstra Araçlar
+Masscan veya Zmap Python Wrapper: Daha geniş tarama yapmak için hızlı tarama araçları kullanılabilir.
+
+Shodan API: Açık portları ve servisleri aramak için kullanılabilir.
+
+python
+Kodu kopyala
+import shodan
+
+api = shodan.Shodan("YOUR_SHODAN_API_KEY")
+results = api.host('8.8.8.8')
+print(results)
+Hangi Fonksiyonu Ne Zaman Kullanmalısınız?
+Yerel ağ taraması için: Nmap, Scapy veya socket.
+Port kontrolü için: socket veya Nmap.
+Geniş kapsamlı ağ taramaları için: Masscan, Zmap.
+Detaylı dış IP bilgisi için: IP API'leri (ör. ip-api.com).
+Etik hacking veya analiz için: Shodan.
+
+
+
+
+
+
+python-nmap ile ip taraması (basit)
+
+import nmap
+
+# Nmap scanner objesi oluşturma
+nm = nmap.PortScanner()
+
+# Hedef IP ve port aralığını tanımlama
+ip = "172.19.57.145"  # Taranacak IP adresi
+port_range = "22-443"  # Taranacak port aralığı
+
+# Tarama yapma
+nm.scan(ip, port_range)
+
+# Tarama sonuçlarını yazdırma
+print("Tarama Sonuçları:")
+print("Host:", ip)
+print("Durum:", nm[ip].state())
+#print("Açık Portlar:", nm[ip]["tcp"].keys())  # TCP portlarını yazdırma
+
+
+pyton-nmap ile ip taraması (orta)
+
+
+
+
+
+import nmap
+
+# Nmap scanner objesi oluşturma
+nm = nmap.PortScanner()
+
+# Hedef IP ve port aralığını tanımlama
+ip = "172.19.57.145"  # Taranacak IP adresi
+port_range = "22-443"  # Taranacak port aralığı
+
+try:
+    # Tarama yapma
+    nm.scan(ip, port_range)
+
+    # Tarama sonucunun gerçekten alınıp alınmadığını kontrol etme
+    if ip in nm.all_hosts():
+        print("Tarama Sonuçları:")
+        print("Host:", ip)
+        print("Durum:", nm[ip].state())  # Hedef makinenin durumu (up veya down)
+
+        # Protokoller arasında gezerek portları yazdırma
+        for proto in nm[ip].all_protocols():
+            print(f"\nProtokol: {proto}")
+            ports = nm[ip][proto].keys()
+            for port in ports:
+                print(f"Port: {port}, Hizmet: {nm[ip][proto][port]['name']}")
+    else:
+        print(f"{ip} için tarama sonuçları alınamadı.")
+    
+except Exception as e:
+    print(f"Hata: {e}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------
+
+
+
+
+
+
+coding[]
+-------------------------------
+
+
+
+
+
+
+
+ÖĞREN
+
+import sqlite3 as sql
+import time as t
+from colorama import Fore, Style
+
+def main_database():
+    main_db = sql.connect('main.db')
+    main_csr = main_db.cursor()
+    
+    print(Fore.GREEN, Style.BRIGHT)
+    
+    loading_text = "database yükleniyor"
+    
+    # 50 iterasyonlu bir animasyon
+    for i in range(50):
+        # Harf değişimlerini düzenli bir şekilde yap
+        index = i % len(loading_text)  # Yüklenme metninin uzunluğuna göre döngü
+        _init_ = loading_text[:index] + loading_text[index].upper() + loading_text[index+1:]
+        
+        # Animasyon döngüsü
+        for symbol in ["|", "/", "-", "\\"]:
+            print(f"{_init_} {symbol}", end="\r")
+            t.sleep(0.05)  # Küçük bir gecikme
+    
+    print(Fore.RESET, Style.RESET)
+
+main_database()
+
+-------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+https://youtu.be/X91Pu_OdDRE
+
+Not En aşağıda kivy widgetlarım var:
+
+
+
+
+
+
+
+
+
+
+
+
+sqlite3 ile bir kodda birden çok ekleme yapma [tuple]
+
+import sqlite3 as sql
+
+conn=sql.connect(r"C:\Desktop\apk_internal\main.db")
+
+cursor=conn.cursor()
+
+datas=[('selin','yılmaz','izmir',20),('selin','yılmaz','izmir',21),('selin','yılmaz','izmir',22),('selin','yılmaz','izmir',23)]
+add_command="""INSERT INTO main_table VALUES {}"""
+
+for data in datas:
+    cursor.execute(add_command.format(data))
+    print("ekleme işlemi başarılı")
+
+conn.commit()
+conn.close()
+
+
+
+
+
+
+
+
+
+
+sqlite3 ile bölünmüş ekleme işlemi:
+
+
+import sqlite3 as sql
+
+conn=sql.connect(r"C:\Desktop\apk_internal\main.db")
+
+cursor=conn.cursor()
+
+add_command="""INSERT INTO main_table VALUES {}"""
+data_1=('ahmet efe','yıldız','izmir',20)
+cursor.execute(add_command.format(data_1))
+
+conn.commit()
+conn.close()
+
+
+
+
+
+sqlite3 ile istenilen değeri,veriyi database'e eklemek
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sqlite3 ile database'e veri ekleme
+
+
+
+
+
+
+
+
+
+
+
+
+
+sqlite3 ile tablo oluşturma
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pyqt5 ve matplotlib grafik çizimi (pyqt5 içinde)
+
+
+import sys
+import numpy as np
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+
+class Matplotlib2DApp(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("PyQt5 ile 2D Matplotlib")
+        self.setGeometry(100, 100, 600, 400)
+
+        # Matplotlib Tuvali (Canvas) oluştur
+        self.figure = Figure(figsize=(5, 4), dpi=100)
+        self.canvas = FigureCanvas(self.figure)
+
+        # Grafik çiz
+        self.ax = self.figure.add_subplot(111,projection="3d")
+        x = np.linspace(0, 10, 100)
+        y = np.sin(x)
+        self.ax.plot(x, y, label="sin(x)", color="b")
+        self.ax.legend()
+
+        # PyQt5 Arayüzünü düzenle
+        central_widget = QWidget()
+        layout = QVBoxLayout()
+        layout.addWidget(self.canvas)
+        central_widget.setLayout(layout)
+        self.setCentralWidget(central_widget)
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = Matplotlib2DApp()
+    window.show()
+    sys.exit(app.exec_())
+
+
+
+
+
+pyqt5 ve matplotlib ile pyqt5 içinde grafik çizimi ve anime etme
+
+
+
+from PyQt5.QtCore import*
+from PyQt5.QtWidgets import*
+from PyQt5.QtGui import*
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+import numpy as np
+import sys as _s
+
+class mainF(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        layout=QVBoxLayout()
+        w=QWidget()
+        w.setLayout(layout)
+        self.figure=Figure(figsize=(5,4),dpi=100)
+        self.canvas=FigureCanvas(self.figure)
+        self.ax=self.figure.add_subplot(111)
+
+        t=QTimer(self)
+        t.start(100)
+        t.timeout.connect(self.header)
+
+        self.x=np.linspace(0,2.5*np.pi,100)
+        self.phase=0
+
+        layout.addWidget(self.canvas)
+        self.setCentralWidget(w)
+    def header(self):
+        self.ax.clear()
+        
+        self.y=np.sin(self.x+self.phase)
+
+        self.ax.plot(self.x,self.y,color="green",lw=0.7,linestyle="--")
+
+        self.phase+=0.1
+        self.canvas.draw()
+if __name__=="__main__":
+    sp=QApplication(_s.argv)
+    sw=mainF()
+    sw.show()
+    _s.exit(sp.exec_())
+
+
+
+
+
+
+
+
+
+
+matploit open-cv python kodu (main)
+
+import cv2 
+from matplotlib import pyplot as plt
+
+img=cv2.imread("C:/Desktop/router/man.png")
+plt.imshow(img)
+plt.show()
+cv2.setWindowTitle("hmedzgnımpdzm")
+
+------------------------------------------------------
+
+
+pyqt5 ile splitter veya herhangi bir şeyin [widget]'ın kenar renklerini değiştirmek ve kalınılığını değiştirmek için {border:1px solid gray} gibi bir parametre kullanılır örnek kod:
+
+from PyQt5.QtWidgets import QApplication, QMainWindow, QSplitter, QWidget
+from PyQt5.QtCore import Qt
+
+class SplitterWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        # QSplitter ile yatay bir bölme oluşturuyoruz
+        splitter = QSplitter(Qt.Horizontal, self)
+
+        # İki widget oluşturuyoruz
+        widget1 = QWidget(self)
+        widget2 = QWidget(self)
+
+        # Splitter'a widget'ları ekliyoruz
+        splitter.addWidget(widget1)
+        splitter.addWidget(widget2)
+
+        # Ana pencereyi splitter ile merkezi yapıyoruz
+        self.setCentralWidget(splitter)
+
+        # Widget'lara border-color ve stil ekliyoruz
+        widget1.setStyleSheet("""
+            background-color: lightblue;
+            border: 5px solid red;
+        """)
+        widget2.setStyleSheet("""
+            background-color: lightgreen;
+            border: 5px solid blue;
+        """)
+
+        # Pencereyi ayarlama
+        self.setWindowTitle("Splitter with Border Color")
+        self.setGeometry(100, 100, 800, 600)
+
+if __name__ == "__main__":
+    app = QApplication([])
+    window = SplitterWindow()
+    window.show()
+    app.exec_()
+
+
+
+------------------------------------------------------
+
+
+pyqt5 ile web browserları açmak:
+
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtWebEngineWidgets import *
+
+class WebEngineViewExample(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        # QWebEngineView widget'ını oluştur
+        self.browser = QWebEngineView()
+        
+        # Web sayfasını yükle
+        self.browser.setUrl(QUrl("https://www.youtube.com/watch?v=ufT_X0UCoFs"))
+
+        # Pencereyi oluştur ve QWebEngineView widget'ını yerleştir
+        self.setCentralWidget(self.browser)
+
+        # Pencere başlığı
+        self.setWindowTitle("QWebEngineView Örneği")
+        self.resize(1024, 768)
+
+        # Pencereyi göster
+        self.show()
+
+if __name__ == "__main__":
+    app = QApplication([])
+
+    window = WebEngineViewExample()
+
+    app.exec_()
+
+
+
+------------------------------------------
+
+
+
+
+
+not defterinin içeriğini değiştirme
+
+with open(r"C:/Desktop/apk_internal/dont_delete_me.txt", "r") as file:
+    content = file.read()  
+
+with open(r"C:/Desktop/apk_internal/dont_delete_me.txt", "w") as file:
+    file.write("merhxfgjfsjhaba") 
+
+
+
+not defteri okuma:
+
+with open('C:/Desktop/apk_internal/dont_delete_me.txt', 'r', encoding='utf-8') as file:
+    content = file.read()
+    print(content)
+
+ptyqt5 ile kenarlı butonlar:
+
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton
+from PyQt5.QtCore import Qt
+
+app = QApplication([])
+
+# Ana pencere
+window = QWidget()
+window.resize(400, 300)
+
+# Profesyonel yuvarlak köşeli buton
+button = QPushButton('Tıkla', window)
+button.setStyleSheet("""QPushButton{
+    border-radius:30px;
+    background-color:red;
+}
+QPushButton:pressed{
+background-color: darkred;
+}
+""")
+
+
+button.resize(200, 60)  # Buton boyutlarını belirliyoruz
+button.move(100, 120)   # Butonu pencere içinde ortalıyoruz
+
+window.show()
+app.exec_()
+
+----
+
+pyqt5 dosya seçici ama istediğimiz yolu açıyor
+
+
+
+from PyQt5.QtWidgets import QApplication, QTreeView, QFileSystemModel
+import sys
+
+
+class FileExplorer(QTreeView):
+    def __init__(self, path=r"C:\Desktop\apk_internal"):
+        super().__init__()
+
+        self.model = QFileSystemModel(self)  # Modelin ebeveyni belirlendi
+        self.model.setRootPath(path)  
+        self.setModel(self.model)
+        self.setRootIndex(self.model.index(path))  
+        self.setWindowTitle("Belirli Dizini Gösteren QFileSystemModel")
+        self.resize(600, 400)
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = FileExplorer()
+    window.show()
+    sys.exit(app.exec_())
+
+
+
+
+
+
+
+pyqt5 ile dosyas seçici:
+
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QTreeView, QFileSystemModel
+
+class FileSystemExample(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle('Dosya Sistemi Modeli')
+        self.setGeometry(100, 100, 600, 400)
+
+        self.files=QFileSystemModel()
+        self.files.setRootPath('')
+
+        self.tree=QTreeView(self)
+        self.tree.setModel(self.files)
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    window = FileSystemExample()
+    window.show()
+    sys.exit(app.exec_())
+
+
+
+
+pyqt5 ile widget içine eyem gerçekleştiridikten sonra dock widget eklemek:
+
+    def choose_system_type(self):
+        messagebox.showinfo(message="Kullanım Türü Değiştirildi",title="SİSTEM:")
+        self.dock_area=QDockWidget(self.widget)
+        self.dock_area = QDockWidget("Dock Widget Title", self)
+        self.addDockWidget(Qt.RightDockWidgetArea, self.dock_area)
+
+
+
+pyqt5 tab bar içine 2 tane splitter eklemek 
+
+
+
+
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+import sys as _s
+
+class mainF(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Deneme")
+
+        # Tab widget oluştur
+        x_tab = QTabWidget(self)
+        self.setCentralWidget(x_tab)  # Tab widget'ı ana pencereye yerleştir
+
+        # İlk sekme widget'ı
+        first_Tab = QWidget()
+        first_Tab_layout = QVBoxLayout(first_Tab)
+
+        # Splitterlar
+        x = QSplitter(Qt.Vertical)
+        y = QSplitter(Qt.Vertical)
+
+        # Splitter'lara widget ekle
+        x.addWidget(QLabel("dikey1"))
+        y.addWidget(QLabel("dikey2"))
+
+        # Splitter'ları layout'a ekle
+        first_Tab_layout.addWidget(x)
+        first_Tab_layout.addWidget(y)
+
+        # Tab widget'e sekme ekle
+        x_tab.addTab(first_Tab, "Tab 1")
+
+if __name__ == "__main__":
+    sp = QApplication(_s.argv)
+    sw = mainF()
+    sw.resize(400, 300)
+    sw.show()
+    _s.exit(sp.exec_())
+
+
+
+
+
+pyqt5 ile tablar arası yani ekrtanlar arası geöiş sekmeleri oluşturma qtabwidget:
+
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QTabWidget, QSplitter, QTextEdit, QVBoxLayout
+from PyQt5.QtCore import Qt
+
+class MyWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("tab_bar")
+
+        main_splt=QSplitter(Qt.Vertical,self)
+        layout=QVBoxLayout()
+        tab_bar=QTabWidget(self)
+        textedit1=QTextEdit("1. sekme")
+        textedit2=QTextEdit("2. sekme")
+        main_splt.addWidget(textedit1)
+        main_splt.addWidget(textedit2)
+
+        second_splt=QSplitter(Qt.Vertical,self)
+        textedit11=QTextEdit("13. sekme")
+        textedit22=QTextEdit("23. sekme")
+        second_splt.addWidget(textedit11)
+        second_splt.addWidget(textedit22)
+
+        tab_bar.addTab(main_splt,"tab1")
+        tab_bar.addTab(second_splt,"tab2")
+        
+        layout=QVBoxLayout()
+
+        layout.addWidget(tab_bar)
+        self.setLayout(layout)
+
+app = QApplication(sys.argv)
+window = MyWindow()
+window.show()
+sys.exit(app.exec_())
+
+
+
+
+pyqt5 proggred bar ile yükleme çubuhu qslider:
+
+class Bar(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setGeometry(300,300,300,300)
+        self.setWindowTitle("yükleme çubuğu")
+        self.bar=QProgressBar(self)
+        self.bar.resize(900,30)
+        self.bar.setRange(0,500)
+        self.bar.setValue(0)
+        self.value=0
+        self.timer=QTimer(self)
+        self.timer.timeout.connect(self.value_plus)
+        self.timer.start(100)
+    def value_plus(self):
+            self.value+=1
+            self.bar.setValue(self.value)    
+            
+
+if __name__=="__main__":
+    app = QApplication(sys.argv)
+    window = Bar()
+    window.show()
+    sys.exit(app.exec_())
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = ProgressBarExample()
+    window.show()
+    sys.exit(app.exec_())
+
+
+pyqt5 ile ayar çubuğu slider:
+
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QSlider, QLabel
+from PyQt5.QtCore import Qt
+
+class VolumeSlider(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Ses Ayar Çubuğu")
+        self.setGeometry(100, 100, 300, 100)
+
+        # Dikey kaydırıcı oluştur
+        self.slider = QSlider(Qt.Vertical,self)
+        self.slider.setMinimum(0)  # Minimum değer
+        self.slider.setMaximum(100)  # Maksimum değer
+        self.slider.setValue(50)  # Başlangıç değeri
+        self.slider.valueChanged.connect(self.update_label)
+
+        # Etiket oluştur
+        self.label = QLabel("Ses: 50", self)
+
+        # Düzen ayarlama
+        layout = QVBoxLayout()
+        layout.addWidget(self.slider)
+        layout.addWidget(self.label)
+        self.setLayout(layout)
+
+    def update_label(self, value):
+        self.label.setText(f"Ses: {value}")  # Etiketi güncelle
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = VolumeSlider()
+    window.show()
+    sys.exit(app.exec_())
+
+
+pyqt5 ile derece ayalaryabilen dial [DİAL]:
+
+from PyQt5.QtCore import*
+from PyQt5.QtWidgets import*
+from PyQt5.QtGui import*
+import sys
+from threading import Timer
+
+class dater(QMainWindow):
+    def __init__(self):
+
+        super().__init__()
+
+        dial = QDial(self)
+        dial.setRange(0,250)
+        dial.setValue(0)
+        dial.resize(90,90)
+        
+
+        self.label = QLabel("değer",self)
+        self.label.move(30,90)
+        self.label.setStyleSheet("font-size:30px")
+        self.label.resize(1030,1030)
+        dial.valueChanged.connect(self.update_value)
+    def update_value(self,value):
+        self.label.setText(f"değer: {value}")    
+
+
+
+
+if __name__=="__main__":
+    app = QApplication(sys.argv)
+    window = dater()
+    window.show()
+    sys.exit(app.exec_())        
+
+
+
+
+PyQt5 ile GUİ arası bekleme işlemleri:
+
+ffrom PyQt5.QtCore import*
+from PyQt5.QtGui import*
+from PyQt5.QtWidgets import*
+import sys
+from threading import Timer
+
+class MyApp(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setGeometry(288,288,288,288)
+        
+        self.button = QPushButton(self)
+        self.button.setText("bana tıkla")
+
+        self.list1 = QListWidget(self)
+        self.button.clicked.connect(self.list_add)
+        self.button.move(60,60)
+
+        self.reset = QPushButton(self)
+        self.reset.setText("reset")
+        self.reset.clicked.connect(self.reset23)
+        self.reset.move(90,90)
+    def list_add(self):
+        self.list1.addItem("merhaba1")
+        Timer(1,self.list_add2).start()
+    def list_add2(self):
+        self.list1.addItem("merhaba2")     
+    def reset23(self):
+        self.list1.clear()
+if __name__=="__main__":
+    app = QApplication(sys.argv)
+    window = MyApp()
+    window.show()
+    sys.exit(app.exec_())        
+
+
+if __name__=="__main__":
+    app = QApplication(sys.argv)
+    window = App()
+    window.show()
+    sys.exit(app.exec_())
+
+qmessagebox kullanımı (PYQT5):
+
+
+
+
+        max_item_randit = QMessageBox(self)
+        max_item_randit.setText("hmıpeamynhrsmkksömikljpimöpoööflpdghmg")
+        max_item_randit.setWindowTitle("jkı0ersyjn0rmsğkmnfjdmğöğoğdgj")
+        max_item_randit.show()
+        max_item_randit.setGeometry(155,155,155,155)
+
+
+       
+
+
+
+
+
+QSplashScreen kullanm [YÜKLEMNE EKRANI]
+
+from PyQt5.QtWidgets import QApplication, QSplashScreen
+from PyQt5.QtGui import QPixmap, QPainter
+from PyQt5.QtCore import Qt
+import sys
+import time
+
+app = QApplication(sys.argv)
+
+# Splash ekranını oluştur
+max_item_randit = QSplashScreen()
+pixmap = QPixmap("path_to_image.png")  # Resim dosyasının yolu
+max_item_randit.setPixmap(pixmap)
+
+# Metin eklemek için QPainter kullanın
+painter = QPainter(max_item_randit.pixmap())
+painter.setPen(Qt.white)  # Yazı rengini ayarlayın
+painter.drawText(10, 10, "Uygulama Yükleniyor...")
+painter.end()
+
+max_item_randit.setGeometry(170, 170, 400, 300)  # Boyutları ayarlayın
+max_item_randit.show()
+
+# Uygulamanızın yüklenmesini simüle edin
+time.sleep(2)  # 2 saniye bekleyin
+
+# Splash ekranını kapat
+max_item_randit.close()
+
+# Ana uygulamanızı burada başlatabilirsiniz
+# ...
+
+sys.exit(app.exec_())
+
+
+
+
+QlistWidget
+
+
+
+PyQt5 combobox oluşturma ve sinyal/eylemekleme:
+
+
+
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QComboBox, QLabel, QVBoxLayout
+
+class ComboBoxExample(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.initUI()
+
+    def initUI(self):
+        # ComboBox ve Label nesnelerini oluşturuyoruz
+        self.comboBox = QComboBox(self)
+        self.label = QLabel('Seçiminiz burada görünecek', self)
+
+        # ComboBox'a öğeler ekliyoruz
+        self.comboBox.addItem('Python')
+        self.comboBox.addItem('C++')
+        self.comboBox.addItem('Java')
+        self.comboBox.addItem('JavaScript')
+
+        # ComboBox öğesine seçildiğinde çalışan bir sinyal (signal) bağlıyoruz
+        self.comboBox.currentIndexChanged.connect(self.on_combobox_changed)
+
+        # Layout (düzen) ayarlıyoruz
+        layout = QVBoxLayout()
+        layout.addWidget(self.comboBox)
+        layout.addWidget(self.label)
+
+        self.setLayout(layout)
+
+        # Pencere ayarları
+        self.setWindowTitle('QComboBox Örneği')
+        self.setGeometry(100, 100, 300, 200)
+        self.show()
+
+    def on_combobox_changed(self, index):
+        # ComboBox'tan seçilen öğeyi alıyoruz
+        selected_item = self.comboBox.currentText()
+        self.label.setText(f'Seçilen Dil: {selected_item}')
+
+# Uygulamayı çalıştırma
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = ComboBoxExample()
+    sys.exit(app.exec_())
+
+
+
+
+kivy ile checkbox yani kabul etme kutucuğu ypaımı:
+
+from kivy.uix.checkbox import*
+
+class appApp(App):
+    def build(self):
+        net=FloatLayout()
+        self.net_box=CheckBox(size_hint=(None,None),size=(150,30))
+        self.net_btn=Button(text="bana tıkla",size_hint=(None,None),size=(150,30))
+        net.add_widget(self.net_btn)
+        self.net_box.pos=(350,350)
+        net.add_widget(self.net_box)
+        self.net_btn.bind(on_press=self.check)
+        return net
+    def check(self,*args):
+        if self.net_box.active:
+            self.zpt()        
+    def zpt(self,*args):
+        print("kwargs***")
+if __name__=="__main__":
+    appApp().run()    
+
+
+kivy ile açma kapama tuşu yapımı [COK BASİT LAAAAN]
+
+
+
+kivy ile scroller screen [kaydırılabilir ekran]:
+
+
+from kivy.app import App
+from kivy.uix.scrollview import ScrollView
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
+
+class MyScrollApp(App):
+    def build(self):
+        # GridLayout, kaydırılacak içerik için
+        layout = GridLayout(cols=1, size_hint_y=None)
+        layout.bind(minimum_height=layout.setter('height'))
+
+        # İçeriği doldur
+        for i in range(30):
+            layout.add_widget(Label(text=f'Etiket {i + 1}', size_hint_y=None, height=40))
+
+        # ScrollView oluştur
+        scroll_view = ScrollView()
+        scroll_view.add_widget(layout)
+
+        return scroll_view
+
+if __name__ == '__main__':
+    MyScrollApp().run()
+
+
+
+
+
+
+
+
+
+PyQt5 ile section oluşturma:
+
+
+
+
+from PyQt5.QtCore import*
+from PyQt5.QtGui import*
+from PyQt5.QtWidgets import*
+import sys
+
+class App(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setGeometry(300,300,300,300)
+        self.setWindowTitle("İstek Uygulama")
+
+        self.line_Edit = QLineEdit(self)
+        self.line_Edit.setPlaceholderText("Lütfen Değer Giriniz")
+        self.line_Edit.setGeometry(266,266,266,266)
+        self.line_Edit.move(50,60)
+        
+        main_menu_bar = QMenuBar(self)
+        x =  main_menu_bar.addMenu("çıkış yap")
+        y = x.addAction("aç")
+        
+        submenu = QMenu("merhaba",self)
+        submenu.addAction("abi ol artık beee")
+
+        x.addMenu(submenu)
+
+
+if __name__=="__main__":
+    app = QApplication(sys.argv)
+    window = App()    
+    window.show()
+    sys.exit(app.exec_())
+
+
+
+
+
+PyQt5 ile menubara menu ekleyerek section oluşturma:
+
+
+from PyQt5.QtCore import*
+from PyQt5.QtGui import*
+from PyQt5.QtWidgets import*
+import sys
+
+class App(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setGeometry(300,300,300,300)
+        self.setWindowTitle("İstek Uygulama")
+
+        main_menu_bar = QMenuBar(self)
+        main_menu_bar.addMenu("çıkış yap")
+        x = main_menu_bar.addMenu("çıkış yap")
+        x.addAction("çıkış yap hahhha")
+
+
+
+
+if __name__=="__main__":
+    app = QApplication(sys.argv)
+    window = App()    
+    window.show()
+    sys.exit(app.exec_())
+
+
+
+
+PYQT5 tab widgetı:
+
+from PyQt5.QtCore import*
+from PyQt5.QtGui import*
+from PyQt5.QtWidgets import*
+import sys
+
+class App(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setGeometry(599,599,599,477)
+        self.setWindowTitle("merhaba")
+
+        self.tab_widget = QTabWidget(self)
+
+        self.tab1 = QWidget()
+        self.tab_layout = QVBoxLayout()
+        self.tab_layout.addWidget(QLabel("merhabaaa"))
+        self.tab1.setLayout(self.tab_layout)
+
+
+
+        self.tab2 = QWidget()
+        self.tab_layout2 = QVBoxLayout()
+        self.tab_layout2.addWidget(QLabel("merhabaaagsg2"))
+        self.tab2.setLayout(self.tab_layout2)
+
+        self.tab_widget.addTab(self.tab1,"parameter2")
+        self.tab_widget.addTab(self.tab2,"parameter2")
+
+        self.setCentralWidget(self.tab_widget)
+if __name__=="__main__":
+    app = QApplication(sys.argv)
+    window = App()
+    window.show()
+    sys.exit(app.exec_())
+
+
+
+
+PYQT% PLACE HOLDER LİNEEDİT:
+
+
+
+from PyQt5.QtWidgets import QApplication, QLineEdit, QWidget, QVBoxLayout
+
+app = QApplication([])
+
+# Ana pencere oluşturma
+window = QWidget()
+layout = QVBoxLayout()
+
+# QLineEdit oluşturma
+line_edit = QLineEdit()
+line_edit.setPlaceholderText("Buraya yazın...")  # Hint text ayarlama
+
+layout.addWidget(line_edit)
+window.setLayout(layout)
+
+window.setWindowTitle("Hint Text Örneği")
+window.show()
+
+app.exec_()
+
+
+
+PYQT5 hem tab hem widget ekleme
+
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+import sys
+
+class App(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setGeometry(180,180,680,180)
+        self.setWindowTitle("merhaba")
+        line_edit = QLineEdit(self)
+        line_edit.move(0,60)
+        menu_bar = self.menuBar()
+        add_file = menu_bar.addMenu("çıkış")
+        add_action = QAction("Cik",self)
+        add_file.addAction(add_action)
+
+
+if __name__=="__main__":
+    app = QApplication(sys.argv)
+    q = calis = App()
+    q.show()
+    sys.exit(app.exec_())
+
+
+PYQT5 TAB:
+
+
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget, QWidget, QVBoxLayout, QLabel
+
+app = QApplication(sys.argv)
+window = QMainWindow()
+    
+tabs = QTabWidget()
+tabs.addTab(QWidget(), 'Sekme 1')
+tabs.addTab(QWidget(), 'Sekme 2')
+
+layout = QVBoxLayout()
+layout.addWidget(QLabel('Sekme 1 İçeriği'))
+
+tabs.widget(0).setLayout(layout)
+layout2 = QVBoxLayout()
+layout2.addWidget(QLabel('Sekme 2 İçeriği'))
+
+tabs.widget(1).setLayout(layout2)
+window.setCentralWidget(tabs)
+window.show()
+
+sys.exit(app.exec_())
+
+
+
+
+PYQT5 menubar fln:
+
+
+
+from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QMenuBar
+from PyQt5.QtGui import QIcon
+import sys
+
+class App(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        # Menü çubuğu oluştur
+        menubar = self.menuBar()
+        add_file = menubar.addMenu("File")
+
+        # Çıkış butonunu oluştur
+        cikis_button = QAction(QIcon("PROGRAM.png"), "Cikis", self)
+        cikis_button.triggered.connect(self.close)  # Çıkış için bağlantı
+
+        # Çıkış butonunu menüye ekle
+        add_file.addAction(cikis_button)
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = App()
+    window.show()
+    sys.exit(app.exec_())
+
+
+
+
+
+Kivy'de pozisyonlandırma, Widget'ların yerleştirilmesi ve düzenlenmesi için çeşitli yöntemler içerir. İşte bazı temel kavramlar:
+
+1. BoxLayout
+Dikey veya yatay olarak widget'ları yerleştirir.
+
+python
+Kodu kopyala
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+
+class MyApp(App):
+    def build(self):
+        layout = BoxLayout(orientation='vertical')
+        layout.add_widget(Button(text='Button 1'))
+        layout.add_widget(Button(text='Button 2'))
+        return layout
+
+MyApp().run()
+2. GridLayout
+Widget'ları bir ızgara düzeninde yerleştirir.
+
+python
+Kodu kopyala
+from kivy.uix.gridlayout import GridLayout
+
+class MyApp(App):
+    def build(self):
+        layout = GridLayout(cols=2)
+        layout.add_widget(Button(text='Button 1'))
+        layout.add_widget(Button(text='Button 2'))
+        return layout
+3. FloatLayout
+Widget'ları belirli koordinatlarla yerleştirmek için kullanılır.
+
+python
+Kodu kopyala
+from kivy.uix.floatlayout import FloatLayout
+
+class MyApp(App):
+    def build(self):
+        layout = FloatLayout()
+        button = Button(text='Button', size_hint=(None, None), size=(200, 100), pos_hint={'x': 0.5, 'y': 0.5})
+        layout.add_widget(button)
+        return layout
+4. AnchorLayout
+Widget'ları belirli kenarlara veya ortalanmış şekilde yerleştirir.
+
+python
+Kodu kopyala
+from kivy.uix.anchorlayout import AnchorLayout
+
+class MyApp(App):
+    def build(self):
+        layout = AnchorLayout()
+        button = Button(text='Button', size_hint=(None, None), size=(100, 50))
+        layout.add_widget(button)
+        return layout
+5. Pos_hint ve Size_hint
+size_hint: Widget'ın boyutunu belirler. (None, None) ile tam boyut verilebilir.
+pos_hint: Widget'ın konumunu yüzdelik olarak belirler.
+Örnek
+Aşağıdaki örnekte, bir FloatLayout kullanarak bir buton konumlandırıyoruz:
+
+python
+Kodu kopyala
+from kivy.app import App
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.button import Button
+
+class MyApp(App):
+    def build(self):
+        layout = FloatLayout()
+        button = Button(text='Click Me', size_hint=(0.2, 0.2), pos_hint={'x': 0.4, 'y': 0.4})
+        layout.add_widget(button)
+        return layout
+
+MyApp().run()
+Bu örneklerdeki düzenlemeleri ihtiyacınıza göre değiştirebilirsiniz. Kivy, oldukça esnek bir yapı sunar ve farklı düzenleme yöntemleri ile farklı arayüzler oluşturmanıza imkan tanır.
+
+
+
+---------------------
+
+
+
+cihaz çözünürlük algılayıcı
+
+
+Kivy ile kapatma:
+
+    def close_app(self, instance):
+        App.get_running_app().stop()  # Uygulamayı kapat
+
+		
+
+Sıralı şekilde yazı yazdırma butona tıklanınca kivy:
+
+
+
+from kivy.app import App
+from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+
+class MyApp(App):
+    def build(self):
+        layout = BoxLayout(orientation="vertical")
+        self.label = Label(text="--------------------------")
+        self.button = Button(text="tıkla ve gör!!! :)))))")
+        layout.add_widget(self.label)
+        layout.add_widget(self.button)
+        self.button.bind(on_press=self.code1)
+
+        self.texts = ["1","2","3","4"]
+        self.index = 0
+        return layout
+    def code1(self,instance):
+        self.index = (self.index + 1) %len(self.texts)
+        self.label.text = self.texts[self.index]
+MyApp().run()        
+
+
+
+
+
+
+
+
+
+Kivy renk RGBA Kodları veya diğer bir adı ile RGB Açılımı ile Red Green Blue:   :)))
+
+
+Kivy ile font değiştirme:
+
+
+
+
+from kivy.app import App
+from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
+from kivy.uix.button import Button
+from kivy.uix.image import Image
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.popup import Popup
+from kivy.uix.camera import Camera
+from kivy.core.window import Window
+from kivy.core.text import LabelBase
+from kivy.clock import Clock
+
+font_path = r"PressStart2P-Regular.ttf"
+
+LabelBase.register(name="MyFont",fn_regular=font_path)
+
+class MyApp(App):
+    def build(self):
+        layout = BoxLayout()
+        label = Label(text="merhaba",font_name="MyFont",font_size="100sp")
+        layout.add_widget(label)
+        return layout
+MyApp().run()    
+
+
+
+
+-------------------------------------------------
+
+
+
+from kivy.app import App
+from kivy.uix.label import Label
+from kivy.core.text import LabelBase
+
+font_path = r"C:\Users\alper\Downloads\PressStart2P-Regular.ttf"
+
+LabelBase.register(name="MyFont",fn_regular=font_path)
+
+class MyApp(App):
+    def build(self):
+        return Label(text="merhaba kivy", font_name="MyFont",font_size="40sp")
+MyApp().run()
+
+
+
+
+
+
+
+------------------------------------------------------------------
+
+
+
+
+
+
+
+
+Temel Renkler
+Kırmızı: (1, 0, 0, 1)
+Yeşil: (0, 1, 0, 1)
+Mavi: (0, 0, 1, 1)
+Siyah: (0, 0, 0, 1)
+Beyaz: (1, 1, 1, 1)
+Sarı: (1, 1, 0, 1)
+Turuncu: (1, 0.5, 0, 1)
+Mor: (0.5, 0, 0.5, 1)
+Açık Mavi: (0, 0.5, 1, 1)
+Gri: (0.5, 0.5, 0.5, 1)
+Pastel Renkler
+Pastel Mavi: (0.68, 0.85, 0.90, 1)
+Pastel Yeşil: (0.67, 0.87, 0.67, 1)
+Pastel Pembe: (1, 0.68, 0.68, 1)
+Pastel Sarı: (1, 1, 0.88, 1)
+Diğer Renkler
+Zeytin Yeşili: (0.5, 0.5, 0, 1)
+Kahverengi: (0.65, 0.16, 0.16, 1)
+Fuşya: (1, 0, 1, 1)
+Çivit Mavisi: (0, 0, 0.5, 1)
+Bu renkleri Kivy uygulamanızda kullanarak istediğiniz tasarımı elde edebilirsin. Eğer belirli bir renk veya tema hakkında daha fazla bilgi istersen, bana sorabilirsin!
+
+
+
+
+
+
+
+---------------------------------------------------------
+
+
+
+yazı gdeğiştirme
+
+import time
+
+for i in range(1, 1001):
+    print(i, end='\r')
+    time.sleep(1)
+------------------------------
+
+
+random ile kod üretme:
+
+
+import random
+
+def kod1():
+    print("Kod 1: Merhaba!")
+
+def kod2():
+    print("Kod 2: Hoşça kal!")
+
+def rastgele_kod_sec():
+    random_kodlar = [kod1, kod2]
+    secim = random.choice(random_kodlar)
+    secim()  # Seçilen kodu çalıştır
+
+# Fonksiyonu çağır
+rastgele_kod_sec()
+
+
+
+-----------------------------------
+
+
+kivy ile sayım bitince eylem gerçekleştirme:
+
+
+
+
+from kivy.app import App
+from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
+from kivy.clock import Clock
+import winsound
+
+class MyApp(App):
+    def build(self):
+        layout = BoxLayout(orientation="vertical")
+        self.label = Label(text="1huıoş",size_hint=(None,None),size=(60,60))
+        layout.add_widget(self.label)
+        return layout
+    def on_start(self,*args):
+        Clock.schedule_once(self.geri_sayim, 4)
+    def geri_sayim(self,*args):
+        self.label.text = "1"
+        Clock.schedule_once(self.geri_sayim_2, 4)
+    def geri_sayim_2(self,*args):
+        self.label.text = "2"    
+        if self.label.text == "2":
+            self.label.color = (1,0,0,1)    
+            winsound.Beep(400,400)
+MyApp().run()        
+
+
+
+--------------------------------------------
+
+
+
+
+yt_dlp ile youtube video indirici kodu:
+
+
+
+
+
+import yt_dlp
+
+url = 'https://www.youtube.com/watch?v=VIDEO_ID'
+ydl_opts = {}
+with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+    ydl.download([url])
+
+
+
+
+plyer ile yapılabilecekler:
+
+
+Bildirim Gönderme: Masaüstü bildirimleri oluşturma.
+Batarya Durumu: Batarya yüzdesini ve durumunu kontrol etme.
+Ses Kontrolü: Ses seviyesini öğrenme ve ayarlama.
+Klipboard Yönetimi: Metin kopyalama ve yapıştırma.
+GPS Bilgisi: Cihazın konum bilgilerini alma (desteklenen cihazlarda).
+Ekran Parlaklığı: Ekran parlaklığını kontrol etme (bazı platformlarda).
+Dosya Yönetimi: Dosya yollarını ve dosya işlemlerini yönetme (sınırlı).
+
+-------------------------------------------
+
+
+
+
+textinput içinde yazı   
+
+
+from kivy.app import App
+from kivy.uix.textinput import TextInput
+
+class MyApp(App):
+    def build(self):
+        self.text_input = TextInput(text="Yazmaya başlayınca bu yazı kaybolacak", multiline=False)
+        self.text_input.bind(focus=self.on_focus)
+        return self.text_input
+
+    def on_focus(self, instance, value):
+        if value and self.text_input.text == "Yazmaya başlayınca bu yazı kaybolacak":
+            self.text_input.text = ""
+
+if __name__ == '__main__':
+    MyApp().run()
+""
+
+
+
+
+
+---------------------------------------------
+
+
+
+kivyde animasyonu - ve + değeri ile ayırt derek seçip harejet ettirmem sağlayan kod
+
+
+
+kare pencerenin etrafında köşelere çarparak dönen ayrıca renk değiştiren bir küçük kare:
+
+
+from kivy.app import App
+from kivy.uix.button import Button
+from kivy.animation import Animation
+
+class KutuApp(App):
+    def build(self):        
+        self.btn = Button(text=":)", size_hint=(None,None),size=(100,100))
+        self.btn.font_size = 30
+        self.btn.color = (0,0,0)
+        self.btn.background_color = (1,0,0,1)
+        self.btn.pos = (300,500)
+        return self.btn
+    def on_start(self, *args):
+        self.btn.background_color = (255, 0, 0)
+        anim = Animation(x=-0.5, duration=0.1)
+        anim.start(self.btn)
+        anim.bind(on_complete=self.code)
+    def code(self, *args):
+        self.btn.background_color = (0, 255, 0)
+        anim = Animation(x=+700, duration=1.3)
+        anim.start(self.btn)
+        anim.bind(on_complete=self.code2)
+    def code2(self, *args):
+        self.btn.background_color = (0, 0, 255)
+        anim = Animation(y=-5, duration=1.3)
+        anim.start(self.btn)
+        anim.bind(on_complete=self.code3)    
+    def code3(self, *args):
+        self.btn.background_color = (255, 255, 0)
+        anim = Animation(y=-10,x=-10, duration=1.3)
+        anim.start(self.btn)
+        anim.bind(on_complete=self.code4) 
+    def code4(self, *args):
+        self.btn.background_color = (255, 0, 0)
+        anim = Animation(y=500, duration=1.3)
+        anim.start(self.btn)        
+        anim.bind(on_complete=self.on_start)     
+        
+KutuApp().run()
+
+
+
+-----------------------------------------------
+
+
+
+
+
+kivy ile animasyon + [renklendirme arkaplan/yazı + boyutlandırma + yazı değiştirme + pozisyon ayarlama]  ama kameralı
+
+from kivy.app import App
+from kivy.uix.button import Button
+from kivy.animation import Animation
+from kivy.uix.camera import Camera    
+class MyApp(App):
+    def build(self):
+        self.btk = Camera(play=True, size_hint=(None,None),size=(150,100))
+        self.btk.pos = (200,200)
+        self.btk.font_size = 15
+        return self.btk
+    def on_start(self, *args):
+        self.btk.text = "Bu bir"
+        self.btk.color = (1,0,0,2)
+        self.btk.background_color = (1,0,0,2)
+        anim = Animation(x=+700, duration=2)
+        anim.start(self.btk) 
+        anim.bind(on_complete=self.code)
+    def code(self, *args):
+        self.btk.text = "Test Yazısıdır"
+        anim = Animation(x=-1, duration=2)
+        anim.start(self.btk)
+        anim.bind(on_complete=self.on_start)  # Döngüyü başlat
+MyApp().run()        
+
+
+
+
+
+
+kivy ile animasyon + [renklendirme arkaplan/yazı + boyutlandırma + yazı değiştirme + pozisyon ayarlama]
+
+
+
+
+
+from kivy.app import App
+from kivy.uix.button import Button
+from kivy.animation import Animation
+    
+class MyApp(App):
+    def build(self):
+        self.btk = Button(text="Bu bir", size_hint=(None,None),size=(100,100))
+        self.btk.pos = (200,200)
+        self.btk.font_size = 15
+        return self.btk
+    def on_start(self, *args):
+        self.btk.text = "Bu bir"
+        self.btk.color = (1,0,0,2)
+        self.btk.background_color = (1,0,0,2)
+        anim = Animation(x=+700, duration=1)
+        anim.start(self.btk) 
+        anim.bind(on_complete=self.code)
+    def code(self, *args):
+        self.btk.text = "Test Yazısıdır"
+        anim = Animation(x=-1, duration=1)
+        anim.start(self.btk)
+        anim.bind(on_complete=self.on_start)  # Döngüyü başlat
+MyApp().run()        
+
+
+
+
+
+
+
+
+
+kivy ile yazı rengi/pozisyon/boyut ayarı:
+
+    def change_text(self, *args):
+        self.btk.text = "hgadfhahdf"
+        self.btk.font_size = 30  # Font boyutunu değiştir
+        self.btk.color = (1, 0, 0, 1)  # Kırmızı yap
+        self.btk.pos = (200, 200)
+
+
+
+----------------------------------------------------
+
+
+
+kivy ile ikili animasyooooon:
+
+
+class AnimationApp(App):
+    def build(self):
+        self.btn = Label(text="merhaba",size_hint=(None,None),size=(200,100))
+        return self.btn
+    def on_start(self):
+        anim = Animation(x=100, duration=0.5)
+        anim.bind(on_complete=self.start_second_animation)
+        anim.start(self.btn)
+    def start_second_animation(self, *args):
+        anim = Animation(y=100, duration=0.5)
+        anim.start(self.btn)    
+AnimationApp().run()        
+
+
+
+-------------------------------------------
+
+
+
+kivy ile animasyon:
+
+
+from kivy.app import App
+from kivy.animation import Animation 
+from kivy.uix.label import Label
+
+class AnimationApp(App):
+    def build(self):
+        self.btn = Label(text="merhaba",size_hint=(None,None),size=(200,100))
+        return self.btn
+    def on_start(self):
+        anim = Animation(x=100, duration=0.5)
+        anim.start(self.btn)
+AnimationApp().run()        
+
+
+
+
+
+------------------------------
+
+
+
+
+
+
+kivy ile bir popupu buton ile kapatmak (:
+
+
+
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.camera import Camera
+from kivy.uix.textinput import TextInput 
+from kivy.uix.button import Button
+from kivy.uix.popup import Popup
+
+class MyApp(App):
+    def build(self):
+        content = BoxLayout(orientation="vertical")
+        button = Button(text="merhaba")
+        button.bind(on_press=self.code)
+        content.add_widget(button)
+        self.popup = Popup(title="UYARI", content=content, size_hint=(0.9,0.9))    
+        self.popup.open()
+        return BoxLayout()
+    def code(self, instance):
+        self.popup.title = "aptal aptal kapatamazsınki hahaha"
+        self.popup.dismiss()
+        
+MyApp().run()        
+    
+
+
+
+
+
+
+
+
+---------------------------
+
+
+
+kivy ile bir sürü buton ekleme:
+
+from kivy.app import App
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.button import Button
+
+class MyGridApp(App):
+    def build(self):
+        layout = GridLayout(cols=2, padding=10, spacing=10)
+
+        # Butonları ekle
+        for i in range(4):
+            layout.add_widget(Button(text=f'Button {i + 1}'))
+
+        return layout
+
+if __name__ == '__main__':
+    MyGridApp().run()
+
+
+
+kviy ile hem kamera hem buton hem textinput hem label hemde kamera içeren ayrıca horizontal boyutnaldırmma ile boyutlandırılan bir uygulama
+
+[07:28, 22.09.2024] Aslan Akbey: from kivy.app import App
+from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
+from kivy.uix.button import Button
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.camera import Camera
+
+
+class DenemeApp(App):
+    def build(self):
+        camera = Camera(play=True)
+
+        text_input = TextInput(text="")
+
+        button = Button(text="[ONAYLA]")     
+
+        label = Label(text="----Coded By: price_14111----") 
+
+        box_layout = BoxLayout(orientation="vertical")
+
+        box_layout.add_widget(button)
+
+        box_layout.add_widget(text_input)
+
+        box_layout.add_widget(label)
+        
+
+        
+        mainlayout = BoxLayout(orientation="horizontal")
+
+        mainlayout.add_widget(camera)
+
+        mainlayout.add_widget(box_layout)
+
+
+        return mainlayout
+    
+DenemeApp().run()
+[07:28, 22.09.2024] Aslan Akbey: kivy ile kameralı bir şekilde uygulama
+[07:28, 22.09.2024] Aslan Akbey: ayrıca
+[07:28, 22.09.2024] Aslan Akbey: horizontal boyutlandırma
+[07:28, 22.09.2024] Aslan Akbey: :)
+
+-------------------------------------------------------------------------------------------
+
+kivy ile kamera erişimi:
+
+from kivy.app import App
+from kivy.uix.camera import Camera
+from kivy.uix.boxlayout import BoxLayout
+
+
+class CameraApp(App):
+    def build(self):
+        layout = BoxLayout(orientation="vertical", padding=100, spacing=200)
+        camera = Camera(play=True)  
+        layout.add_widget(camera)
+        return layout
+CameraApp().run()
+
+
+-------------------------------------------------
+
+
+pyttsx3 ile metin okutma
+
+
+
+
+mport pyttsx3
+
+# Ses motorunu başlat
+engine = pyttsx3.init()
+
+# Ses seviyesini ayarla (0.0 - 1.0 arasında)
+engine.setProperty('volume', 1)  # 1 = maksimum ses
+
+# Ses hızını ayarla (normal hız 200 civarıdır)
+engine.setProperty('rate', 150)  # Hız 150
+
+# Sesli hale getirmek istediğiniz metin
+metin = "Bu bir normal ses çıkarma örneğidir."
+
+# Metni sesli okuma
+engine.say(metin)
+
+# Sesin bitmesini bekle
+engine.runAndWait()
+
+
+---------------------------------------------
+
+
+
+
+kivy ile ses çalma
+
+from kivy.core.audio import SoundLoader
+
+# Ses dosyasını yükle (örneğin, "beep.wav")
+sound = SoundLoader.load('beep.wav')
+
+if sound:
+    sound.play()
+
+------------------------------------
+
+
+
+
+kivy ile boyut ayarlama:
+
+
+
+
+import time
+import sys
+import pyaudio
+import colorama
+import winsound
+import webbrowser
+import os
+import tkinter as tk 
+kivy ile pencereyi kapatma
+
+MyApp().del_item()    ile
+
+
+
+
+import time
+import sys
+import pyaudio
+import colorama
+import winsound
+import webbrowser
+import os
+import tkinter as tk 
+from colorama import Back,Fore,Style
+from tkinter import messagebox,font
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.button import Button
+from kivy.uix.textinput import TextInput
+
+
+def apt(apt_1):
+    for char in apt_1:
+        for char in apt_1:
+            sys.stdout.write(char)
+            sys.stdout.flush()
+            time.sleep(0.01)
+class MyApp(App):
+    def build(self):
+        layout = BoxLayout(orientation='vertical', padding=100, spacing=100)
+        button = Button(text="Çökertme işlemini başlat")
+        button.bind(on_press=self.code)
+        self.text_input = TextInput(text="")
+        label = Label(text="-----------Coded By: price_14111-----------------")
+        layout.add_widget(button)
+        layout.add_widget(self.text_input)
+        layout.add_widget(label)
+        return layout
+    
+    def code(self, instance):
+        if self.text_input.text == "123":      
+            MyApp().del_item()      
+            print("hello")
+        else:
+            print("Wrong code")
+MyApp().run()
+
+---------------------------------------------------
+
+
+
+
+
+
+
+from colorama import Back,Fore,Style
+from tkinter import messagebox,font
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.button import Button
+from kivy.uix.textinput import TextInput
+
+
+def apt(apt_1):
+    for char in apt_1:
+        for char in apt_1:
+            sys.stdout.write(char)
+            sys.stdout.flush()
+            time.sleep(0.01)
+class MyApp(App):
+    def build(self):
+        layout = BoxLayout(orientation='vertical', padding=100, spacing=100)
+        button = Button(text="Çökertme işlemini başlat")
+        button.bind(on_press=self.code)
+        self.text_input = TextInput(text="-")
+        label = Label(text="-----------Coded By: price_14111-----------------")
+        layout.add_widget(button)
+        layout.add_widget(self.text_input)
+        layout.add_widget(label)
+        return layout
+    
+    def code(self, instance):
+        if self.text_input.text == "123":        
+            print("hello")
+        else:
+            print("Wrong code")
+MyApp().run()
+
+------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+kivy ile eylem gerçekleştirme if ile
+
+
+import time
+import sys
+import pyaudio
+import colorama
+import winsound
+import webbrowser
+import os
+import tkinter as tk 
+from colorama import Back,Fore,Style
+from tkinter import messagebox,font
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.button import Button
+from kivy.uix.textinput import TextInput
+
+
+def apt(apt_1):
+    for char in apt_1:
+        for char in apt_1:
+            sys.stdout.write(char)
+            sys.stdout.flush()
+            time.sleep(0.01)
+class MyApp(App):
+    def build(self):
+        layout = BoxLayout(orientation="vertical")
+        button = Button(text="Çökertme işlemini başlat")
+        button.bind(on_press=self.code)
+        self.text_input = TextInput(text="-")
+        label = Label(text="-----------Coded By: price_14111-----------------")
+        layout.add_widget(button)
+        layout.add_widget(self.text_input)
+        layout.add_widget(label)
+        return layout
+    
+    def code(self, instance):
+        if self.text_input.text == "123":        
+            print("hello")
+        else:
+            print("Wrong code")
+MyApp().run()
+
+
+----------------------
+
+
+
+
+
+
+
+Kivy ile butona tıklanınca eylem gerçekleştirme:
+
+
+
+
+
+
+from kivy.app import App
+from kivy.uix.textinput import TextInput
+from kivy.uix.button import Button
+from kivy.uix.boxlayout import BoxLayout
+
+class MyApp(App):
+    def build(self):
+        layout = BoxLayout(orientation="vertical")
+        text_input = TextInput(text="Metin Girin: ")
+        button_1 = Button(text="TAMAM")
+        
+        button_1.bind(on_press=self.Code)
+
+        layout.add_widget(text_input)
+        layout.add_widget(button_1)
+
+        if text_input.text == "1234":
+            print("gello")
+
+
+
+        return layout
+
+    def Code(self, instance):
+        print("hello world")
+
+
+MyApp().run()    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------
+
+
+
+import tkinter as tk
+
+root = tk.Tk()
+root.title("Şifre")
+
+# Butonları bir Frame içinde yan yana yerleştirelim
+frame = tk.Frame(root)
+frame.pack(padx=20, pady=20)
+
+button1 = tk.Button(frame, text="1")
+button1.pack(side=tk.LEFT, padx=5)
+
+button2 = tk.Button(frame, text="2")
+button2.pack(side=tk.LEFT, padx=5)
+
+button3 = tk.Button(frame, text="3")
+button3.pack(side=tk.LEFT, padx=5)
+
+button4 = tk.Button(frame, text="4")
+button4.pack(side=tk.LEFT, padx=5)
+
+button5 = tk.Button(frame, text="5")
+button5.pack(side=tk.LEFT, padx=5)
+
+root.mainloop()
+
+
+
+
+
+İnput yani entry size'ı ayarlamak ayrıca fontu ayarlamak:
+
+
+
+-----------------------------------------------------------
+
+import tkinter as tk 
+from tkinter import font
+
+root = tk.Tk()
+root.title("DENEME")
+
+
+entry = tk.Entry(root, show="X")
+entry.pack(pady=20)
+entry_font = font.Font(root, family="Arial",size=30)
+entry.config(font=entry_font)
+
+
+root.mainloop()
+
+-----------------------------------------------------------------
+
+
+
+
+
+Butopna Basılınca Eylem Gerçekleştirmek:
+
+-------------------------------------------------------
+
+
+import time 
+import sys
+import subprocess
+import pyautogui
+import webbrowser
+import pyfiglet
+import tkinter as tk 
+from tkinter import Menu
+
+def on_button_press_1():
+    webbrowser.open("https://www.youtube.com/watch?v=L2CAPU7mKzw")
+def on_button_press_2():
+    webbrowser.open("https://youtu.be/s26KnwMIMLY")
+
+root = tk.Tk()
+root.title("Deneme") 
+root.config(bg="Green")
+root.geometry("700x700")
+
+button1 = tk.Button(root, text="After Dark", width=10, height=10, command=on_button_press_1)
+button1.pack(padx= 30, pady= 30)
+
+
+button2 = tk.Button(root, text="Let İt Happen", width=10, height=10, command=on_button_press_2)
+button2.pack(padx= 30, pady= 30)
+
+root.mainloop()
+
+-------------------------------------------------------
+
+
+
+
+Şifre Kontrol Kodu:
+
+
+import tkinter as tk 
+from tkinter import messagebox
+
+def code():
+    entry_text = entry.get()
+    print(entry_text)
+    if entry_text == "12345":
+        print("Doğru Şifre")
+    else:
+        print("Yanlış!!")    
+
+root = tk.Tk()
+root.title("şife")
+root.config(bg="Black")
+
+entry = tk.Entry(root)
+entry.pack(pady=70, padx=70)
+entry.config(bg="green")
+entry.config(fg="White")
+
+button = tk.Button(root, text="Tamam",command=code)
+button.pack(padx=20, pady=20)
+
+root.mainloop()
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------
+UYUGULAMA AÇMA ama yazı yazarak:
+
+import time 
+import sys
+import subprocess
+import pyautogui
+import winsound
+import webbrowser
+import tkinter as tk 
+from tkinter import messagebox
+import colorama
+from colorama import Back,Fore,Style
+print(Fore.GREEN)
+
+def code():
+    entry_text = entry.get()
+    if entry_text == "CMD":
+        subprocess.Popen("start cmd.exe", shell=True)
+        winsound.Beep(900,10)
+        entry_text = entry.get()
+    if entry_text == "Notepad":
+        subprocess.Popen("start notepad.exe",shell=True)
+        winsound.Beep(900,90)
+
+
+
+
+root = tk.Tk()
+root.title("UAT-4")
+root.config(bg="Black")
+root.geometry("900x900")
+
+button = tk.Button(root, text="AÇ",command=code)
+button.pack(padx=10, pady=10)
+button.config(bg="Red")
+button.config(fg="White")
+
+entry = tk.Entry(root)
+entry.pack(fill=tk.X, pady=90, padx=90)
+entry = tk.Entry(root, )
+root.mainloop()
+
+
+
+
+
+
+
+-----------------------------------------------------------------
+
+---------------------------------------------------
+
+
+HERHANGİ BİR UYGULAMAYI AÇMAK
+
+------------------------------------------------------
+
+import subprocess
+
+subprocess.Popen("Start cmd.exe", shell=True)
+
+------------------------------------------------------
+
+
+
+UYARI EKRANI ÇIKARTMAK
+
+
+-----------------------------------------------------------
+
+
+import tkinter as tk 
+from tkinter import messagebox
+
+
+root = tk.Tk()
+root.withdraw()
+
+messagebox.showinfo("uyarı", message="merhaba")
+
+
+------------------------------------------------------------
+
+
+
+kivy widgetlarıÇ
+
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.image import Image
+from kivy.uix.button import Button
+from kivy.uix.textinput import TextInput
+from kivy.uix.label import Label
+from kivy.uix.popup import Popup
+from kivy.clock import Clock
+from kivy.animation import Animation
+from kivy.core.window import Window
+from kivy.core.text import LabelBase
+from kivy.uix.camera import Camera
+from kivy.uix.switch import Switch
+from kivy.uix.filechooser import*
+from kivy.uix.actionbar import Actionbar
+from kivy.uix.spinner impor Spinner
+
+
+favori filechooser itemleri FileChooserListWiew FileChooserİconWiew
+pyqt5 widgetları:
+
+QLineEdit, 
+ QPushButton
+ QWidget
+ ,QSlider,
+  QSpinBox,
+   QDoubleSpinBox,
+    QComboBox,
+     QMenuBar,
+      QMenu,
+       QTreeView,
+        QTreeWidget,
+         QFileSystemModel,
+          QProgressBar,
+           QProgressDialog,
+            QDial,
+             QListView,
+              QListWidget,
+               QTextEdit,
+                QFrame,
+                 QDockWidget 
+                  QCalendarWidget
+                   Qlcdnumber
+		    QtWebEngineWidgets
+		     QSplitter
+
+
+hint text ayarları:
+
+['hint_text_size'] passed to __init__ may not be existing property names. Valid properties are ['_cursor_blink', '_cursor_visual_height', '_cursor_visual_pos', '_editable', '_hint_text', '_hint_text_lines', '_ime_composition', '_ime_cursor', '_keyboard', '_lines', 'allow_copy', 'auto_indent', 'background_active', 'background_color', 'background_disabled_normal', 'background_normal', 'base_direction', 'border', 'center', 'center_x', 'center_y', 'children', 'cls', 'cursor', 'cursor_blink', 'cursor_col', 'cursor_color', 'cursor_pos', 'cursor_row', 'cursor_width', 'disabled', 'disabled_foreground_color', 'do_wrap', 'focus', 'focus_next', 'focus_previous', 'focused', 'font_context', 'font_family', 'font_name', 'font_size', 'foreground_color', 'halign', 'handle_image_left', 'handle_image_middle', 'handle_image_right', 'height', 'hint_text', 'hint_text_color', 'ids', 'input_filter', 'input_type', 'is_focusable', 'keyboard', 'keyboard_mode', 'keyboard_suggestions', 'line_height', 'line_spacing', 'lines_to_scroll', 'minimum_height', 'motion_filter', 'multiline', 'opacity', 'padding', 'padding_x', 'padding_y', 
+'parent', 'password', 'password_mask', 'pos', 'pos_hint', 'readonly', 'replace_crlf', 'right', 'scroll_distance', 'scroll_from_swipe', 'scroll_timeout', 'scroll_x', 'scroll_y', 'selection_color', 'selection_from', 'selection_text', 'selection_to', 'size', 'size_hint', 'size_hint_max', 'size_hint_max_x', 'size_hint_max_y', 'size_hint_min', 'size_hint_min_x', 'size_hint_min_y', 'size_hint_x', 'size_hint_y', 'tab_width', 'text', 'text_language', 'text_validate_unfocus', 'top', 'unfocus_on_touch', 'use_bubble', 'use_handles', 'width', 'write_tab', 'x', 'y']
+PS C:\Users\efelc> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+https://youtu.be/cZ2rNls9YUY?list=PLEwyZU3O7GSOFwcmopRuINe6-7PSVXl-6
+
+
+
+
+
+Panelciler Hakkında Bilgilendirici İçerik:
+Tanım: Panelciler kimdir, ne yaparlar?
+
+Yetkisiz erişimlerle sunuculara bağlanarak genellikle zararlı faaliyetlerde bulunan bireylerdir.
+Web sitelerine veya sistemlere izinsiz giriş yaparak admin paneline erişim sağlamaya çalışırlar.
+Çalışma Yöntemleri:
+
+Brute Force saldırıları
+SQL Injection ile veritabanı manipülasyonu
+Zafiyet taraması ve Exploit kullanımı
+Güvenlik Önlemleri:
+
+Güçlü şifreleme yöntemleri
+Web güvenlik duvarı (WAF) kullanımı
+Güncel yazılım sürümleri ve zafiyet taramaları
+Etik Boyut: Siber güvenliğin etik kısmına da değinmek iyi olabilir. Yasal olmayan panelci faaliyetlerinin suç olduğunu ve etik hackerların sistemlerin güvenliğini korumak için çalıştığını belirtmek faydalı olur.
+
+
+
+
+https://youtu.be/Hz6Sug8fbH4
+
+https://www.youtube.com/@KavaxVideo
+
+
+
+https://www.youtube.com/@agirmanlar_market
+
+vbco vpc [kavkaz military]
+
+https://www.pornhub.com/view_video.php?viewkey=ph5bf64cae30af1&pkey=112293621
+
+https://www.pornhub.com/view_video.php?viewkey=67309e7b8d218
+
+https://www.pornhub.com/view_video.php?viewkey=658c31b098734
+
+https://www.pornhub.com/view_video.php?viewkey=66b0dffcc4213
+
+https://www.pornhub.com/view_video.php?viewkey=6669394c26bd4
+
+https://www.pornhub.com/view_video.php?viewkey=65f1d2576d919
+
+https://www.pornhub.com/view_video.php?viewkey=672bd34fed851
+
+https://www.pornhub.com/view_video.php?viewkey=670fbd8bce4e4
+
+https://www.pornhub.com/view_video.php?viewkey=6773bbcf29131
+
+https://www.pornhub.com/view_video.php?viewkey=ph6392b926a4179
+
+https://www.pornhub.com/view_video.php?viewkey=ph63c1cdfecda81
+
+https://www.pornhub.com/view_video.php?viewkey=674c498a86e6d
+
+https://www.pornhub.com/view_video.php?viewkey=ph63c1cfc792392
+
+https://www.pornhub.com/view_video.php?viewkey=67309e7b8d218
+
+https://www.pornhub.com/view_video.php?viewkey=ph62ccb9598e941
+
+https://www.pornhub.com/view_video.php?viewkey=6743179f3859a
+
+https://www.pornhub.com/view_video.php?viewkey=ph617146feead15
+
+https://www.pornhub.com/view_video.php?viewkey=66f60d3d1be94
+
+https://www.pornhub.com/view_video.php?viewkey=ph608162aef05d0
+
+https://www.pornhub.com/view_video.php?viewkey=672d0182008f2
+
+https://www.pornhub.com/model/k1ngk1eran
+
+https://tr.spankbang.com/79mah-b39lvf/playlist/2
+
+https://tr.spankbang.com/s/idolmaster/?
+
+https://tr.spankbang.com/9060v/video/for+downllad+k+giess
+
+https://www.pornhub.com/view_video.php?viewkey=67371c2362f10
+
+https://www.pornhub.com/view_video.php?viewkey=66d8b5eccdf8a
+
+https://www.pornhub.com/view_video.php?viewkey=649152fb681df
+
+https://www.pornhub.com/view_video.php?viewkey=67655e3602f62
+
+https://www.pornhub.com/view_video.php?viewkey=64ff36cc2de18s
+
+https://www.xvideos.com/video.kdolokb1779/wife_first_time_dp_with_dick_and_fuckmachine
+
+https://tr.spankbang.com/7i23m/video/blonde+missionary?
+
+https://isekaitube.com/tag/alya-sometimes-hides-her-feelings-in-russian/
+
+https://www.xvideos.com/video.ucvimdf22e2/3d_character_blonde_meguru_hachimiya_missionary_-_animation_hentai
+
+
+https://www.youtube.com/watch?v=PEsSTbB0V5w&list=PLlEN794VQ4ioa95rqVkxlTTypkpkBujNw&index=7
+
+
+https://www.roblox.com/games/14673389973/Desert-War-ALPHA
+
+https://rtedsy564.itch.io/hyberbox-demo
+
+https://mod.io/g/gorebox
+
+
+https://www.xvideos.com/video.ubuemhhe0a5/_suoiresnu_ochako_animation_full[suoiresnu] Ochako Animation Full
+
+https://www.xvideos.com/video.ubtouub25c6/one_piece_hentai_suoiresnu
+
+
+
+https://www.roblox.com/games/14631922740/ACS-Gun-Testing
+
+https://www.roblox.com/games/3705057233/ACS-Gun-Testing#!/game-instances
+
+https://www.roblox.com/games/18934720156/game
+
+
+https://youtu.be/uVwQOMRnc5Q
+https://www.roblox.com/games/92696519551454/TURK-Sohbet-Oyunu
+
+https://www.roblox.com/users/6117893940/profile
+
+https://www.roblox.com/groups/34670931/T-RK-SohbetOyunu#!/about
+
+https://www.roblox.com/groups/16744499/Luwi-Studios#!/about
+
+
+
+
+https://www.youtube.com/@seymurvadisi1179
+
+
+Türk Sohber Oyunu:  https://www.roblox.com/games/18625155906/TURK-Sohbet-Oyunu
+
+Benim favoru buz gear: 99199463
+
+
+Glare: parşyan sniper dürbünü
+
+
+
+https://www.roblox.com/catalog/416846143/Stink-Eye
+
+3366408241916580461 
+
+naval warfare
+
+1.1.1.1
+1.0.0.1
+2606:4700:4700::1111
+2606:4700:4700::1001
+
+
+
+
+1   1   1   1
+
+1   0   0   1
+
+https://www.bing.com/videos/riverview/relatedvideo?q=eren+karay%c4%b1lan+%c3%b6i%c4%9fk%c3%b6fteci+mehmet&mid=C40391A21B5A778F1807C40391A21B5A778F1807&mmscn=stvo&FORM=VIRE
+
+https://www.youtube.com/watch?v=xy_NKN75Jhw&list=PLWL3FzHaRRMkQqUhks8Y9l35rqY_kKCto&index=20
+
+
+güncel soıhbet oyunu : https://www.roblox.com/games/18894610145/TURK-Sohbet-Oyunu#!/game-instances
+
+
+BLOODY BRAZIL (Ultra Slowed
+
+ppg gizmeleri https://youtu.be/kaBUa9PtCzU
+
+thomas - zwe1hvndxr, nonthense
+https://www.roblox.com/games/18625155906/TURK-Sohbet-Oyunu
+
+https://www.roblox.com/games/8233004585/Syrian-Shenanigans-B1#!/about
+
+
+Proximity Prompts Take Tool
+
+https://www.roblox.com/games/16431780994/Tactical-Gun-Testing#!/game-instances
+
+https://www.roblox.com/games/11622797744/Softbody-Car-Crashes#!/game-instances
+
+https://www.roblox.com/games/11832484500/Full-Self-Driving-Autopilot-Simulator#!/game-instances
+
+yetkimi ve levelimi nasıl geri alırım: Oyuna girince sol tarafta bulunan yeşil imlece tikalyip seni attığı yerden verileri geri yukleye basarak alabilirsin
+
+
+lifetogether rp
+
+https://www.roblox.com/games/4299508195/Update-Polish-Car-Driving
+
+https://www.roblox.com/games/18625155906/TURK-Sohbet-Oyunu
+
+
+
+
+
+
+
+balta: 218631022
+
+
+cZIPKIN: 79446473
+
+GEAR SPAWNER: 97161295
+
+ulti: 261439002
+
+Drone: 987032734
+
+buz ulti kılıçç: 241017568
+
+kvp 134 : 1.18.00
+
+anakra 2998700049
+
+platform edge: .gear me 34898883
+
+roket atar: 169602103
+
+Gear'lar
+
+1- lazer gözlük: 69499452
+
+2- zülfikar gündüz: 77443461
+
+3- Traktör: 1708355542
+
+4- Ramiz dayı'nın pompalısı: 94233344
+
+5- araba kırmızı: 164207580
+
+6- Minigun: 168143042
+
+9- Süleyman çakır'ın tabancası: 25317304
+
+10- Hava savunma sistemi: 68603151
+
+11- taktiksel Hava desteği: 88885539
+
+12- güdümlü füze: 67747912
+
+13: kartal güdümlü füze: 90718505
+
+14: RPG: 32356064
+
+15- buz kılıcı 2: 168141301
+
+16: sniper: 208659734
+
+17: fena: 50937815
+
+18- son ejderha bükücü: 168140949
+
+19: 71037101
+
+20: mutasyon: 169669671
+
+21: kachaoov: 66416616
+
+22: bune lan: 72644629
+
+23: WOWOWOOW: 395205750
+
+24: FAVORİ ARABA: ?????????
+
+25: bubi tuzaği: 80576913
+
+TUZAKLAR:
+
+12890798
+
+63253706
+
+79446395
+
+59848509
+
+90220371
+
+80576913
+
+180300142
+
+Normal karışık gear:
+
+26: ışın kılcı: 250407413
+
+27: 1208300973
+
+28: 1208300505
+
+luger: 95354288
+
+29: 49491781
+
+isyan:
+
+244082303
+
+82357079
+
+lazer silah taramalı: 139578207
+
+lzer gözlük-2: 100472084
+
+ninja bıcagı: 218631022
+
+minigun: 168143042
+
+bomba atar: 29099749
+
+raygunhole: 78005009
+
+Rocket SPACEx: 85145680
+
+dance: 430065768
+
+iksir dance: 36042821
+
+iksir dance-2: 34247537
+
+ikili sword: 48159815
+
+amreika roket: 120749452
+
+tırmık: 101106419
+
+spey boya: 80576967
+
+dinamit-1: 12562495
+
+sis bombası: 28277486
+
+thanos: 243790334
+
+GOOOD MORİNG VİETNAAAAM: 90718350
+
+ok ve yay: 398122724
+
+atomik fake: 13838639
+
+gitmeyen taksi: 125013849
+
+sinirli masa: 110789105
+
+robot arkadaş: 1183007628
+
+telefon çalışan: 88146505
+
+protesto tabelası: 21440120
+
+araba-2: 335132838
+
+cyberphunk: 2190019650/
+
+fake c-4: 104642566
+
+yangın söndürcü: 31839411
+
+piyano ama savaş: 113299590
+
+dükkan: 314534854
+
+mayın: 33383241
+
+ayıp değilmi noob: 27474371
+
+tuvalat pompası fırlatıcı: 161211085
+
+mayın-2: 51757158
+
+ban çekici: 10468797
+
+geri teptirici 50937815
+ucma ve saldırı 169669671
+drone 987032734
+tatil 162857357
+crowbar 522587921
+wtw 123234673
+balta 146047188
+kılıc 14719505
+kılıc 2 10468915
+balta 2 445150567
+kılıc 3 88146486
+icki 58574416
+but 101078350
+para ver 41457484
+sahte kılıc 1560608167
+patlayan masa 243788010
+balık 1 58574452
+crowbar 2 72069827
+kılıc 4 18409191
+46360920
+kılcı 88885481
+mumya 16987194
+ısrak 101106419
+masa 110789105
+ufo 163352376
+tüp 31839411
+drone 2  1062304136
+satıcı 314534854
+görünmez car 129471151
+testere 74385386
+radar 29532138
+buz 173751087
+köpke 57983479
+pusula 14864611
+bisiklet 189910262
+damn 16924676
+örücek 302281291
+c4 74385399
+roket 225921650
+balta 2  44084783
+robot arkadaş 45513247
+wth 91360028
+zombi bomba 93536827
+wtw 182273893
+el 2535479252
+o-0 18446258
+hamburger 24686580  vea 16726030
+tavuk eti 13745494
+sandiviç 12547976
+pasta 16214845 vea 107458461
+taco 15177716
+milk 21392199
+karpuz 22787248
+dondurma 57902859
+sosis 29939404
+top 28664212
+uzağa fırlatıcı 11719016
+pişdi 18210455
+kamlumba 15731350
+güç 98411393
+kol 61916108
+demir pizza 179625551
+yay 639343572
+roket 116693715
+konuşan aı 18446258
+ucak 21440340
+laser gun 139578207
+
+12848902
+bıcak 121946387
+bıcak 2 170897263
+
+kungu panda M47T1NO
+şapka 7389907223
+5948330642
+skadoosh  
+51346271
+698862470
+47262951
+10510024
+160189629
+18776718
+21294489
+12145515
+
+1838880936
+1839404854
+1842062497
+1843867406
+1841364099
+1836760712
+1837204953
+1837205149
+1846368080
+
+1837014514
+1845976243
+
+60888284
+1230024287
+12902404
+361950297
+250407413
+999865627
+34898883
+674104921
+85145662
+28671909
+2548989639
+48159815
+185422758
+527384527
+183441634
+223132403
+221173389
+bıcak 121946387
+katana 12187348
+tab 97885508
+o-0 30393548
+eaduket 243790334
+taret 68603151
+bıc 156467990
+o-000 123234673
+0-0 53130850
+hammer 45177979
+taş 89487934
+bumbe 33383241
+pence 105289761
+buz 173751087
+kılıc 10831509
+axr 522587921
+o-0 48395736 
+71037076
+31839260
+
+osmanlı thanos
+fes 96678539
+shirt 378461325
+pantolon 378461412
+1838632829
+
+7609175072
+
+tommy gun 116693764
+tabanca 97885508
+pompalı 94233344
+görünmez 120307951
+job 11956382
+hava saldırısı 88885539
+ışık 116040770
+koruma 82357079
+jail 82357101
+taser 82357123
+demir 79446473
+RPG 32356064
+hafif 95354304
+cr 164207580
+57229357
+2385192846
+78005009
+kanat 277963405
+heart 146071355
+axe 81847570
+169602103
+106701619
+102705402
+79446433
+158069110
+https://www.roblox.com/catalog/11213822982/Scary-Red-Demon-Smile
+
+
+Ponyitito
+104642550
+2506365260
+228588531
+1117743696
+
+HAT 11313995667
+
+225921650
+43708954
+114020505
+156467990
+
+51760061
+disko 248287898
+19704064
+204095612
+
+
+need feeling 9809063911
+epoch 9809042414
+yalan 9809019888
+impostor 5799014146
+iimpostor win 5861249932
+impostor 9076663473
+neoni army 11356135613
+besttt 11378374264
+besssttt 2 11386442070
+bir mermiyle tamamlarım 11356152975
+looak at me now 11356079533
+do you even 11356092297
+survive the night 11356103110
+just you know 9808957324
+wrost me 9809001730
+I HATE U 9808992193
+breaking out 11328629304
+follow me 11328632632
+knock on wood 11328640265
+fnaf burn 11328610357
+hai to the king 11328618616
+wow 4704139417
+hahaha 8850973197
+people fake 8243098911
+aaaa 8835832731
+gangsta 6070263388
+:I 9118868269
+sorry bout that 7405233417
+xd 7294616388
+blaaaaaaaaaaaa 2618158728
+noo pls 8310797114
+OMaga 8513151605
+LETS GOO 8309330746
+eaeaea 2924924028
+easy 7905643680
+regular show 5858548244
+bay bay 8120788861
+WHAT THE HELL  7491658569
+never 8997664593
+IDK 8997664593
+run 5978550333
+alarm 9068077052	
+darkside 9543512355
+bendy 9543486383
+circus of dead 9543495311
+EVERYTHİNG BLACK 9543473961
+blacklite 2 9543470384
+awaken 8086468433
+our little horror story 8086438021
+music gear 212641536
+JUST DO IT 256575709
+0-o 4910368846
+wtw 5882675461
+suck 4492455380
+dab 577475178
+sünger bob 9007859985
+kid 4643776975
+eaa 4159840042
+oh hey 5257196749
+wtwww 5104333026
+russia 1603182861
+0-o 5134648778
+love 1838878344
+scream 223636493
+sonic exe 7337298420
+
+https://api.roblox.com/universes/get-universe-containing-place?placeid=[142823291]
+
+1838635121
+9046435309
+1836116791
+BEST 1838566447
+1845514257
+
+meow
+Xxwhi
+
+glitch 5927681066
+music box 4590576778
+saat 6 5578839573
+springtrap jumpscare 2036429629
+fnaf 2 saat 6  3131621324
+konuşma 8571594200
+william gülüyor 7184824254
+I always 2184183108
+miss zo 8471198492
+fnaf 3 4520789398
+fnaf 3 alarm 8742892992
+asanssör müziği 9039675492
+fire 158853971
+:ı 5216480240
+bonnie 2104751986
+meme 7620028760
+yeme 3230258831
+robot sesi 1077890694
+scream 2306402770
+müzik kutusu 198058753
+william ölme 1222876473
+ cod zombie 6507545843
+FART MEME 4809574295
+AHH 7772283448
+alarm 2  243552660
+windows 784747919
+amongus 8933645526
+nuke siren 6525690145
+serdar 8355194421
+windows error 160715357
+meow 8772968188
+midnight 9045389581
+vine boom 6823153536
+kirb meme 8378818523
+cola cola  7209200833
+bruh 6349641063
+potatus 8244927781
+japane 5508122619
+cat scream 8734376785
+well be right back 5525281334
+disconnecdet 6733839284
+you dead 9074246246
+ohhhhhhhhhhhhhh 6694125291
+rock 8481038804
+enemy spoted 4180107389
+explosing 7172658577
+silly 1838708049
+Power out 1843027392
+136209425
+1843433941
+mcpe 8549031795
+dead 153239830
+mom 9125420320
+dead by 3286324479
+scream 9114572454
+096 153706538 and 4790605761 4776896800  5375147888
+1845391099
+217229552
+1841825097
+siren head 5681392704
+1104302594
+487003745
+
+ışın kılcı 1208300505
+245156785
+
+6242474423 
+SCP BOY VOİCE 9080658618
+096 ÖLDÜRME 4776896800
+scp 906832740
+scp 2 2934023270
+task force 152019307
+3008 1240225744
+096 FULL 153706538
+ALPHA 2857569347
+hey 389310603
+049 905282283
+348828328
+SCP 049 6029776389
+INTRO DEAD 3745808484
+7029011778 
+2564305185  
+cod 1841087501   1836521583  BEST 1839955778      6507545843 4638581114 1840959754
+1841089024
+7362982103
+
+ HELİCOPTER
+7055834858
+140033290
+9125390123
+9113417028
+
+245156785
+
+  SWAT
+1836897447
+9117757042
+517813205
+9119107095
+
+
+1910490782
+
+https://api.roblox.com/universes/get-universe-containing-place?placeid=5462644828
+
+https://www.roblox.com/games/12169980683/Outlawed-Reloaded
+
+
+
+
+
+https://www.roblox.com/games/8722274781/Outlawed-Definitive-Edition#!/game-instances
+
+
+Eternxlkz - Enough
+
+
+
+
+
+sifre: IFTGHHNITKSROĞNMRSBIKTGMESP0MBSPEENBRIĞ
+
+
+
+
+https://youtu.be/UwEH5nqI9gg?list=RDzoEn2exuHE0
+
+Elven Dior Nite
+
+
+size önemli bir duyurum var somon balığı amerika asıllı bir cellat yani cellat36 değil katil anlamında bu somon balığı kombinin yanına gidsiyor ve kombinin başında nöbet tutuyor somon balığpı kombinin başında nöbet tutarken garagamel geliyor ve ton balığına diyorki;屌丝金鱼，我正在撕裂你的阴户屌丝金鱼，我正在撕裂你的阴户!!!!  daha sonrasında ton balığı çok sinirleniyor ve kmbiyi gargamelin kafasına geçiriyor gargamel sersemleyince bayılıyor ton balığı nöneb tutmaysa devam ediyor ve timsah geliyo timsah bunlara dsiyoki 屌丝金鱼，我正在撕裂你的阴户屌丝金鱼，我正在撕裂你的阴户屌丝金鱼，我正在撕裂你的阴户屌丝金鱼，我正在撕裂你的阴户屌丝金鱼，我正在撕裂你的阴户屌丝金鱼，我正在撕裂你的阴户屌丝金鱼，我正在撕裂你的阴户屌丝金鱼，我正在撕裂你的阴户   sonra ton balıı ve gargamell birlik olup pasifik okyanusunu ele geçirme planı yapıyor bu planı devreye sokmak için büyük bir kombiye ve v8 kamyon motoruna ihtiyaçları var bu yüzden sanayici rüstem dayının yanına gidiyorlar ve sanayideki heşreryi çalışıyorlar rüstem dayı gargamelin kelinde ingiliz anahtarı kıırıyor garagamel burada beytin kanaması geçirip ölüyor ton balıgı tek kalıyor ve artık pasifik okyanusunu tek başına ele geçirmek  zorunda oldugu için isan ediyor ve diyorki 屌丝金鱼，我正在撕裂你的阴户屌丝金鱼，我正在撕裂你的阴户屌丝金鱼，我正在撕裂你的阴户屌丝金鱼，我正在撕裂你的阴户!!!!!!!!!!!!!!!!!!   daha sonrasında artık yeter diyip tüm pasfiki okyanusuna amerika ile anlaşıp b29 bomber uçakları ile fosil atıkların hepsini döktürüyor ve pasğfik okyanusu petrol rezervine dönüşüyor ton balıgı dahil tüm herkez ölüyor ancak aslında kombi vatan hainiymiş amerikaya yardım etmiş ve böylece amerika büyük petrol projesini bitirmiş oluyor....    [HİKAYEDE GİZLİ MESAJLARLA VE GİZLİ DİL HAREKETLERİ MİMİKLER VE MORS ALFABESİ İLE BUNLAR ANLATIŞMIŞ]
+
+
+
+https://create.roblox.com/store/asset/348314/Helicopter?viewFromStudio=true&keyword=blocky%20helicopter&searchId=2978D4D2-4643-48A7-8159-62D73AB7927F
+
+
+
+
+
+
+İMGE FİLTERİNG OPENCV-PYTHON 
+
+
+
+
+
+OpenCV ile görüntü filtreleme işlemleri için çeşitli teknikler kullanabilirsin. İşte bazı temel yöntemler:
+
+1. Gaussian Blur (Gauss Bulanıklaştırma)
+Görüntüdeki gürültüyü azaltmak için kullanılır.
+
+python
+Kopyala
+Düzenle
+
+import cv2
+import numpy as np
+img = cv2.imread("image.jpg")
+blurred = cv2.GaussianBlur(img, (5, 5), 0)
+cv2.imshow("Blurred", blurred)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+2. Median Blur (Medyan Filtresi)
+Tuz-biber gürültüsünü gidermek için idealdir.
+
+python
+Kopyala
+Düzenle
+
+median_blurred = cv2.medianBlur(img, 5)
+cv2.imshow("Median Blurred", median_blurred)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+3. Bilateral Filter (Çift Taraflı Filtre)
+Kenarları koruyarak bulanıklaştırma yapar.
+
+python
+Kopyala
+Düzenle
+
+bilateral = cv2.bilateralFilter(img, 9, 75, 75)
+cv2.imshow("Bilateral Filter", bilateral)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+4. Laplacian Filter (Keskinleştirme)
+Görüntünün kenarlarını vurgular.
+
+python
+Kopyala
+Düzenle
+
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+laplacian = cv2.Laplacian(gray, cv2.CV_64F)
+cv2.imshow("Laplacian", laplacian)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+5. Canny Edge Detection (Kenar Algılama)
+Görüntüdeki kenarları tespit etmek için kullanılır.
+
+python
+Kopyala
+Düzenle
+
+edges = cv2.Canny(img, 100, 200)
+cv2.imshow("Edges", edges)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
