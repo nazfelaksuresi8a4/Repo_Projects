@@ -1,0 +1,1072 @@
+from PyQt5.QtCore import*
+from PyQt5.QtWidgets import*
+from PyQt5.QtGui import*
+from threading import Timer
+import tkinter as tk
+from tkinter import messagebox
+import pygame
+import sys
+import keyboard
+
+
+
+
+class SanalPiyano(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.optimizing_keyframes()
+        self.setStyleSheet("background-color:black")
+
+        self.widget=QWidget(self)
+
+        self.setGeometry(500,500,500,500)
+        self.do = QPushButton("RE",self)
+        self.do.resize(100,250)
+        self.do.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)
+        self.do.move(100,100)
+        self.re = QPushButton("Mİ",self)
+        self.re.resize(100,250)
+        self.re.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)
+        self.re.move(200,100)        
+        self.do_c = QPushButton("c",self)
+        self.do_c.resize(40,170)
+        self.do_c.setStyleSheet("""font-size:25px;
+                              background-color:black;
+                              padding:10px;
+                              color:white;
+                              font-weight:bold
+                               """)
+        
+        self.do_c.move(180,100)
+        self.mi = QPushButton("FA",self)
+        self.mi.resize(100,250)
+        self.mi.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)
+        self.mi.move(300,100)        
+        self.mi_c = QPushButton("c",self)
+        self.mi_c.resize(40,170)
+        self.mi_c.setStyleSheet("""font-size:25px;
+                              background-color:black;
+                              padding:10px;
+                              color:white;
+                              font-weight:bold
+                               """)
+        self.mi_c.move(280,100)
+        self.setStyleSheet("background-color:black")
+        self.fa = QPushButton("SO",self)
+        self.fa.resize(100,250)
+        self.fa.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)
+        self.fa.move(400,100)        
+        self.fa_c = QPushButton("c",self)
+        self.fa_c.resize(40,170)
+        self.fa_c.setStyleSheet("""font-size:25px;
+                              background-color:black;
+                              padding:10px;
+                              color:white;
+                              font-weight:bold
+                               """)
+        self.fa_c.move(380,100)
+        self.setStyleSheet("background-color:green")        
+        self.so = QPushButton("LA",self)
+        self.so.resize(100,250)
+        self.so.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)
+        self.so.move(500,100)        
+        self.so_c = QPushButton("c",self)
+        self.so_c.resize(40,170)
+        self.so_c.setStyleSheet("""font-size:25px;
+                              background-color:black;
+                              padding:10px;
+                              color:white;
+                              font-weight:bold
+                               """)
+        self.so_c.move(480,100)
+        self.setStyleSheet("background-color:green")        
+        self.la = QPushButton("Sİ",self)
+        self.la.resize(100,250)
+        self.la.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)
+        self.la.move(600,100)        
+        self.la_c = QPushButton("c",self)
+        self.la_c.resize(40,170)
+        self.la_c.setStyleSheet("""font-size:25px;
+                              background-color:black;
+                              padding:10px;
+                              color:white;
+                              font-weight:bold
+                               """)
+        self.la_c.move(580,100)
+        self.si = QPushButton("DO",self)
+        self.si.resize(100,250)
+        self.si.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)
+        self.si.move(700,100)        
+        self.si_c = QPushButton("c",self)
+        self.si_c.resize(40,170)
+        self.si_c.setStyleSheet("""font-size:25px;
+                              background-color:black;
+                              padding:10px;
+                              color:white;
+                              font-weight:bold
+                               """)
+        self.si_c.move(680,100)        
+        self.si2 = QPushButton("RE",self)
+        self.si2.resize(100,250)
+        self.si2.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)
+        self.si2.move(800,100)        
+        self.la_c2 = QPushButton("c",self)
+        self.la_c2.resize(40,170)
+        self.la_c2.setStyleSheet("""font-size:25px;
+                              background-color:black;
+                              padding:10px;
+                              color:white;
+                              font-weight:bold
+                               """)
+        self.la_c2.move(780,100)        
+        self.la3 = QPushButton("Mİ",self)
+        self.la3.resize(100,250)
+        self.la3.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)
+        self.la3.move(900,100)        
+        self.la_c3 = QPushButton("c",self)
+        self.la_c3.resize(40,170)
+        self.la_c3.setStyleSheet("""font-size:25px;
+                              background-color:black;
+                              padding:10px;
+                              color:white;
+                              font-weight:bold
+                               """)
+        self.la_c3.move(880,100)        
+        self.la4 = QPushButton("FA",self)
+        self.la4.resize(100,250)
+        self.la4.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)
+        self.la4.move(1000,100)        
+        self.la_c4 = QPushButton("c",self)
+        self.la_c4.resize(40,170)
+        self.la_c4.setStyleSheet("""font-size:25px;
+                              background-color:black;
+                              padding:10px;
+                              color:white;
+                              font-weight:bold
+                               """)
+        self.la_c4.move(980,100)        
+        self.la5 = QPushButton("SO",self)
+        self.la5.resize(100,250)
+        self.la5.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)
+        self.la5.move(1100,100)        
+        self.la_c5 = QPushButton("c",self)
+        self.la_c5.resize(40,170)
+        self.la_c5.setStyleSheet("""font-size:25px;
+                              background-color:black;
+                              padding:10px;
+                              color:white;
+                              font-weight:bold
+                               """)
+        self.la_c5.move(1080,100)        
+        self.la6 = QPushButton("LA",self)
+        self.la6.resize(100,250)
+        self.la6.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)
+        self.la6.move(1200,100)        
+        self.la_c6 = QPushButton("c",self)
+        self.la_c6.resize(40,170)
+        self.la_c6.setStyleSheet("""font-size:25px;
+                              background-color:black;
+                              padding:10px;
+                              color:white;
+                              font-weight:bold
+                               """)    
+        self.la7_1 = QPushButton("DO",self)
+        self.la7_1.resize(105,250)
+        self.la7_1.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)
+        self.la7_1.move(0,100)        
+        self.la_c7_1 = QPushButton("c",self)
+        self.la_c7_1.resize(40,170)
+        self.la_c7_1.setStyleSheet("""font-size:25px;
+                              background-color:black;
+                              padding:10px;
+                              color:white;
+                              font-weight:bold
+                               """)       
+        self.la_c7_1.move(80,100)       
+        self.la8 = QPushButton("Sİ",self)
+        self.la8.resize(95,250)
+        self.la8.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)
+        self.la8.move(1300,100)        
+        self.la_c8 = QPushButton("c",self)
+        self.la_c8.resize(40,170)
+        self.la_c8.setStyleSheet("""font-size:25px;
+                              background-color:black;
+                              padding:10px;
+                              color:white;
+                              font-weight:bold
+                               """)       
+        self.la_c8.move(1280,100)                              
+        self.menu=self.menuBar()
+        z=self.menu.addMenu("--ÇIKIŞ--")
+        x=z.addAction("Çıkış")
+        x.triggered.connect(self.exit)
+        settings=self.menu.addMenu("--Ekran Ayarları--")
+        settings_z=settings.addAction("Tam Ekran")
+        setting_z_2=settings.addAction("Köşeli Ekran")
+        settings_x=self.menu.addMenu("--Ayarları Sıfırla--")
+        settings_x_action=settings_x.addAction("Ayarları Sıfırla")
+        settings_y=self.menu.addMenu("--Kullanım Modu Seç--")
+        self.x_1_system=settings_y.addAction("Akıllı Tahta")
+        self.x_2_system=settings_y.addAction("Bilgisayar/pc")
+        self.system_choose_label=QLabel("Ses Türü: ",self)
+        self.system_choose_label.move(700,0)
+        self.system_choose_label.resize(400,25)
+        self.system_choose_label.setStyleSheet("""
+        color:red;
+        background-color:black;
+        font-size:25px
+        """)
+        self.button_jazz=QPushButton("Jazz",self)
+        self.button_jazz.move(700,30)
+        self.button_jazz.resize(60,30)
+        self.button_jazz.setStyleSheet("""
+        color:green;
+        background-color:white;
+        font-size:20px
+        """)
+        self.button_pop=QPushButton("Pop",self)
+        self.button_pop.move(777,30)
+        self.button_pop.resize(60,30)
+        self.button_pop.setStyleSheet("""
+        color:green;
+        background-color:white;
+        font-size:20px
+        """)        
+        self.button_rock=QPushButton("Rock",self)
+        self.button_rock.move(860,30)
+        self.button_rock.resize(60,30)
+        self.button_rock.setStyleSheet("""
+        color:green;
+        background-color:white;
+        font-size:20px
+        """)            
+        self.button_metal=QPushButton("Metal",self)
+        self.button_metal.move(950,30)
+        self.button_metal.resize(60,30)
+        self.button_metal.setStyleSheet("""
+        color:green;
+        background-color:white;
+        font-size:20px
+        """)               
+        self.button_reset=QPushButton("Ses Ayarlarını Sıfırla",self)
+        self.button_reset.move(950,30)
+        self.button_reset.resize(120,30)
+        self.button_reset.setStyleSheet("""
+        color:white;
+        background-color:red;
+        font-size:14px
+        """)                
+        self.x_2_system.triggered.connect(self.choose_system_type)
+        settings_z.triggered.connect(self.full_screen)
+        setting_z_2.triggered.connect(self.full_screen_false)
+        settings_x_action.triggered.connect(self.reset_all)
+        
+        self.menu.setStyleSheet("background-color:red")
+        self.la_c6.move(1180,100)                
+        self.setStyleSheet("background-color:gray")
+        self.set_volume=QDial(self)
+        self.set_volume.resize(100,100)
+        self.set_volume.setRange(0,10)
+        self.set_volume.move(140,10)
+        self.set_volume.valueChanged.connect(self.set_volume_function)
+        self.set_volume_value_label=QLabel("Ses Seviyesi:1.0",self)
+        self.set_volume_value_label.resize(145,30)
+        self.set_volume_value_label.setStyleSheet("""background-color:purple;
+                                                     color:cyan;
+                                                     font-size:19px""")
+        self.background_dial=QDial(self)
+        self.background_dial.resize(100,100)
+        self.background_dial.setRange(0,4)
+        self.background_dial.move(320,10)        
+        self.background_dial.valueChanged.connect(self.background_dial_set_color)
+
+        self.background_dial_label=QLabel("Arka Plan Rengi: Gri",self)
+        self.background_dial_label.resize(230,30)
+        self.background_dial_label.move(290,355)
+        self.background_dial_label.setStyleSheet("""background-color:purple;
+                                                     color:cyan;
+                                                     font-size:20px""")        
+        self.buttons_lst=QListWidget(self)
+        self.buttons_lst.resize(250,250)
+        self.buttons_lst.move(1111,380)
+        self.buttons_lst.setStyleSheet("""
+        background-color:cyan;
+        color:red;
+        font-size:20px
+        """)            
+        self.buttons_lst_reset_button=QPushButton("SIFIRLA",self)
+        self.buttons_lst_reset_button.resize(250,25)
+        self.buttons_lst_reset_button.setStyleSheet("""
+        background-color:purple;
+        color:cyan;
+        font-size:20px
+        """)
+        self.buttons_lst_reset_button.move(1111,630)
+        self.buttons_lst.addItem("--Bastığınız notalar burada listelencektir--")
+
+
+
+        
+
+
+        
+        self.set_volume_value_label.move(110,355)       
+        self.la7_1.clicked.connect(self.connecter_main_one_do)                                      
+        self.do.pressed.connect(self.connecter_do)     
+        self.re.pressed.connect(self.connecter_re)
+        self.mi.pressed.connect(self.connecter_mi)   
+        self.fa.pressed.connect(self.conecter_fa)
+        self.so.pressed.connect(self.connecter_so)   
+        self.la.pressed.connect(self.connecter_la)
+        self.si.pressed.connect(self.connecter_si)
+        self.do_c.clicked.connect(self.connecter_do_c)
+        self.la_c2.clicked.connect(self.connecter_re_c)
+        self.mi_c.clicked.connect(self.connecter_mi_c)
+        self.fa_c.clicked.connect(self.connecter_fa_c)
+        self.so_c.clicked.connect(self.connecter_so_c)
+        self.la_c.clicked.connect(self.connecter_la_c)
+        self.si_c.clicked.connect(self.connecter_si_c)
+        self.si2.clicked.connect(self.connecter_si2_c)
+        self.la3.clicked.connect(self.connecter_si3_c)
+        self.la4.clicked.connect(self.connecter_si4_c)
+        self.la5.clicked.connect(self.connecter_si5_c)
+        self.la6.clicked.connect(self.connecter_si6_c)
+        self.la8.clicked.connect(self.connecter_si8c)
+        self.button_pop.clicked.connect(self.pop_choosed)
+        self.button_jazz.clicked.connect(self.jazz_choosed)
+        self.button_metal.clicked.connect(self.metal_choosed)
+        self.button_rock.clicked.connect(self.rock_choosed)
+        self.button_reset.pressed.connect(self.Reset_choosed_sound_type)      
+        self.buttons_lst_reset_button.clicked.connect(self.lst_reset)
+        def do_key(e):
+            if e.name=="a":
+                self.connecter_main_one_do()
+                self.la7_1.setStyleSheet("""font-size:25px;
+                              background-color:red;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)
+                timer=Timer(1,reset)
+                timer.start()
+        keyboard.on_press(do_key)    
+        def re_key(r):
+            if r.name=="s":
+                self.connecter_do()
+                self.do.setStyleSheet("""font-size:25px;
+                              background-color:red;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                
+                timer=Timer(1,reset)
+                timer.start()
+        keyboard.on_press(re_key)          
+        def mi_key(t):
+            if t.name=="d":
+                self.connecter_re()
+                self.re.setStyleSheet("""font-size:25px;
+                              background-color:red;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                
+                timer=Timer(1,reset)
+                timer.start()
+        keyboard.on_press(mi_key)          
+        def fa_key(y):
+            if y.name=="f":
+                self.connecter_mi()
+                self.mi.setStyleSheet("""font-size:25px;
+                              background-color:red;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                
+                timer=Timer(1,reset)
+                timer.start()
+        keyboard.on_press(fa_key)                   
+        def so_key(u):
+            if u.name=="g":
+                self.connecter_fa()
+                self.fa.setStyleSheet("""font-size:25px;
+                              background-color:red;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                
+                timer=Timer(1,reset)
+                timer.start()
+        keyboard.on_press(so_key)          
+        def la_key(ı):
+            if ı.name=="h":
+                self.connecter_so()
+                self.so.setStyleSheet("""font-size:25px;
+                              background-color:red;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                
+                timer=Timer(1,reset)
+                timer.start()
+        keyboard.on_press(la_key)          
+        def si_key(o):
+            if o.name=="j":
+                self.connecter_la()
+                self.la.setStyleSheet("""font-size:25px;
+                              background-color:red;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                
+                timer=Timer(1,reset)
+                timer.start()
+        keyboard.on_press(si_key)     
+        
+
+
+        def si2__main_key(p):
+            if p.name=="k":
+                self.connecter_si()
+                self.si.setStyleSheet("""font-size:25px;
+                              background-color:red;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)
+                timer=Timer(1,reset)
+                timer.start()
+        keyboard.on_press(si2__main_key)    
+        def si3_key(q_1):
+            if q_1.name=="l":
+                self.connecter_si2_c()
+                self.si2.setStyleSheet("""font-size:25px;
+                              background-color:red;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                
+                timer=Timer(1,reset)
+                timer.start()
+        keyboard.on_press(si3_key)          
+        def si4_key(w_1):
+            if w_1.name=="z":
+                self.connecter_si3_c()
+                self.la3.setStyleSheet("""font-size:25px;
+                              background-color:red;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                
+                timer=Timer(1,reset)
+                timer.start()
+        keyboard.on_press(si4_key)          
+        def si5_key(e_1):
+            if e_1.name=="x":
+                self.connecter_si4_c()
+                self.la4.setStyleSheet("""font-size:25px;
+                              background-color:red;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                
+                timer=Timer(1,reset)
+                timer.start()
+        keyboard.on_press(si5_key)                 
+        def si6_key(r_1):
+            if r_1.name=="c":
+                self.connecter_si5_c()
+                self.la5.setStyleSheet("""font-size:25px;
+                              background-color:red;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                
+                timer=Timer(1,reset)
+                timer.start()
+        keyboard.on_press(si6_key)          
+        def si7_key(t_1):
+            if t_1.name=="v":
+                self.connecter_si6_c()
+                self.la6.setStyleSheet("""font-size:25px;
+                              background-color:red;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                
+                timer=Timer(1,reset)
+                timer.start()
+        keyboard.on_press(si7_key)          
+        def si8_key(y_1):
+            if y_1.name=="b":
+                self.connecter_si8c()
+                self.la8.setStyleSheet("""font-size:25px;
+                              background-color:red;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                
+                timer=Timer(1,reset)
+                timer.start()
+        keyboard.on_press(si8_key)    
+                                                                                                         
+        def reset():
+
+            self.la8.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                                    
+                                         
+            self.re.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)
+                               
+            self.do.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)              
+            self.mi.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)              
+            self.fa.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)              
+            self.so.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)              
+            self.la.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)              
+            self.si.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                                                                                                                                                              
+            self.la7_1.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                                                                                                                                                              
+            self.si2.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                                                                                                                                                              
+                                                                                                                                           
+            self.si2.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                                                                                                                                                              
+            self.si.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                                                                                                                                                              
+            self.la4.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                                                                                                                                                              
+            self.la5.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                                                                                                                                                              
+                                                                                                                                           
+            self.la6.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                                                                                                                                              
+                                                                                                     
+            self.la8.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)               
+            self.la6.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)     
+            self.la7_1.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)   
+            self.la.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                                                                                                                                                              
+            self.la3.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)      
+            self.si.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                                                                                                                                                              
+            self.la7_1.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                                                                                                                                                              
+            self.si2.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                                                                                                                                                              
+                                                                                                                                           
+            self.re.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)       
+            self.si.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                                                                                                                                                              
+            self.la7_1.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                                                                                                                                                              
+            self.si2.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                                                                                                                                                              
+                                                                                                                                           
+            self.la3.setStyleSheet("""font-size:25px;
+                              background-color:white;
+                              padding:10px;
+                              color:black;
+                              font-weight:bold
+                               """)                                                                                                                                                                               
+                             
+                                                                                     
+                                                                                                                                                                                     
+                               
+
+    def set_volume_function(self, value):
+        pygame.mixer.init()
+        pygame.mixer.music.set_volume(value / 10.0) 
+        self.set_volume_value_label.setText(f"Ses Seviyesi: {value / 10.0:.1f}") 
+    def connecter_main_one_do(self):
+        pygame.mixer.init()
+         
+        pygame.mixer.music.load("main_one_do.mp3")
+        pygame.mixer_music.play()    
+        self.buttons_lst.addItem(f"--{self.la7_1.text()}--")          
+    def connecter_do(self):
+        pygame.mixer.init()
+         
+        pygame.mixer.music.load("do.mp3")
+        pygame.mixer_music.play()    
+        self.buttons_lst.addItem(f"--{self.do.text()}--")                          
+    def connecter_re(self):
+        pygame.mixer.init()
+            
+        pygame.mixer.music.load("re.mp3")
+        pygame.mixer_music.play()                                                                                                                          
+        self.buttons_lst.addItem(f"--{self.re.text()}--") 
+    def connecter_mi(self):
+        pygame.mixer.init()
+           
+        pygame.mixer.music.load("mi.mp3")
+        pygame.mixer_music.play()   
+        self.buttons_lst.addItem(f"--{self.mi.text()}--") 
+    def connecter_fa(self):
+        pygame.mixer.init()
+           
+        pygame.mixer.music.load("fa.mp3")
+        pygame.mixer_music.play()   
+        self.buttons_lst.addItem(f"--{self.so.text()}--")         
+    def conecter_fa(self):
+        pygame.mixer.init
+              
+        pygame.mixer.music.load("fa.mp3")
+        pygame.mixer_music.play()                         
+        self.buttons_lst.addItem(f"--{self.fa.text()}--")                                               
+    def connecter_so(self):
+        pygame.mixer.init()
+            
+        pygame.mixer.music.load("so.mp3")
+        pygame.mixer_music.play()                         
+        self.buttons_lst.addItem(f"--{self.so.text()}--")                                                                             
+    def connecter_la(self):
+         
+        pygame.mixer.init()
+        pygame.mixer.music.load("la.mp3")
+        pygame.mixer_music.play()                         
+        self.buttons_lst.addItem(f"--{self.la.text()}--")                                                                        
+    def connecter_si(self):
+        pygame.init()
+
+        pygame.mixer.init()
+        pygame.mixer.music.load("si.mp3")
+        pygame.mixer.music.play()   
+
+    def connecter_do_c(self):
+        pygame.init()
+        pygame.mixer.music.load("do_c.mp3")
+        pygame.mixer.music.play()
+
+
+    def connecter_re_c(self):
+        pygame.init()
+        pygame.mixer.music.load("re_c.mp3")
+        pygame.mixer.music.play()
+     
+
+    def connecter_mi_c(self):
+        pygame.init()
+        pygame.mixer.music.load("mi_c.mp3")
+        pygame.mixer.music.play()
+        
+
+    def connecter_fa_c(self):
+        pygame.init()
+        pygame.mixer.music.load("fa_c.mp3")
+        pygame.mixer.music.play()       
+
+    def connecter_so_c(self):
+        pygame.init()
+        pygame.mixer.music.load("so_c.mp3")
+        pygame.mixer.music.play()
+      
+
+    def connecter_la_c(self):
+        pygame.init()
+        pygame.mixer.music.load("la_c.mp3")
+        pygame.mixer.music.play()
+
+
+    def connecter_si_c(self):
+        pygame.init()
+        pygame.mixer.music.load("si_c.mp3")
+        pygame.mixer.music.play()
+      
+
+    def connecter_si2_c(self):
+        pygame.init()
+        pygame.mixer.music.load("si2.mp3")
+        pygame.mixer.music.play()
+      
+
+    def connecter_si3_c(self):
+        pygame.init()
+        pygame.mixer.music.load("si3.mp3")
+        pygame.mixer.music.play()        
+
+    def connecter_si4_c(self):
+        pygame.init()
+        pygame.mixer.music.load("si4.mp3")
+        pygame.mixer.music.play()
+       
+
+    def connecter_si5_c(self):
+        pygame.init()
+        pygame.mixer.music.load("si5.mp3")
+        pygame.mixer.music.play()
+       
+
+    def connecter_si6_c(self):
+        pygame.init()
+        pygame.mixer.music.load("si6.mp3")
+        pygame.mixer.music.play()
+       
+
+    def connecter_si7_c(self):
+        pygame.init()
+        pygame.mixer.music.load("si7.mp3")
+        pygame.mixer.music.play()
+     
+
+    def connecter_si8c(self):
+        pygame.init()
+        pygame.mixer.music.load("si8.mp3")
+        pygame.mixer.music.play()
+ 
+        self.main_sound_maker=self.system_choose_label.text()   
+    def connecter_si34(self):
+        pygame.init()
+        pygame.mixer.music.load("do.mp3")
+        pygame.mixer.music.play()
+
+
+
+
+ 
+
+
+    def exit(self):
+        sys.exit()      
+    def lst_reset(self):
+        self.buttons_lst.clear()
+        self.buttons_lst.addItem("--Bastığınız notalar burada listelencektir--")      
+    def background_dial_set_color(self,value):
+        current=self.background_dial.value()
+        if current==0:
+            g="Gri"
+            self.background_dial_label.setText(f"Arka Plan Rengi: {g}")
+            self.background_dial_label.setStyleSheet("""color:gray;
+                                                     background-color:purple;
+                                                     font-size:20px""")
+            self.setStyleSheet("background-color:gray")
+        elif current==1:
+            k="Kırmızı"
+            self.background_dial_label.setText(f"Arka Plan Rengi: {k}")
+            self.background_dial_label.setStyleSheet("""color:red;
+                                                     background-color:purple;
+                                                     font-size:20px""")      
+            self.setStyleSheet("background-color:red")     
+        elif current==2:
+            y="Yesil"
+            self.background_dial_label.setText(f"Arka Plan Rengi: {y}")
+            self.background_dial_label.setStyleSheet("""color:#66bb6a;
+                                                     background-color:purple;
+                                                     font-size:20px""")  
+            self.setStyleSheet("background-color:#66bb6a")           
+        elif current==3:
+            s="Sari"
+            self.background_dial_label.setText(f"Arka Plan Rengi: {s}") 
+            self.background_dial_label.setStyleSheet("""color:yellow;
+                                                     background-color:purple;
+                                                     font-size:20px""")
+            self.setStyleSheet("background-color:yellow")
+        elif current==4:
+            t="Turuncu"
+            self.background_dial_label.setText(f"Arka Plan Rengi: {t}")
+            self.background_dial_label.setStyleSheet("""color:orange;
+                                                     background-color:purple;
+                                                     font-size:20px""")         
+            self.setStyleSheet("background-color:orange")    
+        
+    def choose_system_type(self):
+        messagebox.showinfo(message="Kullanım Türü Değiştirildi",title="SİSTEM:")
+        self.dock_area_1=QDockWidget(self)
+        self.dock_area_1.setWindowTitle("#Klavye Eğitimi#")
+        self.list2=QListWidget(self.dock_area_1)
+        self.list2.addItem("-Klavyede notalara basarken şunlara dikkat ediniz-")
+        self.list2.addItem("[CAPSLOCK]'un açılmamasına")
+        self.list2.addItem("Spam olarak tuşlara basmamaya")
+        self.list2.addItem("#dikkat ediniz#")
+        self.list2.setStyleSheet("""
+                                background-color:Black;
+                                color:Red;
+                                font-size:15px                                                                  
+                                                                         """)
+        self.list2.move(250,0)
+        self.list2.resize(200,200)
+        self.list=QListWidget(self.dock_area_1)
+        self.list.addItem("Notalar;")
+        self.list.addItem("A tuşundan L tuşuna kadar")
+        self.list.addItem("Z Tuşundan B Tuşuna kadar")
+        self.list.addItem("Do Re Mi diye gitmektedir")
+        self.list.resize(200,200)
+        self.list.setStyleSheet("""background-color:black;
+                                   color:green;
+                                   font-size:15px                         """)
+        self.dock_area_1.setGeometry(200,200,200,200)        
+        self.addDockWidget(Qt.RightDockWidgetArea,self.dock_area_1)
+    def settings_frame(self):
+        self.dock_area_2=QDockWidget(self)
+        self.addToolBar(self.dock_area_2)
+
+        
+        
+
+
+
+    def full_screen(self):
+        self.showFullScreen()
+    def full_screen_false(self):
+        self.showNormal()    
+    def reset_all(self):
+        self.setStyleSheet("background-color:gray")
+        self.showNormal()
+        self.set_volume_value_label.setText("Ses Seviyesi:1.0")
+
+
+    def jazz_choosed(self):
+        self.system_choose_label.setText("Ses Türü: Jazz")
+    def metal_choosed(self):
+        self.system_choose_label.setText("Ses Türü: Metal")
+    def pop_choosed(self):
+        self.system_choose_label.setText("Ses Türü: Pop")
+    def rock_choosed(self):
+        self.system_choose_label.setText("Ses Türü Rock")    
+    def Reset_choosed_sound_type(self):
+        self.system_choose_label.setText("Ses Türü: #Seçilmedi#")
+        
+    def optimizing_keyframes(self):
+        self.proggred_notes_dialog=QProgressDialog(self)
+        self.proggred_notes_dialog.setWindowTitle("Notalar Optimize Ediliyor")
+        self.proggred_notes_dialog.setCancelButtonText("Kapat")
+        pusher_cancel=QPushButton("KAPAT")
+        pusher_cancel.setStyleSheet("""
+color:black;
+background-color:white;                                    
+font-size:15px
+""")
+        self.label=QLabel("#NOTALAR OPTİMİZE EDİLİYOR#",self.proggred_notes_dialog)
+        self.label.setStyleSheet("""
+color:green;
+background-color:black;
+font-size:30px
+""")
+        self.proggred_notes_dialog.setLabel(self.label)
+        self.proggred_notes_dialog.resize(300,300)      
+        self.proggred_notes_dialog.setCancelButton(pusher_cancel)
+    
+        self.proggred_notes_dialog.setRange(0,200)
+        self.timer=QTimer(self)
+        self.timer.timeout.connect(self.update_loader)
+        self.timer.start(50)
+        self.index=0
+        pusher_cancel.clicked.connect(self.pusher_cancel_bind_venv)
+    def update_loader(self):
+        self.main_value=self.proggred_notes_dialog.value()
+        self.index+=1
+        self.proggred_notes_dialog.setValue(self.index)
+        if self.main_value==199:
+            messagebox.showinfo(message="Notalar başarılı şekilde optimize edildi",title="SİSTEM:")
+            self.proggred_notes_dialog.destroy()
+            self.timer.stop()
+            self.set_volume_value_label.move(110,355)     
+    def pusher_cancel_bind_venv(self):
+        self.proggred_notes_dialog.destroy()
+        self.timer.stop() 
+        messagebox.showerror(title="##!Uygualama düzgün çalışmayabilir!##",message=f"Kalan Yüzde: {self.main_value} !yükleme tamamlanamadı!")       
+
+
+           
+
+                        
+
+
+
+                                
+if __name__=="__main__": 
+    app = QApplication(sys.argv)
+    window = SanalPiyano()
+    window.show()
+    sys.exit(app.exec_())
+    
+
+    
