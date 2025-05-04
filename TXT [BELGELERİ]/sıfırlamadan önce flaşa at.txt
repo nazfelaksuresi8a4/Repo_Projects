@@ -1,0 +1,7 @@
+sistem dosyası tarama
+
+sfc /scannow
+
+İkinci komut:
+
+DISM /Online /Cleanup-Image /RestoreHealth

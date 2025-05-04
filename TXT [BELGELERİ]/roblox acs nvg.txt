@@ -1,0 +1,2 @@
+NVG lens rengi değiştirme işlemi:
+renklendirme aşamasını bitirdikten sonra proptrpries'dan UsePathColor'u işaretle

@@ -1,0 +1,7 @@
+import time
+
+txt = "Kayan Metin!"
+for i in range(len(txt)*2):
+    print(txt, end='\r')
+    txt = txt[1:] + txt[0]
+    time.sleep(0.1)

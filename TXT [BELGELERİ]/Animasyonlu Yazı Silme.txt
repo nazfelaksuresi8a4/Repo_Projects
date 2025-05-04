@@ -1,0 +1,50 @@
+#--------------------------------------------------------------------------------------------------------------------------
+#NOT:BU YAZIDA DEVRİK CÜMLELER VE YAZIM HATALARI OLABİLİR
+
+#KODUN AMACI:
+#1- Sizden Birşeyler Yazmanızı İster
+#2-Yazdığınız Şeyin Çıktısını Ekrana Yazdırır
+#3-Yazdığınız Şeyi Arar
+#4-Arama Başarılıysa "SUCCEFULY_SEARCHİNG" Arama Başarısız İse "FAİLED_SEARCHİNG" Yazdırır 
+#5-Daha Sonrasında Yükleme Çubukları Ve Aramanın Başarılı Olup Olmadığını Ekrana Aktarır 
+#6-Bunları Yaparken İse Animasyonlu Şekilde Sizin Yazdığınız Cümle Veya Herhangi Sizin Tarafınızdan Yazılan Birşeyi Siler
+#7-Silerkende Üstüne Yükleme Çubuklarını Aktarır 
+#8-Ve Kod Biter
+
+#NOT2: Bu Kod Mobil Desteklidir 
+#UYARI: Bu Kod'da Düzenleme Yapmayınız Yaparsanızda Ticari Amaçlarla Kullanmayınız Bu Kod Ahmet Efe Yıldız'a Aittir.
+#--------------------------------------------------------------------------------------------------------------------------
+
+import time 
+import sys
+#Kütüphaneler
+
+def animate_text(text):
+    for char in text:
+        sys.stdout.write(char)
+        sys.stdout.flush()
+        time.sleep(0.0060)
+#Animasyonlu Yazı İçin Gerekli Kodlar        
+
+
+TEST = input("TEST_TEXT: ")
+print(TEST + "  SEARCHİNG-PERSON" "/", end="\r")
+time.sleep(0.4)
+print(TEST + "  SEARCHİNG-PERSON" "\\", end="\r")
+time.sleep(0.4)
+#Yazı Yazıldıktan Sonra İkince Yazı Gelince Silinmesini Sağlayan Kod
+
+text_to_animate = "|||||||||||||||FAİLED_SEARCHİNG||||||||||||||||"
+animate_text(text_to_animate)
+print()
+print()
+sys.exit()
+#Birinici Yazının Üzerine Yükleme Çubuğu Koyup Animasyonlu Şekilde Silmeyi Sağlayan Kod
+
+
+
+
+
+
+#Bu Kod Yazılan YazıNın Üstünden Yükleme Çubukları Geçirip Yazıyı Siler
+#Ve Bunu Animasyonlu Şekilde Yapar
