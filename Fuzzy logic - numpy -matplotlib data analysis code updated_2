@@ -1,0 +1,993 @@
+import skfuzzy as fuzz
+import sys as _s
+from colorama import Back,Fore,Style
+import scipy
+import tkinter as tk
+import os as _o
+import requests as rqs
+import threading
+import os
+import time
+import numpy as np
+import pandas as pd
+import tqdm
+from skfuzzy import control as ctrl
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+from matplotlib.figure import Figure
+from selenium.webdriver import *
+from selenium.webdriver.common.by import *
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+
+
+#Object Classes#
+f = bool(0)
+vvc_arr = []
+vc_arr = []
+c_arr = []
+w_arr = []
+h_arr = []
+vh_arr = []
+vvh_arr = []
+else_logs = []
+
+trampf_vvc = []
+trimf_vc = []
+trimf_c = []
+trimf_w = []
+trimf_h = []
+trimf_vh = []
+trapmf_vvh = []
+class classfictioner():
+    def __init__(self,main_val,arange_2024):
+
+        #if very_very_higher > max(very_higher, med, low, very_low, very_very_low):
+        
+        girdi_arange = np.arange(-4,max(arange_2024),1)
+        trap_membership_very_very_low = fuzz.trapmf(girdi_arange, [-10, 0, 2, 5])
+        trimf_membership_very_low = fuzz.trimf(girdi_arange, [0, 5, 10])
+        trimf_membership_low = fuzz.trimf(girdi_arange, [5, 10, 15])
+        trimf_membership_medium = fuzz.trimf(girdi_arange, [10, 15, 20])
+        trimf_membership_higher = fuzz.trimf(girdi_arange, [15, 20, 25])
+        trimf_membership_very_higher = fuzz.trimf(girdi_arange, [20, 25, 30])
+        trap_membership_very_very_higher = fuzz.trapmf(girdi_arange, [30, 35, 40, 45])
+        very_very_higher = [fuzz.interp_membership(girdi_arange,trap_membership_very_very_higher,main_val)]
+        very_higher = [fuzz.interp_membership(girdi_arange,trimf_membership_very_higher,main_val)]
+        higher = [fuzz.interp_membership(girdi_arange,trimf_membership_higher,main_val)]
+        med = [fuzz.interp_membership(girdi_arange,trimf_membership_medium,main_val)]
+        low = [fuzz.interp_membership(girdi_arange,trimf_membership_low,main_val)]
+        very_low = [fuzz.interp_membership(girdi_arange,trimf_membership_very_low,main_val)]
+        very_very_low = [fuzz.interp_membership(girdi_arange,trap_membership_very_very_low,main_val)]
+        trapmf_vvh.append(very_very_higher)
+        trimf_vh.append(very_higher)
+        trimf_h.append(higher)
+        trimf_w.append(med)
+        trimf_c.append(low)
+        trimf_vc.append(very_low)
+        trampf_vvc.append(very_very_low)
+
+        if very_very_higher > max(very_higher,higher,med,low,very_low,very_very_low):
+            vvh_arr.append(main_val)
+        elif very_higher > max(med,low,very_low,very_very_low,higher):
+            vh_arr.append(main_val)
+        elif higher > max(very_very_low,med,low,very_low):
+            h_arr.append(main_val)
+        elif med > max(low,very_low,very_very_low):
+            w_arr.append(main_val)
+        elif low > max(very_low,med,higher):
+            c_arr.append(main_val)
+        elif very_low > max(very_very_low,higher):
+            vc_arr.append(main_val)
+        elif very_very_low < max(very_very_higher,very_higher,higher,med,low,very_low):
+            vvc_arr.append(main_val)
+        else:
+            else_logs.append(main_val)
+
+
+class selenium_scrapping_block():
+        ##selenium web scrapping blocks##
+        def __init__(self):
+            super().__init__()
+            threading.Thread.__init__(self)
+            self.vvc = []
+            self.vc = []
+            self.h = []
+            self.c = []
+            self.w = []
+            self.vh = []
+            self.vvh = []
+            self.algorithm_signal = bool
+            self.zeros = 000000000000
+            self.ones =  111111111111
+            self.arr_2024_temp_1 =[]
+            self.arr_2024_temp_2 =[]
+            self.arr_2024_temp_3 =[]
+            self.arr_2024_temp_4 =[]
+            self.arr_2024_temp_5 =[]
+            self.arr_2024_temp_6 =[]
+            self.arr_2024_temp_7 =[]
+            self.arr_2024_temp_8 =[]
+            self.arr_2024_temp_9 =[]
+            self.arr_2024_temp_10 =[]
+            self.arr_2024_temp_11 =[]
+            self.arr_2024_temp_12 =[]
+            self.arr_2025_temp_1 =[]
+            self.arr_2025_temp_2 =[]
+            self.arr_2025_temp_3 =[]
+            self.arr_2025_temp_4 =[]
+            self.arr_2025_temp_5 =[]
+            self.arr_2025_temp_6 =[]
+            self.arr_2025_temp_7 =[]
+            self.arr_2025_temp_8 =[]
+            self.arr_2025_temp_9 =[]
+            self.arr_2025_temp_10 =[]
+            self.arr_2025_temp_11 =[]
+            self.arr_2025_temp_12 =[]
+            self.foreach_arr = [] 
+            print('AYARLAR:\n\nVeriler çekilirken işlem yapılan web sitesi gözüksünmü Y/N')
+            if f == bool(0):
+                g = input('\n>')
+                print()
+                print('Veri çekimi sırasında veriler gerçek zamanlı olarak ekrana basılsınmı Y/N')
+                h = input('\n>')
+            elif f == bool(1):
+                _s.stdout.write('3')
+            print()
+            print('Verilerin çekildiği web sitesinin urlsi: https://www.timeanddate.com/weather/turkey/izmir/historic?month=1&year=2025')
+            print()
+            print()
+            options = ChromeOptions()
+            try:
+                if g == "y".casefold() == 'y':
+                    options.add_argument('--ignore-certificate-errors')
+                    options.add_argument('--allow-running-insecure-content')
+                    options.add_experimental_option("excludeSwitches", ["enable-logging"])
+                    options.add_argument('log_level=3')
+                    options.add_argument('log_level=2')
+                    options.add_argument('log_level=1')
+                else:
+                    options.add_argument('--log-level=3')
+                    options.add_experimental_option("excludeSwitches", ["enable-logging"])
+                    options.add_argument('--ignore-certificate-errors')
+                    options.add_argument('--allow-running-insecure-content')
+                    options.add_argument('--headless')
+                    options.add_argument('log_level=3')
+                    options.add_argument('log_level=2')
+                    options.add_argument('log_level=1')
+            except:
+                print()
+            chrome = Chrome(options=options)
+            month = 1
+            main_line=1
+            #chrome.implicitly_wait(5)
+            boolean = True
+            index = 1
+            chrome.implicitly_wait(5)
+            #index2 = 1
+            if main_line==1:
+                self.urls = ['https://www.timeanddate.com/weather/turkey/izmir/historic?month=1&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=2&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=3&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=4&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=5&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=6&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=7&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=8&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=9&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=10&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=11&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=12&year=2024'
+                        ]
+                self.urls2 = ['https://www.timeanddate.com/weather/turkey/izmir/historic?month=1&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=2&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=3&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=4&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=5&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=6&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=7&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=8&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=9&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=10&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=11&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=12&year=2025'
+                        ]
+                print()
+                arr_index=1
+                for url in self.urls:
+                    if arr_index>12:
+                        break
+                    for urls2 in self.urls:
+                        if arr_index>12:
+                            break
+                        getter1 = chrome.get(urls2)
+                        try:
+                            for i in range(40):
+                                if arr_index>12:
+                                    break
+                                index+=1
+                                datas_2024 = chrome.find_element(By.XPATH,f'//*[@id="wt-his"]/tbody/tr[{index}]/td[2]').text    
+                                datas_2024_r1 = str(datas_2024).replace('C','')
+                                datas_2024_r2 = int(str(datas_2024_r1).replace('°',''))
+                                if arr_index == 1:
+                                    self.arr_2024_temp_1.append(datas_2024_r2)
+                                    print(self.arr_2024_temp_1)
+                                if arr_index == 2:
+                                    self.arr_2024_temp_2.append(datas_2024_r2)
+                                    print(self.arr_2024_temp_2)
+                                if arr_index == 3:
+                                    self.arr_2024_temp_3.append(datas_2024_r2)
+                                    print(self.arr_2024_temp_3)
+                                if arr_index == 4:
+                                    self.arr_2024_temp_4.append(datas_2024_r2)
+                                    print(self.arr_2024_temp_4)
+                                if arr_index == 5:
+                                    self.arr_2024_temp_5.append(datas_2024_r2)
+                                    print(self.arr_2024_temp_5)
+                                if arr_index == 6:
+                                    self.arr_2024_temp_6.append(datas_2024_r2)
+                                    print(self.arr_2024_temp_6)
+                                if arr_index == 7:
+                                    self.arr_2024_temp_7.append(datas_2024_r2)
+                                    print(self.arr_2024_temp_7)
+                                if arr_index == 8:
+                                    self.arr_2024_temp_8.append(datas_2024_r2)
+                                    print(self.arr_2024_temp_8)
+                                if arr_index == 9:
+                                    self.arr_2024_temp_9.append(datas_2024_r2)
+                                    print(self.arr_2024_temp_9)
+                                if arr_index == 10:
+                                    self.arr_2024_temp_10.append(datas_2024_r2)
+                                    print(self.arr_2024_temp_10)
+                                if arr_index == 11:
+                                    self.arr_2024_temp_11.append(datas_2024_r2)
+                                    print(self.arr_2024_temp_11)
+                                if arr_index == 12:
+                                    self.arr_2024_temp_12.append(datas_2024_r2) 
+                                    print(self.arr_2024_temp_12) 
+                            if h == 'y'.casefold() or 'y'.upper():
+                                print(f'{self.arr_2024_temp_1}\n{self.arr_2024_temp_2}\n{self.arr_2024_temp_3}\n{self.arr_2024_temp_4}\n{self.arr_2024_temp_5}\n{self.arr_2024_temp_6}\n{self.arr_2024_temp_7}\n{self.arr_2024_temp_8}\n{self.arr_2024_temp_9}\n{self.arr_2024_temp_10}\n{self.arr_2024_temp_11}\n{self.arr_2024_temp_12}')
+                            else:
+                                _s.stdout.write('')
+                        except:
+                            main_line=1
+                            index=1
+                            arr_index+=1
+                            if arr_index>12:
+                                index=1
+                                break
+                _o.system('cls')
+                print('||2024|| yılına ait Veriler başarılı bir şekilde')
+                print('\n||2025|| Verileri çekiliyor.....')
+                self.arr_index=1
+                for url2 in self.urls2:
+                    if self.arr_index==4:
+                        break
+                    for urls2_2 in self.urls2:
+                        if self.arr_index==4:
+                            break
+                        getter1 = chrome.get(urls2_2)
+                        try:
+                            for i in range(40):
+                                if self.arr_index==4:
+                                    break
+                                index+=1
+                                datas_2025 = chrome.find_element(By.XPATH,f'//*[@id="wt-his"]/tbody/tr[{index}]/td[2]').text    
+                                datas_2025_r1 = str(datas_2025).replace('C','')
+                                datas_2025_r2 = int(str(datas_2025_r1).replace('°',''))
+                                if self.arr_index == 1:
+                                    self.arr_2025_temp_1.append(datas_2025_r2)
+                                    if h == 'y'.casefold():
+                                        print(self.arr_2025_temp_1)
+                                    else:
+                                        _s.stdout.write('')
+                                if self.arr_index == 2:
+                                    self.arr_2025_temp_2.append(datas_2025_r2)
+                                    if h == 'y'.casefold():
+                                        print(self.arr_2025_temp_2)
+                                    else:
+                                        _s.stdout.write('')
+                                if self.arr_index == 3:
+                                    self.arr_2025_temp_3.append(datas_2025_r2)
+                                    if h == 'y'.casefold():
+                                        print(self.arr_2025_temp_3)
+                                    else:
+                                        _s.stdout.write('')
+                                if self.arr_index == 4:
+                                    self.arr_2025_temp_4.append(datas_2025_r2)
+                                    if h == 'y'.casefold():
+                                        print(self.arr_2025_temp_4)
+                                    else:
+                                        _s.stdout.write('')          
+                        except:
+                            main_line=1
+                            index=1
+                            self.arr_index+=1
+                            if self.arr_index==4:
+                                break
+                os.system('cls')
+                #2024 datas#
+                self.arr_2024_slots = [self.arr_2024_temp_1,self.arr_2024_temp_2,self.arr_2024_temp_3,self.arr_2024_temp_4,self.arr_2024_temp_5,self.arr_2024_temp_6,self.arr_2024_temp_7,self.arr_2024_temp_8,self.arr_2024_temp_9,self.arr_2024_temp_11,self.arr_2024_temp_12]
+                self.arr_2024_slots_max_val = max(self.arr_2024_slots)
+                self.arange_2024 = max(self.arr_2024_slots_max_val)
+
+                self.arr_2025_slots = [self.arr_2025_temp_1,self.arr_2025_temp_2,self.arr_2025_temp_3,self.arr_2025_temp_4]
+                self.arr_2025_slots_max_val = max(self.arr_2025_slots)
+                self.arange_2025 = max(self.arr_2025_slots_max_val)
+
+                self.algorithm_signal = bool(1)
+                if self.algorithm_signal == True:
+                    if self.algorithm_signal == True:
+                        os.system('cls')
+                        take_lenght = len(self.arr_2024_slots)
+                        iterator_2024 = [
+                            self.arr_2024_temp_1,
+                            self.arr_2024_temp_2,
+                            self.arr_2024_temp_3,
+                            self.arr_2024_temp_4,
+                            self.arr_2024_temp_5,
+                            self.arr_2024_temp_6,
+                            self.arr_2024_temp_7,
+                            self.arr_2024_temp_8,
+                            self.arr_2024_temp_9,
+                            self.arr_2024_temp_10,
+                            self.arr_2024_temp_11,
+                            self.arr_2024_temp_12
+                        ]
+                        for iters in range(len(iterator_2024)):
+                            for singleton_gen in range(len(self.arr_2024_slots)):
+                                for singleton_gen2 in range(len(iterator_2024[iters])):
+                                    try:
+                                        classfictioner(main_val=self.arr_2024_slots[singleton_gen][singleton_gen2],arange_2024=max(self.arr_2024_slots))
+                                    except IndexError:
+                                        _s.stdout.write(f'')
+                        print('Analiz işlemleri tamamlandı sonuçlar yazdırılıyor.....')
+                        time.sleep(2)
+                        _o.system('cls')
+                        print()
+                        print('2024-2025 Hava durumu veri analizi')
+                        print(Fore.GREEN,Style.DIM)
+                        print('##Dondurucu soğuk##')
+                        print(Fore.LIGHTMAGENTA_EX,Style.BRIGHT)
+                        self.vvc.append(vvc_arr)
+                        print(vvc_arr)
+                        print()
+                        print(Fore.GREEN,Style.DIM)
+                        print('##Çok soğuk##')
+                        print(Fore.LIGHTMAGENTA_EX,Style.BRIGHT)
+                        print(vc_arr)
+                        self.vc.append(vc_arr)
+                        print()
+                        print(Fore.GREEN,Style.DIM)
+                        print('##Soğuk##')
+                        print(Fore.LIGHTMAGENTA_EX,Style.BRIGHT)
+                        print(c_arr)
+                        self.c.append(c_arr)
+                        print()
+                        print()
+                        print(Fore.GREEN,Style.DIM)
+                        print('##Ilık##')
+                        print(Fore.LIGHTMAGENTA_EX,Style.BRIGHT)
+                        print(w_arr)
+                        self.w.append(w_arr)
+                        print()
+                        print(Fore.GREEN,Style.DIM)
+                        print('##Sıcak##')
+                        print(Fore.LIGHTMAGENTA_EX,Style.BRIGHT)
+                        print(h_arr)
+                        self.h.append(h_arr)
+                        print()
+                        print(Fore.GREEN,Style.DIM)
+                        print('##Çok sıcak##')
+                        print(Fore.LIGHTMAGENTA_EX,Style.BRIGHT)
+                        print(vh_arr)
+                        self.vh.append(vh_arr)
+                        print()
+                        print(Fore.GREEN,Style.DIM)
+                        print('##Yakıcı sıcak(YANIYOZ)##')
+                        print(Fore.LIGHTMAGENTA_EX,Style.BRIGHT)
+                        print(vvh_arr)
+                        self.vvh.append(vvh_arr)
+                        print()
+                        print(Fore.LIGHTRED_EX,Style.BRIGHT,Back.BLUE)
+                        f0a4 = input('Başa dönmek için 1 Çıkmak için 0: ')
+                        if f0a4 == '1':
+                            _o.system('cls')
+                            SelectUİ(data=0)
+                        elif f0a4 == '0':
+                            _s.exit()
+
+
+
+
+class SignalSYS(QThread):
+    signal = pyqtSignal(str)
+    
+    def run(self):
+            self.algorithm_signal = bool
+            self.zeros = 000000000000
+            self.ones =  111111111111
+            self.arr_2024_temp_1 =[]
+            self.arr_2024_temp_2 =[]
+            self.arr_2024_temp_3 =[]
+            self.arr_2024_temp_4 =[]
+            self.arr_2024_temp_5 =[]
+            self.arr_2024_temp_6 =[]
+            self.arr_2024_temp_7 =[]
+            self.arr_2024_temp_8 =[]
+            self.arr_2024_temp_9 =[]
+            self.arr_2024_temp_10 =[]
+            self.arr_2024_temp_11 =[]
+            self.arr_2024_temp_12 =[]
+            self.arr_2025_temp_1 =[]
+            self.arr_2025_temp_2 =[]
+            self.arr_2025_temp_3 =[]
+            self.arr_2025_temp_4 =[]
+            self.arr_2025_temp_5 =[]
+            self.arr_2025_temp_6 =[]
+            self.arr_2025_temp_7 =[]
+            self.arr_2025_temp_8 =[]
+            self.arr_2025_temp_9 =[]
+            self.arr_2025_temp_10 =[]
+            self.arr_2025_temp_11 =[]
+            self.arr_2025_temp_12 =[]
+            self.foreach_arr = [] 
+            options = ChromeOptions()
+            options.add_argument('--log-level=3')
+            options.add_experimental_option("excludeSwitches", ["enable-logging"])
+            options.add_argument('--ignore-certificate-errors')
+            options.add_argument('--allow-running-insecure-content')
+            options.add_argument('--headless')
+            options.add_argument('log_level=3')
+            options.add_argument('log_level=2')
+            options.add_argument('log_level=1')
+            chrome = Chrome(options=options)
+            month = 1
+            main_line=1
+            #chrome.implicitly_wait(5)
+            boolean = True
+            index = 1
+            chrome.implicitly_wait(5)
+            #index2 = 1
+            if main_line==1:
+                self.urls = ['https://www.timeanddate.com/weather/turkey/izmir/historic?month=1&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=2&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=3&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=4&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=5&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=6&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=7&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=8&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=9&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=10&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=11&year=2024',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=12&year=2024'
+                        ]
+                self.urls2 = ['https://www.timeanddate.com/weather/turkey/izmir/historic?month=1&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=2&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=3&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=4&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=5&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=6&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=7&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=8&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=9&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=10&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=11&year=2025',
+                        'https://www.timeanddate.com/weather/turkey/izmir/historic?month=12&year=2025'
+                        ]
+                arr_index=1
+                for url in self.urls:
+                    if arr_index>12:
+                        break
+                    for urls2 in self.urls:
+                        if arr_index>12:
+                            break
+                        getter1 = chrome.get(urls2)
+                        try:
+                            for i in range(40):
+                                if arr_index>12:
+                                    break
+                                index+=1
+                                datas_2024 = chrome.find_element(By.XPATH,f'//*[@id="wt-his"]/tbody/tr[{index}]/td[2]').text    
+                                datas_2024_r1 = str(datas_2024).replace('C','')
+                                datas_2024_r2 = int(str(datas_2024_r1).replace('°',''))
+                                if arr_index == 1:
+                                    self.arr_2024_temp_1.append(datas_2024_r2)
+                                if arr_index == 2:
+                                    self.arr_2024_temp_2.append(datas_2024_r2)
+                                if arr_index == 3:
+                                    self.arr_2024_temp_3.append(datas_2024_r2)
+                                if arr_index == 4:
+                                    self.arr_2024_temp_4.append(datas_2024_r2)
+                                if arr_index == 5:
+                                    self.arr_2024_temp_5.append(datas_2024_r2)
+                                if arr_index == 6:
+                                    self.arr_2024_temp_6.append(datas_2024_r2)
+                                if arr_index == 7:
+                                    self.arr_2024_temp_7.append(datas_2024_r2)
+                                if arr_index == 8:
+                                    self.arr_2024_temp_8.append(datas_2024_r2)
+                                if arr_index == 9:
+                                    self.arr_2024_temp_9.append(datas_2024_r2)
+                                if arr_index == 10:
+                                    self.arr_2024_temp_10.append(datas_2024_r2)
+                                if arr_index == 11:
+                                    self.arr_2024_temp_11.append(datas_2024_r2)
+                                if arr_index == 12:
+                                    self.arr_2024_temp_12.append(datas_2024_r2)  
+                        except:
+                            main_line=1
+                            index=1
+                            arr_index+=1
+                            if arr_index>12:
+                                index=1
+                                break
+                _o.system('cls')
+                print('||2024|| yılına ait Veriler başarılı bir şekilde')
+                print('\n||2025|| Verileri çekiliyor.....')
+                self.arr_index=1
+                for url2 in self.urls2:
+                    if self.arr_index==4:
+                        break
+                    for urls2_2 in self.urls2:
+                        if self.arr_index==4:
+                            break
+                        getter1 = chrome.get(urls2_2)
+                        try:
+                            for i in range(40):
+                                if self.arr_index==4:
+                                    break
+                                index+=1
+                                datas_2025 = chrome.find_element(By.XPATH,f'//*[@id="wt-his"]/tbody/tr[{index}]/td[2]').text    
+                                datas_2025_r1 = str(datas_2025).replace('C','')
+                                datas_2025_r2 = int(str(datas_2025_r1).replace('°',''))
+                                if self.arr_index == 1:
+                                    self.arr_2025_temp_1.append(datas_2025_r2)
+                                if self.arr_index == 2:
+                                    self.arr_2025_temp_2.append(datas_2025_r2)
+                                if self.arr_index == 3:
+                                    self.arr_2025_temp_3.append(datas_2025_r2)
+                                if self.arr_index == 4:
+                                    self.arr_2025_temp_4.append(datas_2025_r2)        
+                        except:
+                            main_line=1
+                            index=1
+                            self.arr_index+=1
+                            if self.arr_index==4:
+                                break
+                os.system('cls')
+                #2024 datas#
+                self.arr_2024_slots = [self.arr_2024_temp_1,self.arr_2024_temp_2,self.arr_2024_temp_3,self.arr_2024_temp_4,self.arr_2024_temp_5,self.arr_2024_temp_6,self.arr_2024_temp_7,self.arr_2024_temp_8,self.arr_2024_temp_9,self.arr_2024_temp_11,self.arr_2024_temp_12]
+                self.arr_2024_slots_max_val = max(self.arr_2024_slots)
+                self.arange_2024 = max(self.arr_2024_slots_max_val)
+
+                self.arr_2025_slots = [self.arr_2025_temp_1,self.arr_2025_temp_2,self.arr_2025_temp_3,self.arr_2025_temp_4]
+                self.arr_2025_slots_max_val = max(self.arr_2025_slots)
+                self.arange_2025 = max(self.arr_2025_slots_max_val)
+
+                self.algorithm_signal = bool(1)
+                if self.algorithm_signal == True:
+                    if self.algorithm_signal == True:
+                        os.system('cls')
+                        take_lenght = len(self.arr_2024_slots)
+                        iterator_2024 = [
+                            self.arr_2024_temp_1,
+                            self.arr_2024_temp_2,
+                            self.arr_2024_temp_3,
+                            self.arr_2024_temp_4,
+                            self.arr_2024_temp_5,
+                            self.arr_2024_temp_6,
+                            self.arr_2024_temp_7,
+                            self.arr_2024_temp_8,
+                            self.arr_2024_temp_9,
+                            self.arr_2024_temp_10,
+                            self.arr_2024_temp_11,
+                            self.arr_2024_temp_12
+                        ]
+                        for iters in range(len(iterator_2024)):
+                            for singleton_gen in range(len(self.arr_2024_slots)):
+                                for singleton_gen2 in range(len(iterator_2024[iters])):
+                                    try:
+                                        classfictioner(main_val=self.arr_2024_slots[singleton_gen][singleton_gen2],arange_2024=max(self.arr_2024_slots))
+                                    except IndexError:
+                                        _s.stdout.write(f'')
+                        sessionmain0().handle_thread_signal() 
+                    sessionmain0().handle_thread_signal()
+class sessionmain0(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('ANALİZ')
+        print('GUI Session-1 still running')
+
+        self.thread = None  # 
+
+        self.menubar = self.menuBar()
+        self.clear_dataset_view = self.menubar.addMenu('Analiz monitorünü temizle')
+        self.graph_settings = self.menubar.addMenu('Grafik türleri')
+
+        self.graph_settings_graph_ecdf = self.graph_settings.addAction('ECDF GRAPH (Ampirik Kümülatif Dağılım Fonksiyonu)')
+        self.graph_settings_graph_plot = self.graph_settings.addAction('PLOT GRAPH (Çizgi grafiği)')
+        self.graph_settings_graph_histogram = self.graph_settings.addAction('HİSTOGRAM GRAPH (Histogram grafiği)')
+
+        self.setStyleSheet('background-color:gray')
+
+        layout = QVBoxLayout()
+        widget = QWidget()
+        widget.setLayout(layout)
+
+        layout.addWidget(self.menubar)
+
+        self.splt_1 = QSplitter(Qt.Vertical)
+        self.splt_2 = QSplitter(Qt.Vertical)
+        self.splt_3 = QSplitter(Qt.Vertical)
+        
+        layout.addWidget(self.splt_2)
+        layout.addWidget(self.splt_1)
+
+        self.main_figure = Figure(figsize=(5, 4),dpi=100,facecolor='gray')
+        self.canvas = FigureCanvas(figure=self.main_figure)
+        self.ax_1 = self.main_figure.add_subplot(111)
+        
+        self.main_figure2 = Figure(figsize=(5, 4),dpi=100,facecolor='gray')
+        self.canvas2 = FigureCanvas(figure=self.main_figure2)
+        self.ax_2 = self.main_figure2.add_subplot(111)
+
+        self.ax_1.set_title('Sıcaklık grafikleri')
+
+        self.nav_toolbar_v1 = NavigationToolbar(canvas=self.canvas)
+        self.nav_toolbar_v2 = NavigationToolbar(canvas=self.canvas2)
+        self.nav_toolbar_v1.setStyleSheet('QToolBar{background-color:gray}')
+        self.nav_toolbar_v2.setStyleSheet('QToolBar{background-color:gray}')
+
+
+        self.splt_1.addWidget(self.nav_toolbar_v1)
+        self.splt_1.addWidget(self.canvas)
+        self.splt_1.addWidget(self.nav_toolbar_v2)
+        self.splt_1.addWidget(self.canvas2)
+
+        self.lbl_1 = QLabel('Analiz Monitörü')
+        self.analizler = QTextEdit()
+        self.analizler.append('ANALİZ SONUÇLARI BURAYA YAZDIRILIR')
+        self.start_btn = QPushButton('Analizi başlat')
+        self.graph_preview_off = QPushButton('Önizleme grafiklerini Sil')
+        self.graph_main_viewer_motor_on_btn = QPushButton('Sıcaklık grafiklerini grafik sisteminde aç')
+        self.graph_main_viewer_motor_on_btn_trimf = QPushButton('TRİMF grafiklerini grafik sisteminde aç')
+        self.graph_main_viewer_motor_on_btn_trapmf = QPushButton('TRAPMF grafiklerini grafik sisteminde aç')
+
+        self.lbl_1.setStyleSheet('font-weight:bold')
+        self.lbl_1.setAlignment(Qt.AlignCenter)
+        self.analizler.setFont(QFont('consolas'))
+        self.analizler.setPlaceholderText('Analiz sonuçları Burada gözükür')
+        self.analizler.setStyleSheet('color:white;font-size:15px;font-weight:bold;background-color:black')
+        self.analizler.setReadOnly(True)
+        self.analizler.setAlignment(Qt.AlignCenter)
+
+        self.ax_1.set_title('2024-2025 SICAKLIK ANALİZİ GRAFİK DÖKÜMÜ')
+        
+        trimf_preview_arange = np.arange(0, 60, 1)
+        trimf_preview = fuzz.trimf(trimf_preview_arange, [5, 10, 15])
+        self.ax_2.plot(trimf_preview)
+
+        trapmf_preview_arange = np.arange(0, 60, 1)
+        trapmf_preview = fuzz.trapmf(trapmf_preview_arange, [5, 10, 15, 20])
+
+        self.ax_1.ecdf(np.random.normal(0, 5, 50))
+        self.ax_1.ecdf(np.random.normal(0, 10, 100))
+        self.ax_1.ecdf(np.random.normal(0, 15, 150))
+        self.ax_1.ecdf(np.random.normal(0, 20, 200))
+
+        self.splt_2.addWidget(self.graph_preview_off)
+        self.splt_2.addWidget(self.lbl_1)
+        self.splt_2.addWidget(self.analizler)
+        self.splt_2.addWidget(self.start_btn)
+        self.splt_2.addWidget(self.graph_main_viewer_motor_on_btn_trimf)
+        self.splt_2.addWidget(self.graph_main_viewer_motor_on_btn_trapmf)
+        self.splt_2.addWidget(self.start_btn)
+
+        self.start_btn.clicked.connect(self.start_spider_consider)
+        self.graph_preview_off.clicked.connect(self.clear_all)
+        self.graph_main_viewer_motor_on_btn.clicked.connect(self.draw_matplotlib_graph)
+        self.graph_main_viewer_motor_on_btn_trapmf.clicked.connect(self.trapmf_viewer)
+        self.graph_main_viewer_motor_on_btn_trimf.clicked.connect(self.trimf_viewer)
+        self.clear_dataset_view.triggered.connect(self.clear_dataset_view_function)
+        try:
+            self.graph_settings_graph_ecdf.triggered.connect(self.re_draw_ecdf)
+            self.graph_settings_graph_histogram.triggered.connect(self.re_draw_histogram)
+            self.graph_settings_graph_plot.triggered.connect(self.re_draw_plot)
+        except Exception as kernel_bar_cpp_cs_errors:
+            print(f'menubar error: {kernel_bar_cpp_cs_errors}')
+
+        self.lbl_1.setStyleSheet('background-color:red;font-size:15px;font-weight:bold')
+        self.start_btn.setStyleSheet('QPushButton{background-color:gray;color:white;font-size:16px;font-weight:italic;font:consolas;}QPushButton:hover{background-color:darkred;font-size:17px;font-weight:bold;}QPushButton:pressed{background-color:red;font-size:22px;font-weight:bold}')
+        self.graph_preview_off.setStyleSheet('QPushButton{background-color:gray;color:white;font-size:16px;font-weight:italic;font:consolas;}QPushButton:hover{background-color:darkred;font-size:17px;font-weight:bold;}QPushButton:pressed{background-color:red;font-size:22px;font-weight:bold}')
+        self.graph_main_viewer_motor_on_btn_trimf.setStyleSheet('QPushButton{background-color:gray;color:white;font-size:16px;font-weight:italic;font:consolas;}QPushButton:hover{background-color:darkred;font-size:17px;font-weight:bold;}QPushButton:pressed{background-color:red;font-size:22px;font-weight:bold}')
+        self.graph_main_viewer_motor_on_btn_trapmf.setStyleSheet('QPushButton{background-color:gray;color:white;font-size:16px;font-weight:italic;font:consolas;}QPushButton:hover{background-color:darkred;font-size:17px;font-weight:bold;}QPushButton:pressed{background-color:red;font-size:22px;font-weight:bold}')
+        self.ax_1.set_facecolor('black')
+        self.ax_2.set_facecolor('black')
+
+        self.setCentralWidget(widget)
+
+    def re_draw_ecdf(self):
+            try:
+                self.ax_1.clear()
+                self.ax_2.clear()
+                self.canvas.draw()
+                self.canvas2.draw()  
+                try:
+                    self.ax_1.ecdf(vvc_arr,label='Dondurucu Soğuk')
+                except:
+                    pass
+                try:    
+                    self.ax_1.ecdf(vc_arr,label='Çok soğuk')
+                except:
+                    pass
+                try:
+                    self.ax_1.ecdf(c_arr,label='Soğuk')
+                except:
+                    pass
+                try:
+                    self.ax_2.ecdf(w_arr,label='Ilık')
+                except:
+                    pass
+                try:
+                    self.ax_2.ecdf(h_arr,label='Sıcak')
+                except:
+                    pass
+                try:
+                    self.ax_2.ecdf(vh_arr,label='Çok sıcak')
+                except:
+                    pass
+                try:
+                    self.ax_2.ecdf(vvh_arr,label='Yakıcı sıcak')
+                except:
+                    pass
+                self.ax_2.legend()
+                self.ax_1.legend()
+                self.canvas.draw()
+                self.canvas2.draw()   
+                print(vvc_arr)
+                print(vc_arr)
+                print(c_arr)
+                print(w_arr)
+            except:
+                print('Veri setleri boş')
+    def re_draw_histogram(self):
+        try:
+            self.ax_1.clear()
+            self.ax_2.clear()
+            self.canvas.draw()
+            self.canvas2.draw()  
+            self.ax_1.hist(vvc_arr,label='Dondurucu Soğuk',bins=20,cumulative=True)
+            self.ax_1.hist(vc_arr,label='Çok soğuk',bins=20,cumulative=True)
+            self.ax_1.hist(c_arr,label='Soğuk',bins=20,cumulative=True)
+            self.ax_2.hist(w_arr,label='Ilık',bins=20,cumulative=True)
+            self.ax_2.hist(h_arr,label='Sıcak',bins=20,cumulative=True)
+            self.ax_2.hist(vh_arr,label='Çok sıcak',bins=20,cumulative=True)
+            self.ax_2.hist(vvh_arr,label='Yakıcı sıcak',bins=20,cumulative=True)
+            self.ax_2.legend()
+            self.ax_1.legend()
+            self.canvas.draw()
+            self.canvas2.draw()       
+        except:
+            print('HATA: Veri setleri boş')
+    def re_draw_plot(self):
+        try:
+            self.ax_1.clear()
+            self.ax_2.clear()
+            self.ax_1.plot(vvc_arr,label='Dondurucu Soğuk')
+            self.ax_1.plot(vc_arr,label='Çok soğuk')
+            self.ax_1.plot(c_arr,label='Soğuk')
+            self.ax_2.plot(w_arr,label='Ilık')
+            self.ax_2.plot(h_arr,label='Sıcak')
+            self.ax_2.plot(vh_arr,label='Çok sıcak')
+            self.ax_2.plot(vvh_arr,label='Yakıcı sıcak')
+            self.ax_2.legend()
+            self.ax_1.legend()
+            self.canvas.draw()
+            self.canvas2.draw() 
+        except:
+            print('HATA: Veri setleri boş')
+    def trapmf_viewer(self):
+        plt.plot(trampf_vvc,label='Dondurucu soğuk Üyelik fonksiyonu')
+        plt.plot(trapmf_vvh,label='Yakıcı Sıcak Üyelik fonksiyonu')
+        plt.show()    
+    def trimf_viewer(self):
+        plt.plot(trimf_vc,label='Çok soğuk Üyelik fonksiyonu')
+        plt.plot(trimf_c,label='Soğuk Üyelik fonksiyonu')
+        plt.plot(trimf_w,label='Ilık Üyelik fonksiyonu')
+        plt.plot(trimf_h,label='Sıcak Üyelik fonksiyonu')
+        plt.plot(trimf_vh,label='Çok sıcak Üyelik fonksiyonu')
+        plt.show()
+    def draw_matplotlib_graph(self):
+        plt.plot(vvc_arr,label='Dondurucu soğuk')
+        plt.plot(vc_arr,label='Çok soğuk')
+        plt.plot(c_arr,label='Soğuk')
+        plt.plot(w_arr,label='Ilık')
+        plt.plot(h_arr,label='Sıcak')
+        plt.plot(vh_arr,label='Çok sıcak')
+        plt.plot(vvh_arr,label='Yakıcı sıcak')
+        plt.show()
+
+    def start_spider_consider(self):
+        self.threadf = SignalSYS()
+        self.analizler.clear()
+        self.analizler.append('Analiz işlemi başladı 2024-2025 Türkiye sıcaklık verileri çekiliyor....')
+        self.threadf.start()
+        self.threadf.started.connect(self.started_appender)
+        self.threadf.finished.connect(self.handle_thread_signal)
+        self.index_89 = 1
+    def started_appender(self):
+        self.proggres_val = 1
+        self.progressf = QProgressDialog(self)
+        prog_lb = QLabel('Sıcaklık verileri analiz ediliyor...')
+        prog_exit_btn = QPushButton('Yükleme ekranını kapat')
+        self.progressf.setLabel(prog_lb)
+        self.progressf.setCancelButton(prog_exit_btn)
+        self.progressf.setRange(0,12*10*5*2+1)
+        self.progressf.setValue(0)
+        self.timer_main = QTimer(self)
+        self.timer_main.start(150)
+        self.timer_main.timeout.connect(self.update_progress_val)
+        prog_exit_btn.clicked.connect(self.destroy_proggres_bar)
+    def update_progress_val(self):
+        self.proggres_val+=1
+        self.progressf.setValue(self.proggres_val)
+    def proggres(self):
+        prog = QProgressBar()
+        session = self.index_89
+        session+=1
+        prog.setRange(0,17)
+        prog.setValue(session)
+    def destroy_proggres_bar(self):
+        self.timer_main.stop()
+        self.progressf.destroy()
+    def clear_dataset_view_function(self):
+        self.analizler.clear()
+    def handle_thread_signal(self):
+        self.analizler.append(f'Dondurucu soğuk dereceler\n {vvc_arr}\n\nÇok soğuk dereceler\n{vc_arr}\n\nSoğuk dereceler\n{c_arr}\n\nIlık dereceler\n{w_arr}\n\nSıcak dereceler{h_arr}\nÇok sıcak dereceler\n{vh_arr}\nYakıcı sıcak dereceler\n{vvh_arr}')
+        self.ax_1.clear()
+        self.ax_2.clear()
+
+        self.ax_1.plot(vvc_arr,label='Dondurucu Soğuk')
+        self.ax_1.plot(vc_arr,label='Çok soğuk')
+        self.ax_1.plot(c_arr,label='Soğuk')
+        self.ax_2.plot(w_arr,label='Ilık')
+        self.ax_2.plot(h_arr,label='Sıcak')
+        self.ax_2.plot(vh_arr,label='Çok sıcak')
+        self.ax_2.plot(vvh_arr,label='Yakıcı sıcak')
+        self.ax_2.legend()
+        self.ax_1.legend()
+        self.canvas.draw()
+        self.canvas2.draw()
+    def clear_all(self):
+        self.graph_preview_off.setText('Grafikleri sil')
+        self.ax_2.clear()
+        self.ax_1.clear()
+        self.ax_1.set_title('2024-2025 SICAKLIK ANALİZİ GRAFİK DÖKÜMÜ') 
+        self.canvas.draw()
+        self.canvas2.draw()
+
+class sessionmain1():
+    def __init__(self):
+        threading.Thread.__init__(self)
+
+        print('Sıcaklık verilerini çekmek için ENTER tuşuna basın')
+        print()
+        input('$>>[ENTER]')
+        selenium_scrapping_block()
+
+
+class TestSESSİON():
+    def __init__(self,data,*args):
+        super().__init__()
+        self.data = data
+        self.bindF()
+
+    def bindF(self):
+        if self.data == '(CLİ) Baslatma':
+            try:
+                sessionmain1()
+            except Exception as e1:
+                print(f'hata: {e1}')
+
+        elif self.data == '(GUİ) Baslatma':
+            try:
+                if __name__=="__main__":
+                    sp=QApplication(_s.argv)
+                    sw=sessionmain0()
+                    sw.show()
+                    sp.exec_()
+            except Exception as e2:
+                print(f'hata: {e2}')
+        else:
+            self.data
+class SelectUİ():
+    def __init__(self,data):
+        super().__init__()
+        self.root = tk.Tk()
+
+        self.root.resizable(False,False)
+
+        lb_net = tk.Label(text='İnternet durumu: ',font='bold')
+        lb4 = tk.Label()
+        lb_net.pack(padx=10)
+        lb4.pack(padx=10)
+        lb = tk.Label(text='Baslatma Seçenekleri',font='italic')
+        lb.pack(padx=10)
+
+        slt = tk.Listbox()
+        slt.insert(0,'(CLİ) Baslatma')
+        slt.insert(1,'(GUİ) Baslatma')
+        slt.config(font='bold',fg='white',bg='gray')
+        slt.pack(padx=10)
+
+        btn = tk.Button(text='Baslat',font='bold',command=lambda: TestSESSİON(slt.get(tk.ACTIVE),self.root.destroy()))
+        btn.pack(padx=10)
+
+        try:
+            net_chamber=rqs.get('https://pypi.org')
+            if net_chamber.status_code == 200 or 201:
+                lb_net.config(text='İnternet durumu: ONLİNE',fg='green') 
+        except Exception as e90:
+            lb_net.config(text='İnternet durumu: OFFLİNE',fg='red')
+        self.root.mainloop()
+print(Fore.LIGHTMAGENTA_EX)
+print(fr'''
+88888888888888888888888888888888888888888888888888888888888888888888888
+88.._|      | `-.  | `.  -_-_ _-_  _-  _- -_ -  .'|   |.'|     |  _..88
+88   `-.._  |    |`!  |`.  -_ -__ -_ _- _-_-  .'  |.;'   |   _.!-'|  88
+88      | `-!._  |  `;!  ;. _______________ ,'| .-' |   _!.i'     |  88
+88..__  |     |`-!._ | `.| |_______________||."'|  _!.;'   |     _|..88
+88   |``"..__ |    |`";.| i|_|MMMMMMMMMMM|_|'| _!-|   |   _|..-|'    88
+88   |      |``--..|_ | `;!|l|MMoMMMMoMMM|1|.'j   |_..!-'|     |     88
+88   |      |    |   |`-,!_|_|MMMMP'YMMMM|_||.!-;'  |    |     |     88
+88___|______|____!.,.!,.!,!|d|MMMo * loMM|p|,!,.!.,.!..__|_____|_____88
+88      |     |    |  |  | |_|MMMMb,dMMMM|_|| |   |   |    |      |  88
+88      |     |    |..!-;'i|r|MPYMoMMMMoM|r| |`-..|   |    |      |  88
+88      |    _!.-j'  | _!,"|_|M<>MMMMoMMM|_||!._|  `i-!.._ |      |  88
+88     _!.-'|    | _."|  !;|1|MbdMMoMMMMM|l|`.| `-._|    |``-.._  |  88
+88..-i'     |  _.''|  !-| !|_|MMMoMMMMoMM|_|.|`-. | ``._ |     |``"..88
+88   |      |.|    |.|  !| |u|MoMMMMoMMMM|n||`. |`!   | `".    |     88
+88   |  _.-'  |  .'  |.' |/|_|MMMMoMMMMoM|_|! |`!  `,.|    |-._|     88
+88  _!"'|     !.'|  .'| .'|[@]MMMMMMMMMMM[@] \|  `. | `._  |   `-._  88
+88-'    |   .'   |.|  |/| /                 \|`.  |`!    |.|      |`-88
+88      |_.'|   .' | .' |/                   \  \ |  `.  | `._-Lee|  88
+88     .'   | .'   |/|  /                     \ |`!   |`.|    `.  |  88
+88  _.'     !'|   .' | /                       \|  `  |  `.    |`.|  88
+010101010101010101010101010101010101010101010101010101010101010101010101
+|========================================================================|
+|-|                                [1.5]                               |-|
+|------------Bulanık mantık/Hava durumu/Veri analizi/YAzeka--------------|
+''')
+print('\n')
+print(Fore.LIGHTCYAN_EX)
+input('\nDevam etmek için [ENTER]')
+print('\n')
+#aslında time.sleep kötü oldu sadece sleep kullanabilirdim ama yapmadım
+print(Fore.LIGHTCYAN_EX,Back.YELLOW)
+for i in tqdm.tqdm(range(100)):
+    time.sleep(0.005)
+print(Fore.RED,Back.LIGHTMAGENTA_EX)
+for i in tqdm.tqdm(range(100)):
+    time.sleep(0.005)
+print(Fore.BLUE,Back.LIGHTMAGENTA_EX)
+for i in tqdm.tqdm(range(100)):
+    time.sleep(0.005)
+print(Fore.GREEN,Back.LIGHTMAGENTA_EX)
+for i in tqdm.tqdm(range(100)):
+    time.sleep(0.005)
+print(Fore.RED,Back.BLUE)
+for i in tqdm.tqdm(range(100)):
+    time.sleep(0.005)
+print(Fore.BLUE,Back.GREEN)
+for i in tqdm.tqdm(range(100)):
+    time.sleep(0.005)
+time.sleep(2)
+print(Fore.RESET,Back.RESET)
+_o.system('cls')
+input('Devam etmek için [ENTER]')
+_o.system('cls')
+SelectUİ(data=0)
