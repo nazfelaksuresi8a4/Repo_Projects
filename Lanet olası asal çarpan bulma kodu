@@ -1,0 +1,15 @@
+carpanlar = []
+
+def asal_carpan_bul(n):
+    i = 2
+    while i * i <= n:
+        if n % i == 0:
+            carpanlar.append(i)
+            while n%i==0:
+                n//=i
+        i +=1
+    if n > 1:
+        carpanlar.append(n)
+    return carpanlar
+
+print(asal_carpan_bul(14))
