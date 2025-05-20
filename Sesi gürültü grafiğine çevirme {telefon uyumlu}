@@ -2,20 +2,30 @@ import wave
 import numpy as np
 import matplotlib.pyplot as plt
 
-file = wave.open(r"/storage/emulated/0/Download/𝓘 𝔀𝓪𝓼 𝓰𝓸𝓭 𝓪𝓽 𝓲𝓽.wav")
+file = wave.open(r"/storage/emulated/0/Download/𝓘 𝔀𝓪𝓼 𝓰𝓸𝓭 𝓪𝓽 𝓲𝓽.wav") #doaya yolu (.waw dosyasının)
 
 time = file.getnframes()/file.getframerate()
+#sesin kaç saniye olduğu tüm çerçevelerin saniye başı düşen cerceveye bölünerek bulunur
 
 j = file.readframes(nframes=file.getnframes())
-
+#sesin tum çerçevelerini bulmuştuk zaten şimdi burdada o islemin ekrana basılmış halini yapiyoru Z burada sayılar vardır 0 lar sessizlik tır bu ciktinin verdiği türü byte cinsinden olup içinde sakladığı veriler int verisine sahiptir
 
 k = np.frombuffer(j,dtype=np.int16)
+#biz j,de  frameleri yazdırmıştık şimdi ise bunu arraya cevirdik
 
 k = k.reshape(-1,2)
+#arrayi -1 e 2 olarak yeniden şekillendirdiği 2 olmasının nedeni sesin 2 kanallı yani 16 bit olmasıdır NOT 1 byte = 8 bit
 
 linspaces = np.linspace(0,time,file.getnframes())	
+#Burad linspace oluşturuldu start 0 stop time num yani artış değeri ise ses dosyasının tüm frameleri
 
-plt.plot(linspaces,k)
+
+plt.plot(linspaces,k)#linspace objesi ile k arrayi ciziliyor buda ses yani(gürültü) grafiğini veriyor bize.....
 plt.show()
+
+
+
+#№fx(n²)
+
 
 
