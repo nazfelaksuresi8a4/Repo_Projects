@@ -1,0 +1,21 @@
+import wave
+import numpy as np
+import matplotlib.pyplot as plt
+
+file = wave.open(r"/storage/emulated/0/Download/𝓘 𝔀𝓪𝓼 𝓰𝓸𝓭 𝓪𝓽 𝓲𝓽.wav")
+
+time = file.getnframes()/file.getframerate()
+
+j = file.readframes(nframes=file.getnframes())
+
+
+k = np.frombuffer(j,dtype=np.int16)
+
+k = k.reshape(-1,2)
+
+linspaces = np.linspace(0,time,file.getnframes())	
+
+plt.plot(linspaces,k)
+plt.show()
+
+
