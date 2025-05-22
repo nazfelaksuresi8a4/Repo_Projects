@@ -1,0 +1,72 @@
+from time import sleep
+import os as _o
+import sys as _s
+
+def secim_ekrani():
+    s = input("|1|=> Saniye sayar\n|2|=> Dakika sayar\n|3|=> Saat sayar\n\n>> ")
+    
+    if s == "1":
+        geri_say()
+    elif s == "2":
+        dakika_gerisay()
+            
+def geri_say():
+        
+    def sor():
+        x = input("kaçtan geriye sayilsın: ")
+
+        pom_val = int(x)
+        
+        return pom_val
+        
+    pomval_scoped = sor()
+    
+    for q in range(pomval_scoped):
+        sleep(1)
+        pomval_scoped-=1
+        print("<<",pomval_scoped,">>",end="\r")
+        if(pomval_scoped<=0):
+            ends = ["Süre bitti"," "*len("süre bitti")]
+            for k in range(5):
+                for v in ends:
+                    sleep(0.5)
+                    print(v,end="\r")
+                    if k == 4:
+                        
+                        _o.system("clear")   
+                        a = input("çıkmak için (-) başa dönmek için (+)\n\n> ")       
+                        if a == "-":
+                            _o.system("clear")
+                            _s.exit()
+                        elif a == "+":
+                            _o.system("clear")
+                            secim_ekrani()
+            
+def dakika_gerisay():
+    ms = [0,0]
+    
+    ms_i = input("||dakika:saniye||\n\n>> ").split(" ") 
+    
+    if ms_i:
+        ms.clear()
+        try:
+            ms.append(ms_i)
+        except Exception as keras:
+            ms.clear()
+            print("lütfen geçerli sayılar girin!!", " hatfa:  " ,keras)
+            ms_i_exception = input("\n/dakika:saniye\\ >> ")
+            try:
+                for splitter in range(len(ms_i[0])):
+                    ms.append(int(ms_i_exception.split(" ")))
+            except:
+                print("\n\n 2 denemeyi gectiniz başa aktariliyorsunuz...")
+                
+                _o.system("clear")
+                secim_ekrani()
+            
+          
+    for qk in range(ms[0][1]):
+            
+secim_ekrani()            
+            
+    
