@@ -1,0 +1,21 @@
+import asyncio
+
+async def func_1():
+     for x in range(30*50):
+         f = x
+         continue
+     print("ended 1 ", f)    
+ 
+async def func_2():
+     for y in range(30*50):
+         v = y
+         continue
+     print("ended 2 ", v)    
+ 
+async def start():
+    await asyncio.gather(func_1(),func_2())
+ 
+asyncio.run(start())         
+    
+    
+    
