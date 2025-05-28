@@ -1,0 +1,16 @@
+import asyncio
+
+async def func1():
+    print("Başladı: func1")
+    await asyncio.sleep(1)
+    print("Bitti: func1")
+
+async def func2():
+    print("Başladı: func2")
+    await asyncio.sleep(0.5)
+    print("Bitti: func2")
+
+async def main():
+    await asyncio.gather(func1(), func2())
+
+asyncio.run(main())
