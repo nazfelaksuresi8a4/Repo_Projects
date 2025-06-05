@@ -1,0 +1,68 @@
+#app = mainGuiObjet()
+
+#style_sheet = readed_css_file
+
+#keyword = app.setStyleSheet(style_sheet)   
+
+#code#
+
+
+
+import sys
+from PyQt5.QtWidgets import (
+    QApplication,
+    QWidget,
+    QLabel,
+    QPushButton,
+    QVBoxLayout,
+)
+
+# Stil yükleyici fonksiyon
+def stil_yukle():
+    return """
+    QPushButton {
+        background-color: #3498db;
+        color: white;
+        border-radius: 5px;
+        padding: 8px;
+    }
+
+    QPushButton:hover {
+        background-color: #2980b9;
+    }
+
+    QLabel {
+        font-size: 14px;
+        color: #2c3e50;
+    }
+    """
+
+
+# Arayüz sınıfı
+class Arayuz(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("PyQt5 CSS Birleştirilmiş Örnek")
+
+        self.label = QLabel("Merhaba!")
+        self.button = QPushButton("Tıkla")
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.label)
+        layout.addWidget(self.button)
+
+        self.setLayout(layout)
+
+
+# Uygulama başlangıcı
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+
+    # Stili uygula
+    app.setStyleSheet(stil_yukle())
+
+    pencere = Arayuz()
+    pencere.show()
+
+    sys.exit(app.exec_())
