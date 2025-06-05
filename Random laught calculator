@@ -1,1 +1,21 @@
 #IGFSAGROWGROPAWURBAWNBFSNFILBNBNF random laught text calculator *******#
+
+import random
+
+def fun_function():
+    fun_texts = [
+                "x",
+                "y",
+                "z",
+                "o"
+                ]
+    return random.choice(fun_texts)
+    
+class define_main:
+    def quest():
+        
+        print(f"aga sana bir şey dicem Kuramına çok komiktir\n\n{fun_function()}")
+        
+        question = input("\naga hele bi random atta istatiskik çıksın be\n\n$> : ")
+        
+define_main.quest()        
