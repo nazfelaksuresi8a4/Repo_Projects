@@ -5,6 +5,7 @@
 #import sqlite3 as sql
 
 import pandas as pd
+import numpy as np
 
 random_laught = input('gül> ')
 
@@ -14,7 +15,7 @@ random_val_counts = []
 for char in random_laught:
     random_chars.append(char)
 
-copied_char_array = random_chars.copy() #orginal char aray#
+copied_char_array = random_chars.copy() #orginal char array#
 
 random_chars.clear()
 
@@ -24,7 +25,34 @@ for chars in set(copied_char_array):
 for count_char in set(copied_char_array):
     random_val_counts.append(copied_char_array.count(count_char))
 
-Data_frame = pd.DataFrame(random_val_counts,index=random_chars)
+class find_the_middle_char:
+    def find_middle():
+        copied_second_char_array = copied_char_array.copy()
+        copied_char_count_array_sorted = sorted(random_val_counts.copy())
 
-print(Data_frame)   
+        copied_char_count_array_sorted.remove(max(copied_char_count_array_sorted))
+        copied_char_count_array_sorted.remove(min(copied_char_count_array_sorted))
+
+        n = len(copied_char_count_array_sorted)
+
+        if n == 0:
+            return 0
+
+        if n %2 ==  0:
+            return (copied_char_count_array_sorted[n // 2 - 1] + copied_char_count_array_sorted[n // 2]) // 2
+        
+        else:   
+            return (copied_char_count_array_sorted[n // 2])
+
+            
+
+find_the_middle_char.find_middle()
+
+Data_frame = pd.DataFrame(data=random_val_counts,index=random_chars,columns=['count'])
+
+#EŞLEŞME HATASI MEVCUT [MEDYAN BULMADA SIKINTI YAŞANIYOR BU LANET ŞEYİ REFACTOR ET ÖYLE KÖZ KÖZ OTURACAĞINA]#
+
+print(f'En fazla kullanılan harf: {random_chars[random_val_counts.index(max(random_val_counts))]}')
+print(f'En az kullanılan harf: {random_chars[random_val_counts.index(min(random_val_counts))]}')
+print(f'Ne az Ne fazla kullanılan harf: {random_chars[random_val_counts.index(find_the_middle_char.find_middle())]}')
   
