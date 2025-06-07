@@ -54,5 +54,5 @@ Data_frame = pd.DataFrame(data=random_val_counts,index=random_chars,columns=['co
 
 print(f'En fazla kullanılan harf: {random_chars[random_val_counts.index(max(random_val_counts))]}')
 print(f'En az kullanılan harf: {random_chars[random_val_counts.index(min(random_val_counts))]}')
-print(f'Ne az Ne fazla kullanılan harf: {random_chars[random_val_counts.index(find_the_middle_char.find_middle())]}')
+print(f'Ne az Ne fazla kullanılan harf: {str(set(random_chars[random_val_counts.index(find_the_middle_char.find_middle())])).replace('{','').replace('}','').replace("'",'')}')
   
