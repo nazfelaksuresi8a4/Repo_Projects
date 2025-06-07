@@ -1,3 +1,5 @@
+#Burada strench (widget sıkıştırma) yöntemi kullanılmıştır label bu yüzden atanmıştır#
+
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 import sys
