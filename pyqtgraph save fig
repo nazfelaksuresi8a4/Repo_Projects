@@ -1,0 +1,32 @@
+from PyQt5.QtWidgets import QApplication,QWidget,QVBoxLayout,QMainWindow
+import sys as _s 
+import pyqtgraph as _p
+from pyqtgraph import exporters as _e
+
+class mainGraph(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        widget = QWidget()
+        layout = QVBoxLayout()
+        
+        widget.setLayout(layout)
+        self.setCentralWidget(widget)
+
+        plot_widget = _p.PlotWidget(title='plotİtem image Exporter')
+
+        layout.addWidget(plot_widget)
+
+        plot_widget.plot([f for f in range(0,100)])
+
+        plotİtem = plot_widget.plotItem
+
+        exporter = _e.ImageExporter(plotİtem)
+        exporter.export('al_sana_png_icinde_grafik_aga_bu_np_yede_benzemez_ona_gore.png')
+
+        #grafiği bu isimle arat bir yere kaydetti makine işte
+
+if __name__=="__main__":
+    sp = QApplication(_s.argv)
+    sw = mainGraph()
+    sw.show()
+    _s.exit(sp.exec_())
