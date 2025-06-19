@@ -1,0 +1,19 @@
+import wave 
+import matplotlib.pyplot as plt
+import numpy as np
+
+file = wave.open(r"C:\Users\alper\Desktop\wawlar\beyaz_gurultu.wav")
+
+nframes = file.getnframes()
+
+byte_array = file.readframes(nframes)
+
+#print(file.getnchannels()) 1 = mono 2 = stero 1 bit = 8 byte
+
+real_array = np.frombuffer(byte_array,dtype=np.int16)
+
+x_axis = np.linspace(0,nframes/file.getframerate(),nframes)
+
+plt.plot(x_axis,real_array)
+
+plt.show()
