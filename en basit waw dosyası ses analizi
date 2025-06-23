@@ -1,0 +1,23 @@
+import numpy as np
+import wave 
+import matplotlib.pyplot as plt
+
+sound_file = r"C:\Users\alper\Desktop\wawlar\beyaz_gurultu.wav"
+
+p_file = wave.open(sound_file)
+
+nframes = p_file.getnframes()
+bytes = p_file.readframes(nframes)
+framerate = p_file.getframerate()
+
+buffer = np.frombuffer(bytes,dtype=np.int16)
+
+linspace = np.linspace(0,nframes / framerate, len(buffer))
+
+plt.plot(linspace,buffer)
+
+plt.show()
+
+
+#linpsace içindedjki buffer ın lenght i y eksenini yani nokta sayısını belirlerken nframes / framerate ise saniye kadar gidilmesini sağlar x eksenini temsil eder
+
