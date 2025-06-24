@@ -1,0 +1,16 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import time
+
+# Set up the figure and axis
+fig, ax = plt.subplots()
+x = np.linspace(0, 2 * np.pi, 100)
+line, = ax.plot(x, np.sin(x))
+
+# Animate the plot manually
+for phase in np.linspace(0, 10 * np.pi, 500):
+    line.set_ydata(np.sin(x + phase))  # Update the data
+    plt.draw()
+    plt.pause(0.01)  # Pause to allow the figure to update
+
+#temsili koddur değiştire değiştire yazılabilir
