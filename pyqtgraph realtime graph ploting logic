@@ -1,0 +1,83 @@
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+import pyqtgraph as pg
+import numpy as np
+import sys
+import wave
+
+# WAV dosyasını oku
+file = wave.open(r"C:\Users\alper\curseforge\minecraft\Instances\realş\tacz\daffas\assets\daffas_arsenal\tacz_sounds\samula3\untitled3.wav", 'rb')
+nframes = file.getnframes()
+framerate = file.getframerate()
+
+duration = nframes / framerate
+sound_bytes = file.readframes(nframes)
+data = np.frombuffer(sound_bytes, dtype=np.int16)
+
+x_data = np.linspace(0, duration, len(data))
+
+# Her seferinde kaç örnek çizilecek
+CHUNK = 1000
+
+class Window(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Hızlı Ses Çizimi")
+
+        self.graph = pg.PlotWidget()
+        self.curve = self.graph.plot([], [], pen='y')
+
+        self.x_array = []
+        self.y_array = []
+        self.index = 0
+
+        # Ana widget ve layout
+        widget = QWidget()
+        layout = QVBoxLayout(widget)
+        layout.addWidget(self.graph)
+
+        # Butonlar
+        self.btn_clear = QPushButton('Clear')
+        self.btn_plot = QPushButton('Plot')
+        layout.addWidget(self.btn_clear)
+        layout.addWidget(self.btn_plot)
+
+        self.setCentralWidget(widget)
+
+        # Timer
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.plot_step)
+
+        # Buton bağlantıları
+        self.btn_clear.clicked.connect(self.clear)
+        self.btn_plot.clicked.connect(self.start_plot)
+
+    def clear(self):
+        self.timer.stop()
+        self.graph.clear()
+        self.curve = self.graph.plot([], [], pen='y')
+        self.x_array.clear()
+        self.y_array.clear()
+        self.index = 0
+
+    def start_plot(self):
+        self.timer.start(1)
+
+    def plot_step(self):
+        end_index = min(self.index + CHUNK, len(data))
+
+        self.x_array.extend(x_data[self.index:end_index])
+        self.y_array.extend(data[self.index:end_index])
+
+        self.curve.setData(self.x_array, self.y_array)
+        self.index = end_index
+
+        if self.index >= len(data):
+            self.timer.stop()
+
+if __name__ == "__main__":
+    app = QApplication([])
+    window = Window()
+    window.show()
+    sys.exit(app.exec_())
