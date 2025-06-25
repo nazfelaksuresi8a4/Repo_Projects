@@ -1,0 +1,27 @@
+import random 
+import matplotlib.pyplot as plt
+
+
+x_array = []
+y_array = [random.randint(0,10) for _ in range(2500)]
+x_lines = [_ for _ in range(len(y_array))]
+
+index = 0
+chunk = 100
+
+plt.style.use('dark_background')
+
+while index <= len(y_array):
+    index_value = min(index + chunk, len(y_array))
+
+    plt.plot(x_lines[index:index_value],y_array[index:index_value],c='w')
+
+    plt.pause(0.1)
+
+    index += chunk
+
+
+plt.show()
+
+
+#her ploltta chunk kadar nokta çizer
