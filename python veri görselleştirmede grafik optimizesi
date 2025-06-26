@@ -1,0 +1,58 @@
+#bu kod grafik belirtilen nokta sayısına gelince geride kalanları sıfırlar#
+
+
+import sys
+from PyQt5.QtCore import*
+from PyQt5.QtGui import*
+from PyQt5.QtWidgets import*
+import pyqtgraph as pg
+import numpy as np
+
+class AnimatedPlot(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Animated Graph with Pan and Fullscreen Area")
+
+        self.plot_widget = pg.PlotWidget()
+        self.setCentralWidget(self.plot_widget)
+
+        self.curve = self.plot_widget.plot([],[])
+
+        self.phase = 0
+
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_plot)
+        self.timer.start(50)
+
+        self.phase_x = np.linspace(0,10,1900)
+        self.phase_y = np.random.normal(0,10,1900)
+
+        print(self.phase_x)
+
+        self.x_array = []
+        self.y_array = []
+
+        self.index = 0
+
+    def update_plot(self):
+        if self.index >= len(self.phase_x):
+            self.timer.stop()
+            return 0
+#bu 38 den sonrası önemli
+        self.x_array.append(self.phase_x[self.index])
+        self.y_array.append(self.phase_y[self.index])
+
+        if self.index >= 60:
+            self.x_array = self.x_array[-40:]
+            self.y_array = self.y_array[-40:]
+
+        self.index += 1
+
+        self.curve.setData(self.x_array,self.y_array)
+#48 den sonrası önemsiz
+
+if __name__ == "__main__":
+    app = QApplication([])
+    win = AnimatedPlot()
+    win.show()
+    sys.exit(app.exec_())
