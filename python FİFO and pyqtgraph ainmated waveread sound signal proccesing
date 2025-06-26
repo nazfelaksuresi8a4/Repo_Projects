@@ -1,0 +1,90 @@
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QMainWindow
+from PyQt5.QtCore import QTimer
+import wave 
+import numpy as np
+import pygame as pyg
+import pyqtgraph as pg
+import sys as _s
+
+class main(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        widget = QWidget()
+        layout = QVBoxLayout()
+
+        widget.setLayout(layout)
+
+        self.graph_monitor = pg.PlotWidget()
+
+        self.graph_curve = self.graph_monitor.plot([],[])
+
+        layout.addWidget(self.graph_monitor)
+
+        self.x_array = []
+        self.y_array = []
+
+        self.chunk = 1000
+        self.index = 0
+        self.MAX_POİNTS = 1444
+
+        self.start_wave_read(r"C:\Users\alper\Desktop\wawlar\beyaz_gurultu.wav")
+
+        self.setCentralWidget(widget)
+
+    def start_wave_read(self,file):
+        self.wave_read_index = 0
+
+        wave_read_file = wave.open(file)
+
+        self.nframes = wave_read_file.getnframes()
+        self.framerates = wave_read_file.getframerate()
+        self.bytes = wave_read_file.readframes(self.nframes)
+        self.sampwidth = wave_read_file.getsampwidth()
+
+        sound_duration = self.nframes / self.framerates
+
+        if self.sampwidth == 1:
+            self.y_axis = np.frombuffer(self.bytes, dtype=np.uint8)
+        
+        elif self.sampwidth == 2:
+            self.y_axis = np.frombuffer(self.bytes, dtype=np.uint16)
+        
+        elif self.sampwidth == 4:
+            self.y_axis = np.frombuffer(self.bytes, dtype=np.uint32)
+        
+        else:
+            self.wave_read_index = 1
+
+        if self.wave_read_index == 0:
+            self.x_axis = np.linspace(0,sound_duration,len(self.y_axis))
+
+            self.x_axis = self.x_axis
+            self.y_axis = self.y_axis 
+
+            self.graph_timer = pg.QtCore.QTimer()
+            self.graph_timer.timeout.connect(self.animate_sound_signal)
+            self.graph_timer.start(10)
+        
+        else:
+            print('HATA: Ses dosyasının byte"ı bulunurken bir sorun meydana geldi!!')
+
+    
+    def animate_sound_signal(self):
+        self.val = min(self.index + self.chunk, len(self.y_axis))
+
+        self.x_array.extend(self.x_axis[self.index:self.val])
+        self.y_array.extend(self.y_axis[self.index:self.val])
+
+        if self.MAX_POİNTS >= len(self.x_array):
+            self.x_array = self.x_array[-150:]
+            self.y_array = self.y_array[-150:]
+
+        self.index += self.chunk
+
+        self.graph_curve.setData(self.x_array,self.y_array)
+
+if __name__=="__main__":
+    sp = QApplication([])
+    sw = main()
+    sw.show()
+    _s.exit(sp.exec_())
