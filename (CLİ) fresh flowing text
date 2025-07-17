@@ -1,0 +1,15 @@
+from time import sleep as _ts
+
+text = 'merhaba arkadaşlar benim adım volkan konak'
+space = 0
+direction = 1
+
+for char in text:
+    print(' ' * space, char)
+
+    space += direction
+
+    if space >= 6 or space <= 0:
+        direction *= -1
+    
+    _ts(0.05)
