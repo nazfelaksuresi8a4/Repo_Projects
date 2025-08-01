@@ -4,14 +4,20 @@ from time import sleep
 
 plt.style.use('dark_background')
 
-amplitudes = [0.0,0.0,0.0,0.6,-0.1,0.0,0.0]
+amplitudes = [0.0,0.0,0.0,0.0,0.0,0.0,
+              0.0,0.0,0.0,0.0,0.0,0.0,
+              0.0,0.0,0.0,0.0,0.0,0.0,
+              0.6,-0.1,0.0,0.0,0.0,0.0,
+              0.0,0.0,0.0,0.0,0.0,0.0,
+              0.0,0.0]
+
 electrodiagram_array = []
 
 length = len(amplitudes)
 index = 0
 
 x_lim_1 = 0
-x_lim_2 = 6
+x_lim_2 = 34
 
 fig,ax = plt.subplots(nrows=1,ncols=1)
 
@@ -20,14 +26,9 @@ for i in range(length*4):
         amplitudes.append(amplitudes[j])
 
 while True:
-    if index >= length*4:
+    if index >= length*1:
         index = 0
-        x_lim_1 += 1
-        x_lim_2 += 20
         electrodiagram_array.clear()
-        if len(electrodiagram_array) <= 0:
-            x_lim_1 = 0
-            x_lim_2 = 6
 
     
     electrodiagram_array.append(amplitudes[index])
