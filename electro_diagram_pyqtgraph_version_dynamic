@@ -1,0 +1,88 @@
+import matplotlib.pyplot as plt
+import numpy as np
+from qtpy.QtCore import*
+from qtpy.QtWidgets import*
+from qtpy.QtWidgets import*
+import pyqtgraph as pg
+import sys as _s
+
+class mainF(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        layout = QVBoxLayout()
+        widget = QWidget()
+
+        widget.setLayout(layout)
+
+        self.amplitude = []
+        self.dynamic_array = []
+
+        flatline = list(np.linspace(0,0,1))
+
+        P_wave = list(np.sin(np.linspace(0,1,1)))
+        P_flat = list(np.linspace(0,0,3))
+
+        Q_Wave = list(np.linspace(0,-0.2,3))
+
+        R_wave = list(np.linspace(-0.2,9,4))
+
+        S_Wave = list(np.linspace(6,-7,6))
+        S_normal = list(np.linspace(-7,0,4))
+
+        T_Flatline = list(np.linspace(0,0,1))
+        T_Wave = list(np.sin(np.linspace(0,3,12)))
+
+        U_Wave = list(np.linspace(0,0.0,6))
+
+        self.amplitude.extend(flatline)
+        self.amplitude.extend(P_wave)
+        self.amplitude.extend(P_flat)
+        self.amplitude.extend(Q_Wave)
+        self.amplitude.extend(R_wave)
+        self.amplitude.extend(S_Wave)
+        self.amplitude.extend(S_normal)
+        self.amplitude.extend(T_Flatline)
+        self.amplitude.extend(T_Wave)
+        self.amplitude.extend(U_Wave)
+
+        self.length_main = len(self.amplitude)
+
+        self.index = 0
+
+        plowtidet = pg.PlotWidget()
+
+        self.line = plowtidet.plot([],[])
+
+        self.amplitude_array = []
+
+        timer = QTimer(self)
+        timer.timeout.connect(self.update_ecg)
+        timer.start(50)
+
+        layout.addWidget(plowtidet)
+
+        self.setCentralWidget(widget)
+
+
+    def update_ecg(self):
+        if self.index >= self.length_main:
+            self.index = 0
+        
+        else:
+            self.amplitude_array.append(self.amplitude[self.index])
+            x_axis = list(range(len(self.amplitude_array)))
+            
+            if len(self.amplitude_array) == 200:
+                self.amplitude_array.pop(0)
+                if len(self.amplitude_array) != len(x_axis):
+                    x_axis.pop()
+
+            self.line.setData(x_axis,self.amplitude_array)
+        
+            self.index += 1
+
+if __name__=="__main__":
+    sp = QApplication([])
+    sw = mainF()
+    sw.show()
+    _s.exit(sp.exec())
