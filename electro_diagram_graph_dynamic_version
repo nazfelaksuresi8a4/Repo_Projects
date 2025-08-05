@@ -1,0 +1,65 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+amplitude = []
+dynamic_array = []
+
+flatline = list(np.linspace(0,0,1))
+
+P_wave = list(np.sin(np.linspace(0,1,1)))
+P_flat = list(np.linspace(0,0,3))
+
+Q_Wave = list(np.linspace(0,-0.2,3))
+
+R_wave = list(np.linspace(-0.2,9,4))
+
+S_Wave = list(np.linspace(6,-7,6))
+S_normal = list(np.linspace(-7,0,4))
+
+T_Flatline = list(np.linspace(0,0,1))
+T_Wave = list(np.sin(np.linspace(0,3,12)))
+
+U_Wave = list(np.linspace(0,0.0,6))
+
+amplitude.extend(flatline)
+amplitude.extend(P_wave)
+amplitude.extend(P_flat)
+amplitude.extend(Q_Wave)
+amplitude.extend(R_wave)
+amplitude.extend(S_Wave)
+amplitude.extend(S_normal)
+amplitude.extend(T_Flatline)
+amplitude.extend(T_Wave)
+amplitude.extend(U_Wave)
+
+length_main = len(amplitude)
+
+index = 0
+
+fig,ax = plt.subplots(nrows=1,ncols=1)
+line, = ax.plot([],[])
+
+ax.set_ylim(-10,10)
+
+amplitude_array = []
+
+while True:
+    if index >= length_main:
+        index = 0
+    
+    else:
+        amplitude_array.append(amplitude[index])
+        x_axis = list(range(len(amplitude_array)))
+        
+        if len(amplitude_array) == 200:
+            amplitude_array.pop(0)
+            if len(amplitude_array) != len(x_axis):
+                x_axis.pop()
+
+        line.set_data(x_axis,amplitude_array)
+        ax.set_xlim(len(amplitude_array) - 200, len(amplitude_array))
+
+        index += 1
+
+        plt.pause(0.050)
+
