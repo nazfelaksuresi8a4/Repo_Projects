@@ -1,0 +1,48 @@
+from PyQt5.QtCore import*
+from PyQt5.QtWidgets import*
+from PyQt5.QtGui import*
+import sys as _s
+
+class mainF(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.main_layout = QVBoxLayout()
+        self.second_layout = QVBoxLayout()
+
+        self.main_widget = QWidget()
+        self.second_widget = QWidget()
+
+        f = QPixmap().fromImage(QImage(r"C:\Users\alper\Downloads\indir.jpeg"))
+
+        label = QLabel()
+        label.setPixmap(f)
+
+        self.main_widget.setLayout(self.main_layout)
+        self.second_widget.setLayout(self.second_layout)
+        
+        self.main_button = QPushButton(text='1. Ekran')
+        self.second_button = QPushButton(text='2. Ekran')
+
+        self.main_layout.addWidget(self.main_button)
+        self.main_layout.addWidget(label)
+
+        self.second_layout.addWidget(self.second_button)
+        
+        self.main_button.clicked.connect(self.swap_screen)
+        self.second_button.clicked.connect(self.swap_screen_2)
+
+        self.setCentralWidget(self.main_widget)
+    
+    def swap_screen(self):
+        self.centralWidget().setParent(None)
+        self.setCentralWidget(self.second_widget)
+
+    def swap_screen_2(self):
+        self.centralWidget().setParent(None)
+        self.setCentralWidget(self.main_widget)
+
+if __name__=="__main__":
+    sp = QApplication(_s.argv)
+    sw = mainF()
+    sw.show()
+    _s.exit(sp.exec_())
