@@ -1,0 +1,21 @@
+#Sınıflarda(class) Kalıtım(İnterhance)
+
+class mainClass():
+    def __init__(self):
+        self.isim = 'ahmet'
+        self.yas = 15
+    
+    def ismin_ne(self):
+        return self.isim
+    
+    def yasin_kac(self):
+        return self.yas
+
+class derivatedClass(mainClass):
+    def yasin_kac(self):
+        return super().yasin_kac()
+    
+    def ismin_ne(self):
+        return super().ismin_ne()
+
+print(derivatedClass().ismin_ne())
