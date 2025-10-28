@@ -1,0 +1,11 @@
+#Normal figür objesi içindeki axes'e bir şeyi plot ettiğinizde veya bir matrixi resim olarak okuyarak gösterdiğinizde direkt sonuç verir ancak QT Backendindeki FigureCanvasQT5AAG Backend modülü plot veya imshow işleminden sonra ayrıca .draw ister
+
+#örneğin 
+
+
+#fig,ax = plt.subplots(1,1)
+#canvas = FigureCanvasQT5AAG(figure=fig)
+
+#ax.plot(matrix[0])
+
+#canvas.draw() ##BU KISIM OLMAZ İSE RENDERER İÇİNDEKİ AXES OBJESİ GÜNCELENEMEZ!
