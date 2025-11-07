@@ -1,0 +1,25 @@
+global: fonksiyonun içindeki farklı bir fonksiyonun içinde tanımşanan ikincil iç fonksiyona ait yerel değişkeni küresel(evrensel) değişken olarak değiştirir örnek;
+
+def m1():
+    x = 19
+    def m():
+        global x
+        x = 10
+    m() 
+    print(x)
+m1()   
+
+
+nonlocal: Fonksiyonun içinde tanımlanan bir değişkeni fonksiyon içi ikincil bir fonksiyonun içinde değiştirilebilir kılar örneğin;
+
+
+
+def m1():
+    x = 19
+    def m():
+        nonlocal x
+        print(x)
+        x = 12
+    m() 
+    print(x)
+m1()     
