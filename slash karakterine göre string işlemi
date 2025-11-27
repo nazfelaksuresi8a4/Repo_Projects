@@ -1,0 +1,51 @@
+#yazım stili: dağınık
+#yazım amacı: / karakterinden sonraki kelimeyi alıp teker teker yazdırmak
+#sürdürülebilirlik durumu(1/0): 0 
+#algortima niteliği: desteklenmiyor
+#yazılış süresi(HMS)(MS): (0 saat 2 dakika 15 saniye) (24 salise)
+#tasarım deseni(design pattern): yok
+
+
+import time 
+from colorama import Back,Fore,Style
+
+clrs = ['red','green','blue','orange','purple']
+
+letters = 'cümle-1bir/cümle-2iki/cümle-3üc/cümle-4dört/cümle-5(bes)'
+array = []
+
+stripped = letters.split('/')
+
+for i in range(len(stripped)):
+    for j in stripped[i]:
+        if j.isdigit() == True:
+            stripped[i] = stripped[i].replace(str(j),'/')
+
+for x in range(len((stripped))):
+    for y in stripped[x]:
+        time.sleep(0.1)
+        
+        if x == len(clrs) - 1:
+            break
+
+        else:
+            if y == '/':
+                if clrs[x] == 'red':
+                    print(Fore.RED,stripped[x].replace('/',''))
+
+                if clrs[x] == 'green':
+                    print(Fore.GREEN,stripped[x].replace('/',''))
+
+                if clrs[x] == 'blue':
+                    print(Fore.BLUE,stripped[x].replace('/',''))
+
+                if clrs[x] == 'orange':
+                    print(Fore.MAGENTA,stripped[x].replace('/',''))
+
+                if clrs[x] == 'purple':
+                    print(Fore.CYAN,stripped[x].replace('/',''))
+                
+
+            else:
+                print(y,end='\r')
+        
