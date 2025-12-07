@@ -1,0 +1,11 @@
+class MyMeta(type):
+    def __new__(cls,names,bases,dct):
+        dct['meta_var_1'] = 2 ** 2
+        dct['meta_var_2'] = 2 ** 3
+
+        return super().__new__(cls,names,bases,dct)
+
+class MyClass(metaclass=MyMeta):
+    pass
+
+print(MyClass().meta_var_1)
