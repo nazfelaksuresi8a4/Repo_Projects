@@ -1,0 +1,23 @@
+import asyncio
+
+n = 10
+m1 = [[],[]]
+
+async def main():
+    global m1,n
+    for i in range(n):
+        m1[0].append(i)
+        print(m1[0])
+        await asyncio.sleep((n / 100) * 2)
+
+async def second():
+    global m1,n
+    for j in range(n):
+        m1[1].append(j)
+        print(m1[1])
+        await asyncio.sleep((n / 100) * 2)
+
+async def get_output():
+    runner = await asyncio.gather(main(),second())
+
+out = asyncio.run(get_output())
