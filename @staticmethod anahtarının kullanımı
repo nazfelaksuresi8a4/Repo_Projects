@@ -1,0 +1,16 @@
+class MyClass:
+    def __init__(self,x):
+        self.value = x
+    
+    def calculate(self):            
+        return self.value * 2
+    
+    @staticmethod
+    def calculate_2(x,y):
+        return x * y
+    
+a = MyClass(4)
+
+print(a.calculate_2(12,12))
+
+#@staticmethod anahtarı pythonda bi sınııfın içindeki fonkisyonun pozisyonellerinden ilk baştakine @self parentinin gelmesi ve o fonksiyonun sınıfın parentine girmesini engeller ve bu sayedede artık o fonksiyon dışarıdan veri alan ve sınıfa erişimi olmayan sınıfın içinde olan ama sınıfla bağlantısı olmayan bir fonksiyon haline gelir.
