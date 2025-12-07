@@ -3,8 +3,8 @@ def decorator(func):
         print('started')
         print(func())
         print('ended')
-        return func
-    return wrapper()
+        return func()
+    return wrapper
 
 @decorator
 def myfunc():
