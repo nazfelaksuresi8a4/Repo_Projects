@@ -1,0 +1,13 @@
+fncs = []
+
+def main():
+    for i in range(4):
+        lmbd = lambda i : i = i
+        fncs.append(lmbd)
+    
+    return fncs
+
+fnc = main()
+
+for q in fnc:
+    print(q())
