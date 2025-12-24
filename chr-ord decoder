@@ -1,0 +1,23 @@
+from time import sleep
+
+def cöz(x):
+    for y in x:
+        yield chr(y)
+
+array = [304, 121, 105, 109, 105, 115, 105, 110, 32, 107, 110, 107, 63]
+
+itered = []
+
+for a in cöz(array):
+    itered.append(a)
+
+st0 = ''.join(itered)
+
+for it in range(len(st0)):
+    sleep(0.1)
+    if it < len(st0) - 1:
+        print(st0[0:it],end='\r')
+
+    else:
+        print(st0[0:it])
+        break
