@@ -1,0 +1,42 @@
+import sys
+import cv2
+import pyqtgraph as pg
+from PyQt5 import QtWidgets, QtCore
+
+class CameraApp(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("PyQtGraph + OpenCV Kamera")
+        self.resize(800, 600)
+
+        # Kamera başlat
+        self.cap = cv2.VideoCapture(0)
+
+        # PyQtGraph ImageView
+        self.image_view = pg.ImageView()
+        self.setCentralWidget(self.image_view)
+
+        # Timer (30 FPS civarı)
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.update_frame)
+        self.timer.start(30)
+
+    def update_frame(self):
+        ret, frame = self.cap.read()
+        if ret:
+            # OpenCV BGR → RGB çevir
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+            # PyQtGraph için transpose gerekir
+            self.image_view.setImage(frame.transpose(1, 0, 2), autoLevels=False)
+
+    def closeEvent(self, event):
+        self.cap.release()
+        event.accept()
+
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    window = CameraApp()
+    window.show()
+    sys.exit(app.exec_())
