@@ -24,12 +24,12 @@ class CameraApp(QtWidgets.QMainWindow):
 
     def update_frame(self):
         ret, frame = self.cap.read()
-        if ret:
+        if ret: 
             # OpenCV BGR → RGB çevir
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-            # PyQtGraph için transpose gerekir
-            self.image_view.setImage(frame.transpose(1, 0, 2), autoLevels=False)
+            # PyQtGraph için transpose gerekir (x,y,c) için çünkü opencv (y,x,c) verir 
+            self.image_view.setImage(frame.transpose(1, 0, 2))
 
     def closeEvent(self, event):
         self.cap.release()
