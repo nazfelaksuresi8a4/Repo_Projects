@@ -1,0 +1,21 @@
+class Person:
+    def __init__(self, name, age):
+        self._name = name 
+        self._age = age
+    
+    @property
+    def returner(self):
+        return (f"Name: {self._name} Age: {self._age}") 
+        
+    @returner.setter
+    def value_setter(self, name):
+        self._name = name
+
+clss = Person("ahmet",15)
+
+print(clss.returner) 
+
+clss.value_setter = "Mustafa"
+
+print(clss.returner) 
+        
