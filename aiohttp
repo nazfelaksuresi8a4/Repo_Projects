@@ -1,0 +1,26 @@
+import aiohttp 
+import asyncio 
+
+async def fe(session,url):
+	async with session.get(url) as response:
+		print(url)
+		return await response.json()
+
+async def main(n):
+	url = "https://jsonplaceholder.typicode.com/posts/{}"
+	responds = []
+	
+	async with aiohttp.ClientSession() as session:
+		for npost in range(n):
+			responds.append(fe(session,url.format(npost)))
+		results = await asyncio.gather(*responds)
+	return results		
+
+out = None
+
+try:			
+	out = asyncio.run(main(100))
+except Exception as e0:
+	print(e0)
+
+print(out)			
